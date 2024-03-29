@@ -1,7 +1,16 @@
-export default function PopupArrow({ className }: { className?: string }) {
+import { BounceAnimationSvg } from "@components/ui/animations";
+
+export default function PopupArrow({
+  size,
+  scale = 4,
+}: {
+  size: number;
+  scale?: number;
+}) {
   return (
-    <svg
-      className={className}
+    <BounceAnimationSvg
+      width={size * scale}
+      height={size * scale}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 197.091 197.091"
     >
@@ -19,6 +28,6 @@ export default function PopupArrow({ className }: { className?: string }) {
           </g>
         </g>
       </g>
-    </svg>
+    </BounceAnimationSvg>
   );
 }

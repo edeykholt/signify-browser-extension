@@ -4,8 +4,8 @@ import {
   WEB_APP_PERMS,
   configService,
 } from "@pages/background/services/config";
-import { isValidUrl, setActionIcon } from "@pages/background/utils";
-import { Card, Button, Text } from "@components/ui";
+import { isValidUrl, getBootUrl, setActionIcon } from "@pages/background/utils";
+import { Box, Card, Button, Text, Flex } from "@components/ui";
 import { IMessage } from "@config/types";
 
 interface IPermissions {
@@ -42,20 +42,6 @@ export function Permission({
     }
   };
 
-  const checkErrorAgentUrl = async (_url: string) => {
-    const urlObject = isValidUrl(_url);
-    if (!_url || !urlObject) {
-      return true;
-    }
-    if (urlObject && urlObject?.origin) {
-      try {
-        await (await fetch(`${urlObject?.origin}/health`)).json();
-      } catch (error) {
-        return true;
-      }
-    }
-  };
-
   const removePostPermissionFlags = async () => {
     await configService.setWebRequestedPermission(
       WEB_APP_PERMS.SET_VENDOR_URL,
@@ -66,9 +52,14 @@ export function Permission({
       subtype: "unset-action-icon",
     });
   };
+
+  const handleSetBootUrl = async (_url: string) => {
+    if (!isValidUrl(_url)) return;
+    await configService.setBootUrl(_url);
+  };
+
   const handleSetAgentUrl = async (_url: string) => {
-    const hasError = await checkErrorAgentUrl(_url);
-    if (hasError) return;
+    if (!_url || !isValidUrl(_url)) return;
 
     await configService.setAgentUrl(_url);
     await configService.setHasOnboarded(true);
@@ -91,7 +82,11 @@ export function Permission({
         await handleSetAgentUrl(resp?.agentUrl);
       }
 
-      await configService.setData(resp);
+      if(resp?.bootUrl) {
+        await handleSetBootUrl(resp?.bootUrl);
+      }
+
+      await configService.setVendorData(resp);
       if (resp?.icon) {
         await setActionIcon(resp?.icon);
       }
@@ -101,7 +96,7 @@ export function Permission({
       hasError = true;
     }
     if (!hasError) {
-      await configService.setUrl(permissionData?.vendorUrl);
+      await configService.setVendorUrl(permissionData?.vendorUrl);
       await removePostPermissionFlags();
       afterCallback();
     }
@@ -113,7 +108,7 @@ export function Permission({
   };
 
   const handleProceedWithoutAgent = async () => {
-    await configService.setData(receivedVendorData);
+    await configService.setVendorData(receivedVendorData);
     if (receivedVendorData?.icon) {
       await setActionIcon(receivedVendorData?.icon);
     }
@@ -127,7 +122,7 @@ export function Permission({
       await handleSetAgentUrl(receivedVendorData?.agentUrl);
     }
 
-    await configService.setData(receivedVendorData);
+    await configService.setVendorData(receivedVendorData);
     if (receivedVendorData?.icon) {
       await setActionIcon(receivedVendorData?.icon);
     }
@@ -137,57 +132,46 @@ export function Permission({
   };
 
   return (
-    <div className="p-4 relative">
-      <div className="mb-2">
-        <p className="text-sm font-bold">
+    <Box padding={3} position="relative">
+      <Box marginBottom={2}>
+        <Text fontSize={1} fontWeight="bold" $color="">
           {formatMessage({
             id: "permissions.label.permissionRequired",
           })}
-        </p>
-      </div>
+        </Text>
+      </Box>
       <Card>
         {containsAgentUrl ? (
           <>
-            <div className="mb-2">
-              <Text className="font-bold text-xs" $color="heading">
+            <Box marginBottom={2}>
+              <Text fontWeight="bold" fontSize={0} $color="heading">
                 {formatMessage(
                   { id: "permissions.warning.containsAgentUrl" },
                   { url: receivedVendorData?.agentUrl }
                 )}
               </Text>
-            </div>
-            <div className="flex flex-col gap-y-1">
-              <Button
-                handleClick={handleProceedWithAgent}
-                className="text-white justify-center flex flex-row focus:outline-none font-medium rounded-full text-sm px-3 py-[2px]"
-              >
-                <p className="font-medium text-md">
+            </Box>
+            <Flex flexDirection="column" $flexGap={1}>
+              <Button handleClick={handleProceedWithAgent}>
+                <Text $color="">
                   {formatMessage({ id: "permissions.action.yesProceed" })}
-                </p>
+                </Text>
               </Button>
-              <Button
-                handleClick={handleProceedWithoutAgent}
-                className="text-white flex justify-center flex-row focus:outline-none font-medium rounded-full text-sm px-3 py-[2px]"
-              >
-                <p className="font-medium text-md">
+              <Button handleClick={handleProceedWithoutAgent}>
+                <Text $color="">
                   {formatMessage({
                     id: "permissions.action.noProceedWithoutAgent",
                   })}
-                </p>
+                </Text>
               </Button>
-              <Button
-                handleClick={handleCancel}
-                className="text-white flex justify-center flex-row focus:outline-none font-medium rounded-full text-sm px-3 py-[2px]"
-              >
-                <p className="font-medium text-md">
-                  {formatMessage({ id: "action.cancel" })}
-                </p>
+              <Button handleClick={handleCancel}>
+                <Text $color="">{formatMessage({ id: "action.cancel" })}</Text>
               </Button>
-            </div>
+            </Flex>
           </>
         ) : (
           <>
-            <Text className="font-bold text-xs break-words" $color="heading">
+            <Text fontWeight="bold" fontSize={0} $breakWord $color="heading">
               {formatMessage(
                 { id: "permissions.desc.loadVendorUrl" },
                 {
@@ -198,31 +182,27 @@ export function Permission({
             </Text>
 
             {vendorUrlError ? (
-              <p className="text-red">{vendorUrlError}</p>
+              <Text $color="error">{vendorUrlError}</Text>
             ) : null}
 
-            <div className="flex flex-row justify-between mt-2">
+            <Flex
+              flexDirection="row"
+              justifyContent="space-between"
+              marginTop={2}
+            >
               <Button
                 handleClick={handleSetVendorUrl}
                 isLoading={isLoadingVendorUrl}
-                className="text-white flex flex-row focus:outline-none font-medium rounded-full text-sm px-3 py-[2px]"
               >
-                <p className="font-medium text-md">
-                  {formatMessage({ id: "action.allow" })}
-                </p>
+                <Text $color="">{formatMessage({ id: "action.allow" })}</Text>
               </Button>
-              <Button
-                handleClick={handleCancel}
-                className="text-white flex flex-row focus:outline-none font-medium rounded-full text-sm px-3 py-[2px]"
-              >
-                <p className="font-medium text-md">
-                  {formatMessage({ id: "action.deny" })}
-                </p>
+              <Button handleClick={handleCancel}>
+                <Text $color="">{formatMessage({ id: "action.deny" })}</Text>
               </Button>
-            </div>
+            </Flex>
           </>
         )}
       </Card>
-    </div>
+    </Box>
   );
 }

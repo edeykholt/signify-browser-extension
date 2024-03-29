@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useIntl } from "react-intl";
-import { Text } from "@components/ui";
+import { Box, Text, Flex, NewButton, IconButton, Grid } from "@components/ui";
 import SettingIcon from "@src/components/shared/icons/setting";
 import { configService } from "@pages/background/services/config";
 import { Config } from "@src/screens/config";
@@ -24,11 +24,11 @@ interface ISignin {
 
 export function Signin(props: ISignin): JSX.Element {
   const { formatMessage } = useIntl();
-  const [hasOnboarded, setHasOnboarded] = useState(false);
+  const [hasAgentAndBootUrls, setHasAgentAndBootUrls] = useState(false);
 
   const checkIfOnboarded = async () => {
-    const _hasOnboarded = await configService.getHasOnboarded();
-    setHasOnboarded(_hasOnboarded);
+    const response = await configService.getAgentAndVendorInfo();
+    setHasAgentAndBootUrls(response.agentUrl && response.bootUrl);
   };
 
   useEffect(() => {
@@ -36,23 +36,24 @@ export function Signin(props: ISignin): JSX.Element {
   }, []);
 
   return (
-    <div className="grid grid-cols-1 gap-2">
-      <div className="flex flex-row justify-between p-2">
-        <Text className="text-xl capitalize font-bold" $color="bodyColor">
+    <Grid>
+      <Flex flexDirection="row" justifyContent="space-between" padding={2}>
+        <Text fontWeight="bold" fontSize={3} $capitalize $color="bodyColor">
           {props.showConfig
             ? formatMessage({ id: "account.settings" })
             : props.title}
         </Text>
-        <button onClick={() => props.setShowConfig(true)}>
-          <SettingIcon className="w-6 h-6" />
-        </button>
-      </div>
+        <IconButton onClick={() => props.setShowConfig(true)}>
+          <SettingIcon size={6} />
+        </IconButton>
+      </Flex>
       {props.showConfig ? (
         <Config
           handleBack={() => {
             props.setShowConfig(false);
             checkIfOnboarded();
           }}
+          afterBootUrlUpdate={checkIfOnboarded}
           afterSetUrl={props?.afterSetUrl}
         />
       ) : (
@@ -63,35 +64,34 @@ export function Signin(props: ISignin): JSX.Element {
           logo={props.logo}
         />
       )}
-      <div className="text-xs absolute bottom-2 w-full">
-        {hasOnboarded ? (
-          <div className=" text-center">
-            <button
-              onClick={props.handleSignup}
-              className="font-medium hover:underline"
-            >
+      <Box fontSize={0} padding={2} bottom={2}>
+        {hasAgentAndBootUrls ? (
+          <Box textAlign="center">
+            <NewButton onClick={props.handleSignup} $hoverUnderline>
               {formatMessage({ id: "account.onboard.cta" })}
-            </button>
-          </div>
+            </NewButton>
+          </Box>
         ) : null}
-        <div className=" text-center">
-          <a
+        <Box textAlign="center">
+          <NewButton
+            as="a"
             href={props?.vendorData?.docsUrl}
             target="_blank"
-            className="font-medium hover:underline"
+            $hoverUnderline
           >
             {formatMessage({ id: "account.docs" })}
-          </a>
+          </NewButton>
           <strong> | </strong>
-          <a
+          <NewButton
+            as="a"
             href={props?.vendorData?.supportUrl}
-            className="font-medium hover:underline"
+            $hoverUnderline
             target="_blank"
           >
             {formatMessage({ id: "account.support" })}
-          </a>
-        </div>
-      </div>
-    </div>
+          </NewButton>
+        </Box>
+      </Box>
+    </Grid>
   );
 }

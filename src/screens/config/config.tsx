@@ -3,7 +3,7 @@ import { useIntl } from "react-intl";
 import { configService } from "@pages/background/services/config";
 import { useLocale, languageCodeMap } from "@src/_locales";
 import { isValidUrl, setActionIcon } from "@pages/background/utils";
-import { Button, Dropdown, Input } from "@components/ui";
+import { Box, Button, Dropdown, Input, Text, Flex } from "@components/ui";
 
 const langMap = Object.entries(languageCodeMap).map((s) => ({
   label: s[1],
@@ -16,14 +16,14 @@ export function Config(props: any): JSX.Element {
   const [agentUrl, setAgentUrl] = useState("");
   const [agentUrlError, setAgentUrlError] = useState("");
 
+  const [bootUrl, setBootUrl] = useState("");
+  const [bootUrlError, setBootUrlError] = useState("");
+
   const [hasOnboarded, setHasOnboarded] = useState();
 
   const { formatMessage } = useIntl();
   const { changeLocale, currentLocale } = useLocale();
   const validUrlMsg = formatMessage({ id: "config.error.enterUrl" });
-  const invalidAgentUrlMsg = formatMessage({
-    id: "config.error.invalidAgentUrl",
-  });
   const invalidVendorUrlError = formatMessage({
     id: "config.error.invalidVendorUrl",
   });
@@ -32,6 +32,7 @@ export function Config(props: any): JSX.Element {
     const response = await configService.getAgentAndVendorInfo();
     setVendorUrl(response.vendorUrl);
     setAgentUrl(response.agentUrl);
+    setBootUrl(response.bootUrl);
     setHasOnboarded(response.hasOnboarded);
   };
 
@@ -49,25 +50,11 @@ export function Config(props: any): JSX.Element {
     }
   };
 
-  const checkErrorAgentUrl = async (_url: string) => {
-    const urlObject = isValidUrl(_url);
-    if (!_url || !urlObject) {
-      setAgentUrlError(validUrlMsg);
-      return true;
-    }
-    if (urlObject && urlObject?.origin) {
-      try {
-        await (await fetch(`${urlObject?.origin}/health`)).json();
-      } catch (error) {
-        setAgentUrlError(invalidAgentUrlMsg);
-        return true;
-      }
-    }
-  };
-
   const handleSetAgentUrl = async (_url: string) => {
-    const hasError = await checkErrorAgentUrl(_url);
-    if (hasError) return;
+    if (!_url || !isValidUrl(_url)) {
+      setAgentUrlError(validUrlMsg);
+      return;
+    }
 
     await configService.setAgentUrl(_url);
     setAgentUrl(_url);
@@ -79,6 +66,24 @@ export function Config(props: any): JSX.Element {
     }
   };
 
+  const handleSetBootUrl = async (_url: string) => {
+    if (_url) {
+      if (!isValidUrl(_url)) {
+        setBootUrlError(validUrlMsg);
+        return;
+      }
+
+      await configService.setBootUrl(_url);
+      setBootUrl(_url);
+      setBootUrlError("");
+    } else {
+      await configService.setBootUrl("");
+      setBootUrl("");
+      setBootUrlError("");
+    }
+    props.afterBootUrlUpdate();
+  };
+
   const handleSetVendorUrl = async () => {
     let hasError = checkErrorVendorUrl();
     try {
@@ -86,7 +91,10 @@ export function Config(props: any): JSX.Element {
       if (resp?.agentUrl) {
         await handleSetAgentUrl(resp?.agentUrl);
       }
-      await configService.setData(resp);
+      if (resp?.bootUrl) {
+        await handleSetBootUrl(resp?.bootUrl);
+      }
+      await configService.setVendorData(resp);
       if (resp?.icon) {
         await setActionIcon(resp?.icon);
       }
@@ -95,7 +103,7 @@ export function Config(props: any): JSX.Element {
       hasError = true;
     }
     if (!hasError) {
-      await configService.setUrl(vendorUrl);
+      await configService.setVendorUrl(vendorUrl);
       props.afterSetUrl();
     }
   };
@@ -107,14 +115,16 @@ export function Config(props: any): JSX.Element {
   };
 
   const handleBack = async () => {
-    const hasError = await checkErrorAgentUrl(agentUrl);
-    if (hasError) return;
+    if (!agentUrl || !isValidUrl(agentUrl)) {
+      setAgentUrlError(validUrlMsg);
+      return;
+    }
     props.handleBack();
   };
 
   return (
     <>
-      <div className="px-4 relative mb-2">
+      <Box paddingX={3} position="relative" marginBottom={2}>
         <Input
           id="vendor_url"
           label={formatMessage({ id: "config.vendorUrl.label" })}
@@ -124,18 +134,13 @@ export function Config(props: any): JSX.Element {
           onChange={(e) => setVendorUrl(e.target.value)}
           onBlur={checkErrorVendorUrl}
         />
-        <div className="absolute right-[16px] bottom-[-28px]">
-          <Button
-            handleClick={handleSave}
-            className="text-white flex flex-row focus:outline-none font-medium rounded-full text-sm px-3 py-[2px]"
-          >
-            <p className="font-medium text-md">
-              {formatMessage({ id: "action.load" })}
-            </p>
+        <Box position="absolute" right="16px" bottom="-28px">
+          <Button handleClick={handleSave}>
+            <Text $color="">{formatMessage({ id: "action.load" })}</Text>
           </Button>
-        </div>
-      </div>
-      <div className="px-4">
+        </Box>
+      </Box>
+      <Box paddingX={3}>
         <Input
           id="agent_url"
           label={`${formatMessage({ id: "config.agentUrl.label" })} *`}
@@ -145,28 +150,38 @@ export function Config(props: any): JSX.Element {
           onChange={(e) => setAgentUrl(e.target.value)}
           onBlur={() => handleSetAgentUrl(agentUrl)}
         />
-      </div>
-      <div className="px-4">
-        <p className="text-sm font-bold">
-          {formatMessage({ id: "config.language.label" })}
-        </p>
+      </Box>
+      <Box paddingX={3}>
+        <Input
+          id="boot_url"
+          label={`${formatMessage({ id: "config.bootUrl.label" })} *`}
+          error={bootUrlError}
+          placeholder={formatMessage({ id: "config.bootUrl.placeholder" })}
+          value={bootUrl}
+          onChange={(e) => setBootUrl(e.target.value)}
+          onBlur={() => handleSetBootUrl(bootUrl)}
+        />
+      </Box>
+      <Box paddingX={3}>
         <Dropdown
+          label={formatMessage({ id: "config.language.label" })}
           selectedOption={langMap.find((s) => s.value === currentLocale)}
           options={langMap}
           onSelect={(option) => changeLocale(option.value)}
         />
-      </div>
+      </Box>
       {hasOnboarded ? (
-        <div className="text-xs flex flex-row justify-center px-4 mt-3">
-          <Button
-            handleClick={handleBack}
-            className="text-white flex flex-row focus:outline-none font-medium rounded-full text-sm px-3 py-[2px]"
-          >
-            <p className="font-medium text-md">
-              {formatMessage({ id: "action.save" })}
-            </p>
+        <Flex
+          fontSize={0}
+          flexDirection="row"
+          justifyContent="center"
+          paddingX={3}
+          marginTop={3}
+        >
+          <Button handleClick={handleBack}>
+            <Text $color="">{formatMessage({ id: "action.save" })}</Text>
           </Button>
-        </div>
+        </Flex>
       ) : (
         <></>
       )}
