@@ -5,3 +5,7 @@
 /.vs
 /keriauth.BrowserExtension.ExtensionFrontend/obj
 /keriauth.BrowserExtension.ExtensionFrontend/bin/Debug/net8.0
+/ExtensionPackaging/bin/Debug/net8.0
+/ExtensionPackaging/obj
+/keriauth.BrowserExtension.BlazorApp/bin/Debug/net8.0
+/keriauth.BrowserExtension.BlazorApp/obj
