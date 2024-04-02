@@ -11,3 +11,4 @@ coverage/*
 /.vs
 /keriauth.BrowserExtension.ExtensionFrontend/.vs
 /keriauth.BrowserExtension.ExtensionFrontend/obj
+/keriauth.BrowserExtension.ExtensionFrontend/bin/Debug/net8.0
