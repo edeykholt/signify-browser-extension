@@ -1,14 +1,7 @@
-*.log
-.DS_Store
-node_modules
-dist
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
 
-
-# IntelliJ Project Files
-.idea
-.env.local
-coverage/*
 /.vs
-/keriauth.BrowserExtension.ExtensionFrontend/.vs
 /keriauth.BrowserExtension.ExtensionFrontend/obj
 /keriauth.BrowserExtension.ExtensionFrontend/bin/Debug/net8.0

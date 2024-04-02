@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "keriauth.BrowserExtension.ExtensionFrontend": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:57467;http://localhost:57468"
+    }
+  }
+}
