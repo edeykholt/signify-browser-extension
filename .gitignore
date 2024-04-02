@@ -9,3 +9,5 @@ dist
 .env.local
 coverage/*
 /.vs
+/keriauth.BrowserExtension.ExtensionFrontend/.vs
+/keriauth.BrowserExtension.ExtensionFrontend/obj
