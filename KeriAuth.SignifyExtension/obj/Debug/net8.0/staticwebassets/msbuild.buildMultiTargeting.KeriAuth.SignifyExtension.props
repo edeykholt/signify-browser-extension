@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\build\KeriAuth.SignifyExtension.props" />
-</Project>

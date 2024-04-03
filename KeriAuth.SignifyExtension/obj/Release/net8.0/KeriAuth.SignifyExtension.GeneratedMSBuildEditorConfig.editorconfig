@@ -13,87 +13,87 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = browser
 build_property.RootNamespace = KeriAuth.SignifyExtension
 build_property.RootNamespace = KeriAuth.SignifyExtension
-build_property.ProjectDir = C:\Users\edeyk\source\repos\signify-browser-extension\KeriAuth.SignifyExtension\
+build_property.ProjectDir = C:\Users\edeyk\Source\Repos\signify-browser-extension\KeriAuth.SignifyExtension\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = false
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\edeyk\source\repos\signify-browser-extension\KeriAuth.SignifyExtension
+build_property.MSBuildProjectDirectory = C:\Users\edeyk\Source\Repos\signify-browser-extension\KeriAuth.SignifyExtension
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/App.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Components/CredentialDisplay.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Components/CredentialDisplay.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcQ29tcG9uZW50c1xDcmVkZW50aWFsRGlzcGxheS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Components/DidDisplay.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Components/DidDisplay.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcQ29tcG9uZW50c1xEaWREaXNwbGF5LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Components/Ellipsis.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Components/Ellipsis.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcQ29tcG9uZW50c1xFbGxpcHNpcy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Components/OperationDisplayComponent.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Components/OperationDisplayComponent.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcQ29tcG9uZW50c1xPcGVyYXRpb25EaXNwbGF5Q29tcG9uZW50LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/MainLayout.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Backup.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Backup.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcQmFja3VwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Create.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Create.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcQ3JlYXRlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Credentials/Credentials.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Credentials/Credentials.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcQ3JlZGVudGlhbHNcQ3JlZGVudGlhbHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Delete.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Delete.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcRGVsZXRlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Home.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcSG9tZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Identifiers/Identifiers.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Identifiers/Identifiers.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcSWRlbnRpZmllcnNcSWRlbnRpZmllcnMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Messages/Messages.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Messages/Messages.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcTWVzc2FnZXNcTWVzc2FnZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/NewInstall.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/NewInstall.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcTmV3SW5zdGFsbC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/ReleaseHistory.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/ReleaseHistory.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcUmVsZWFzZUhpc3RvcnkucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Restore.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Restore.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcUmVzdG9yZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Settings/ManagePreferences.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Settings/ManagePreferences.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcU2V0dGluZ3NcTWFuYWdlUHJlZmVyZW5jZXMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Start.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/UI/Views/Start.razor]
 build_metadata.AdditionalFiles.TargetPath = VUlcVmlld3NcU3RhcnQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/edeyk/source/repos/signify-browser-extension/KeriAuth.SignifyExtension/_Imports.razor]
+[C:/Users/edeyk/Source/Repos/signify-browser-extension/KeriAuth.SignifyExtension/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 

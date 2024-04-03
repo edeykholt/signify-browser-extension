@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KeriAuth.SignifyExtension")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+41a7c4b9db04956ec9f7d0d8212209c19abc8127")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7649298a4046e622cdee92f97bc50e90c675fc0e")]
 [assembly: System.Reflection.AssemblyProductAttribute("KeriAuth.SignifyExtension")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KeriAuth.SignifyExtension")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

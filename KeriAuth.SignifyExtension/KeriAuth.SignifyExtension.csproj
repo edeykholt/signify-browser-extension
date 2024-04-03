@@ -63,14 +63,20 @@
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="wwwroot\**\*" CopyToOutputDirectory="Always" />
+		<Compile Remove="bin\**" />
 		<Compile Remove="wwwroot\dist\**" />
+		<Content Remove="bin\**" />
 		<Content Remove="dist\**" />
 		<Content Remove="wwwroot\dist\**" />
+		<EmbeddedResource Remove="bin\**" />
 		<EmbeddedResource Remove="dist\**" />
 		<EmbeddedResource Remove="wwwroot\dist\**" />
+		<None Remove="bin\**" />
 		<None Remove="dist\**" />
 		<None Remove="wwwroot\dist\**" />
+		<TypeScriptCompile Remove="bin\**" />
 		<TypeScriptCompile Remove="dist\**" />
+		<TypeScriptCompile Remove="node_modules\**" />
 		<TypeScriptCompile Remove="wwwroot\dist\**" />
 		<Content Remove="Services\SignifyService\package-lock.json" />
 		<Content Remove="Services\SignifyService\package.json" />
