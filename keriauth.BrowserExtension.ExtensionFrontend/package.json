@@ -9,7 +9,7 @@
     "url": "https://github.com/weboftrust/signify-browser-extension.git"
   },
   "scripts": {
-    "build": "vite build",
+    "build": "rimraf dist && vite build",
     "build:firefox": "BROWSER=firefox vite build",
     "dev": "nodemon"
   },
