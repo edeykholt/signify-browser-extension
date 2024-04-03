@@ -5,9 +5,11 @@ VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "keriauth.BrowserExtension.ExtensionFrontend", "keriauth.BrowserExtension.ExtensionFrontend\keriauth.BrowserExtension.ExtensionFrontend.csproj", "{CA53721B-EF54-4952-8E0A-2A4350C16B99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "keriauth.BrowserExtension.BlazorApp", "keriauth.BrowserExtension.BlazorApp\keriauth.BrowserExtension.BlazorApp.csproj", "{4B151F1A-2E1F-45BA-85C5-408DB5836B6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "keriauth.BrowserExtension.BlazorApp", "keriauth.BrowserExtension.BlazorApp\keriauth.BrowserExtension.BlazorApp.csproj", "{4B151F1A-2E1F-45BA-85C5-408DB5836B6C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionPackaging", "ExtensionPackaging\ExtensionPackaging.csproj", "{1084142C-4AD6-4E31-B4AF-EFF5415342CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExtensionPackaging", "ExtensionPackaging\ExtensionPackaging.csproj", "{1084142C-4AD6-4E31-B4AF-EFF5415342CA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KeriAuth.SignifyExtension", "KeriAuth.SignifyExtension\KeriAuth.SignifyExtension.csproj", "{118B1C27-1F19-4566-849E-D2EA618A6988}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{1084142C-4AD6-4E31-B4AF-EFF5415342CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1084142C-4AD6-4E31-B4AF-EFF5415342CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1084142C-4AD6-4E31-B4AF-EFF5415342CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{118B1C27-1F19-4566-849E-D2EA618A6988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{118B1C27-1F19-4566-849E-D2EA618A6988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{118B1C27-1F19-4566-849E-D2EA618A6988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{118B1C27-1F19-4566-849E-D2EA618A6988}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

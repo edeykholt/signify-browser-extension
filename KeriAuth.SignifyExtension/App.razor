@@ -1,0 +1,74 @@
+@using Blazor.BrowserExtension
+@using KeriAuth.SignifyExtension
+@using KeriAuth.SignifyExtension.UI
+@using KeriAuth.SignifyExtension.Services
+@using MudBlazor
+@using System.Runtime.InteropServices.JavaScript;
+@using KeriAuth.SignifyExtension.Services.SignifyService
+@inject Blazor.BrowserExtension.IBrowserExtensionEnvironment BrowserExtensionEnvironment
+@inject IExtensionEnvironmentService ExtensionEnvironmentService
+@inject NavigationManager NavManager
+@inject IJSRuntime js
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+        <PageTitle>Not found</PageTitle>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <h1>Page not found</h1>
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code {
+    // private JSObject? _module9;
+    // private IJSObjectReference? _module;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        Console.WriteLine($"{nameof(App)}: OnInitializedAsync");
+        Console.WriteLine($"{nameof(App)}: {typeof(App).Assembly.GetName()}");
+        // TODO EE!
+        try
+        {
+            // import the module or bundle containing signify-ts:
+            IJSObjectReference jsor = await js.InvokeAsync<IJSObjectReference>("import", "/dist/bundle.js");
+
+            // var interopHelpers = await js.InvokeAsync<IJSObjectReference>("import", "/scripts/interopHelper.js");
+            // var jso = await JSHost.ImportAsync("SignifyTsInterop", "/scripts/SignifyTsInterop.js");
+
+            var jso = await js.InvokeAsync<IJSObjectReference>("import", "/scripts/SignifyTsInterop.js");
+
+            // await yy.InvokeVoidAsync("initialize", interopHelpers);
+
+            Console.WriteLine($"{nameof(App)}: SignifyTsInterop imported");
+
+            string message = SignifyTsInterop.GetMessageFromJs();
+            Console.WriteLine($"{nameof(App)}: GetMessageFromJs: " + message);
+
+            string message2 = SignifyTsInterop.GetMessageFromJs2();
+            Console.WriteLine($"{nameof(App)}: GetMessageFromJs 2: " + message);
+
+            var qwer = SignifyTsInterop.GetStaticValue();
+            SignifyTsInterop.SetStaticValue(qwer + 1);
+
+        }
+        catch (System.Runtime.InteropServices.JavaScript.JSException e)
+        {
+            Console.Error.WriteLine($"{nameof(App)}: Exception: " + e.Message);
+        }
+        catch (Exception e)
+        {
+            Console.Error.WriteLine($"{nameof(App)}: Exception: " + e.Message);
+        }
+
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        ExtensionEnvironmentService.Initialize(uri);
+
+        return;
+    }
+}

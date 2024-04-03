@@ -1,0 +1,157 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\obj\\Debug\\net8.0\\compressed\\d1kdsuowec.gz",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\obj\\Debug\\net8.0\\service-worker-assets.js",
+      "PackagePath": "staticwebassets\\service-worker-assets.js"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\obj\\Debug\\net8.0\\service-worker\\service-worker.js",
+      "PackagePath": "staticwebassets\\scripts\\service-worker.js"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\KeriAuth.SignifyExtension.lib.module.js",
+      "PackagePath": "staticwebassets\\KeriAuth.SignifyExtension.lib.module.js"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\KeriAuth.SignifyExtension.lib.module.js.map",
+      "PackagePath": "staticwebassets\\KeriAuth.SignifyExtension.lib.module.js.map"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\content\\ContentScript\\test.html",
+      "PackagePath": "staticwebassets\\content\\ContentScript\\test.html"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\content\\privacy.html",
+      "PackagePath": "staticwebassets\\content\\privacy.html"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\content\\terms.html",
+      "PackagePath": "staticwebassets\\content\\terms.html"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\images\\128_keri_logo.png",
+      "PackagePath": "staticwebassets\\images\\128_keri_logo.png"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\images\\close.png",
+      "PackagePath": "staticwebassets\\images\\close.png"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\images\\example_bg.png",
+      "PackagePath": "staticwebassets\\images\\example_bg.png"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\images\\humans_1.png",
+      "PackagePath": "staticwebassets\\images\\humans_1.png"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\images\\humans_2.png",
+      "PackagePath": "staticwebassets\\images\\humans_2.png"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\images\\lock2.png",
+      "PackagePath": "staticwebassets\\images\\lock2.png"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\integratedPageTest.html",
+      "PackagePath": "staticwebassets\\integratedPageTest.html"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\manifest.json",
+      "PackagePath": "staticwebassets\\manifest.json"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\CommonInterfaces.js",
+      "PackagePath": "staticwebassets\\scripts\\CommonInterfaces.js"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\CommonInterfaces.js.map",
+      "PackagePath": "staticwebassets\\scripts\\CommonInterfaces.js.map"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\IsolatedContentScript.js",
+      "PackagePath": "staticwebassets\\scripts\\IsolatedContentScript.js"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\IsolatedContentScript.js.map",
+      "PackagePath": "staticwebassets\\scripts\\IsolatedContentScript.js.map"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\MainContentScript.js",
+      "PackagePath": "staticwebassets\\scripts\\MainContentScript.js"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\MainContentScript.js.map",
+      "PackagePath": "staticwebassets\\scripts\\MainContentScript.js.map"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\SignifyTsInterop.js",
+      "PackagePath": "staticwebassets\\scripts\\SignifyTsInterop.js"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\SignifyTsInterop.js.map",
+      "PackagePath": "staticwebassets\\scripts\\SignifyTsInterop.js.map"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\interopHelper.js",
+      "PackagePath": "staticwebassets\\scripts\\interopHelper.js"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\interopHelper.js.map",
+      "PackagePath": "staticwebassets\\scripts\\interopHelper.js.map"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\registerInactivityEvents.js",
+      "PackagePath": "staticwebassets\\scripts\\registerInactivityEvents.js"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\registerInactivityEvents.js.map",
+      "PackagePath": "staticwebassets\\scripts\\registerInactivityEvents.js.map"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\service-worker.js.map",
+      "PackagePath": "staticwebassets\\scripts\\service-worker.js.map"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\ui-utilities.js",
+      "PackagePath": "staticwebassets\\scripts\\ui-utilities.js"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\scripts\\ui-utilities.js.map",
+      "PackagePath": "staticwebassets\\scripts\\ui-utilities.js.map"
+    },
+    {
+      "Id": "C:\\Users\\edeyk\\source\\repos\\signify-browser-extension\\KeriAuth.SignifyExtension\\wwwroot\\sounds\\beep.mp3",
+      "PackagePath": "staticwebassets\\sounds\\beep.mp3"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.KeriAuth.SignifyExtension.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.KeriAuth.SignifyExtension.props",
+      "PackagePath": "build\\KeriAuth.SignifyExtension.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.KeriAuth.SignifyExtension.props",
+      "PackagePath": "buildMultiTargeting\\KeriAuth.SignifyExtension.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.KeriAuth.SignifyExtension.props",
+      "PackagePath": "buildTransitive\\KeriAuth.SignifyExtension.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
