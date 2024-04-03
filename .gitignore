@@ -9,3 +9,5 @@
 /ExtensionPackaging/obj
 /keriauth.BrowserExtension.BlazorApp/bin/Debug/net8.0
 /keriauth.BrowserExtension.BlazorApp/obj
+/KeriAuth.SignifyExtension/bin
+/KeriAuth.SignifyExtension/obj
