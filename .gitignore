@@ -3,11 +3,8 @@
 /*/bin/
 /*/tsconfig.tsbuildinfo
 /KeriAuth.SignifyExtension/wwwroot/KeriAuth.SignifyExtension.lib.module.d.ts
-/*/*.d.ts
-/KeriAuth.SignifyExtension/wwwroot/*.js.map
-/*/*/*/*.d.ts
-/KeriAuth.SignifyExtension/obj/Release/net8.0/KeriAuth.SignifyExtension.AssemblyInfo.cs
-/KeriAuth.SignifyExtension/obj/Release/net8.0/KeriAuth.SignifyExtension.AssemblyInfoInputs.cache
-/KeriAuth.SignifyExtension/obj/Release/net8.0/KeriAuth.SignifyExtension.assets.cache
-/KeriAuth.SignifyExtension/obj/Release/net8.0/KeriAuth.SignifyExtension.csproj.AssemblyReference.cache
-/KeriAuth.SignifyExtension/obj/Release/net8.0/KeriAuth.SignifyExtension.GeneratedMSBuildEditorConfig.editorconfig
+/KeriAuth.SignifyExtension/wwwroot/KeriAuth.SignifyExtension.lib.module.js
+/KeriAuth.SignifyExtension/wwwroot/KeriAuth.SignifyExtension.lib.module.js.map
+/KeriAuth.SignifyExtension/wwwroot/scripts/*.js
+/KeriAuth.SignifyExtension/wwwroot/scripts/*.js.map
+/KeriAuth.SignifyExtension/wwwroot/scripts/*.d.ts
