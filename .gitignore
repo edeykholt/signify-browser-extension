@@ -4,7 +4,7 @@
 /*/tsconfig.tsbuildinfo
 /KeriAuth.SignifyExtension/wwwroot/KeriAuth.SignifyExtension.lib.module.d.ts
 /*/*.d.ts
-/*/*/*.d.ts
+/KeriAuth.SignifyExtension/wwwroot/*.js.map
 /*/*/*/*.d.ts
 /KeriAuth.SignifyExtension/obj/Release/net8.0/KeriAuth.SignifyExtension.AssemblyInfo.cs
 /KeriAuth.SignifyExtension/obj/Release/net8.0/KeriAuth.SignifyExtension.AssemblyInfoInputs.cache
