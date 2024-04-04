@@ -65,13 +65,14 @@
 		<None Include="wwwroot\**\*" CopyToOutputDirectory="Always" />
 		<Compile Remove="bin\**" />
 		<Compile Remove="wwwroot\dist\**" />
-		<Content Remove="bin\**" />
+		<Content Remove="obj\**" />
 		<Content Remove="dist\**" />
 		<Content Remove="wwwroot\dist\**" />
 		<EmbeddedResource Remove="bin\**" />
 		<EmbeddedResource Remove="dist\**" />
 		<EmbeddedResource Remove="wwwroot\dist\**" />
 		<None Remove="bin\**" />
+		<None Remove="obj\**" />
 		<None Remove="dist\**" />
 		<None Remove="wwwroot\dist\**" />
 		<TypeScriptCompile Remove="bin\**" />
