@@ -17,3 +17,12 @@
 /KeriAuth.SignifyExtension/obj/KeriAuth.SignifyExtension.csproj.nuget.dgspec.json
 /KeriAuth.SignifyExtension/obj/project.assets.json
 /KeriAuth.SignifyExtension/tsconfig.tsbuildinfo
+/KeriAuth.SignifyExtension/wwwroot/KeriAuth.SignifyExtension.lib.module.d.ts
+/KeriAuth.SignifyExtension/wwwroot/scripts/CommonInterfaces.d.ts
+/KeriAuth.SignifyExtension/wwwroot/scripts/interopHelper.d.ts
+/KeriAuth.SignifyExtension/wwwroot/scripts/IsolatedContentScript.d.ts
+/KeriAuth.SignifyExtension/wwwroot/scripts/MainContentScript.d.ts
+/KeriAuth.SignifyExtension/wwwroot/scripts/registerInactivityEvents.d.ts
+/KeriAuth.SignifyExtension/wwwroot/scripts/service-worker.d.ts
+/KeriAuth.SignifyExtension/wwwroot/scripts/ui-utilities.d.ts
+/KeriAuth.SignifyExtension/obj/Debug/net8.0/tmp-webcil/QrCodeGenerator.wasm
