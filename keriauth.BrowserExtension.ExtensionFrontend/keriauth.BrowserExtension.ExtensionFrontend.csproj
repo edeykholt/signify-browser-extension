@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="cd $(ProjectDir)&#xD;&#xA;npx vite build" />
+    <Exec Command="echo npx vite build...&#xD;&#xA;cd $(ProjectDir)&#xD;&#xA;npx vite build" />
+  </Target>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="echo npm install...&#xD;&#xA;cd $(ProjectDir)&#xD;&#xA;npm install" />
   </Target>
 </Project>
