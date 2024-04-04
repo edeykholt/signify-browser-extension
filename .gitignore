@@ -1,6 +1,7 @@
 ﻿/.vs
 /*/obj/
 /*/bin/
+/*/node_modules/
 /*/tsconfig.tsbuildinfo
 /KeriAuth.SignifyExtension/wwwroot/KeriAuth.SignifyExtension.lib.module.d.ts
 /KeriAuth.SignifyExtension/wwwroot/KeriAuth.SignifyExtension.lib.module.js
