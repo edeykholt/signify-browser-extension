@@ -12,3 +12,4 @@
 /KeriAuth.SignifyExtension/bin
 /KeriAuth.SignifyExtension/obj
 /KeriAuth.SignifyExtension/obj/Debug/net8.0/tmp-webcil/KeriAuth.SignifyExtension.wasm
+/KeriAuth.SignifyExtension/obj/Debug/net8.0/KeriAuth.SignifyExtension.assets.cache
