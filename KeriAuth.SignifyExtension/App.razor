@@ -36,12 +36,12 @@
         try
         {
             // import the module or bundle containing signify-ts:
-            IJSObjectReference jsor = await js.InvokeAsync<IJSObjectReference>("import", "/dist/bundle.js");
+            // IJSObjectReference jsor = await js.InvokeAsync<IJSObjectReference>("import", "/dist/bundle.js");
 
             // var interopHelpers = await js.InvokeAsync<IJSObjectReference>("import", "/scripts/interopHelper.js");
             // var jso = await JSHost.ImportAsync("SignifyTsInterop", "/scripts/SignifyTsInterop.js");
 
-            var jso = await js.InvokeAsync<IJSObjectReference>("import", "/scripts/SignifyTsInterop.js");
+            // var jso = await js.InvokeAsync<IJSObjectReference>("import", "/scripts/SignifyTsInterop.js");
 
             // await yy.InvokeVoidAsync("initialize", interopHelpers);
 

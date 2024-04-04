@@ -98,7 +98,6 @@
 		<None Remove="wwwroot\scripts\MainContentScript.ts" />
 		<None Remove="wwwroot\scripts\node_imports.ts" />
 		<None Remove="wwwroot\scripts\registerInactivityEvents.ts" />
-		<None Remove="wwwroot\scripts\SignifyTsInterop.ts" />
 		<None Remove="wwwroot\scripts\ui-utilities.ts" />
 		<None Remove="wwwroot\scripts\service-worker.ts" />
 		<None Remove="wwwroot\scirpts\ui-utilities.ts" />
