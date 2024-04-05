@@ -10,6 +10,7 @@
 
 import MessageSender = chrome.runtime.MessageSender;
 import { IMessage, IWalletRequest } from './CommonInterfaces.js';
+import { utils } from "./ui-utilities.js";
 
 // The following handlers trigger in order:
 // runtime.onInstalled, this.activating, this.activated, and then others
@@ -17,21 +18,19 @@ import { IMessage, IWalletRequest } from './CommonInterfaces.js';
 
 // Bring up the Onboarding page if a new install
 chrome.runtime.onInstalled.addListener(async (installDetails) => {
-    console.log("WORKER: onInstalled handler. Reason: " + installDetails.reason);
+    console.log(`WORKER: onInstalled handler: reason=${installDetails.reason}`);
     await RegisterContentScripts();
     let urlString = "";
     switch (installDetails.reason) {
         case "install":
-            console.log("WORKER: onInstalled handler. reason == install");
             // TODO P2 Update Onboarding UI
-            urlString = new URL("/index.html?reason=" + installDetails.reason, location.toString()).toString();
-            createTab(urlString);
+            urlString = `${location.origin}/index.html`; // ?reason=${installDetails.reason}`;
+            utils.createTab(urlString);
             break;
         case "update":
-            console.log("WORKER: onInstalled handler. reason == update");
             // TODO P3 Allow the index page to know whether the version of the cache is not the new manifest's version?
-            urlString = new URL("/index.html?reason=" + installDetails.reason + "&priorVersion=" + encodeURIComponent(installDetails.previousVersion!), location.toString()).toString();
-            createTab(urlString);
+            urlString = `${location.origin}/index.html`; // ?reason=${installDetails.reason}&priorVersion=${encodeURIComponent(installDetails.previousVersion!)}`;
+            utils.createTab(urlString);
             break;
         case "chrome_update":
         case "shared_module_update":
@@ -39,13 +38,6 @@ chrome.runtime.onInstalled.addListener(async (installDetails) => {
             break;
     }
 });
-
-// TODO DRY with createTab in ui-utils.ts
-function createTab(urlString: string) {
-    console.log("WORKER: creating tab: " + urlString);
-    var createProperties = { url: urlString } as chrome.tabs.CreateProperties;
-    chrome.tabs.create(createProperties);
-}
 
 chrome.runtime.onStartup.addListener(() => {
     console.log('WORKER: runtime.onStartup');
@@ -64,7 +56,7 @@ chrome.action.onClicked.addListener((tab: chrome.tabs.Tab) => {
     // 4. This background script injects the ContentScripts into the current page
     // 5. This background script opens the popup
 
-    console.log("WORKER: onClicked tab: ", tab);
+    console.log("WORKER: onClicked tab: ", tab.url);
     if (tab.id !== undefined && tab.url !== undefined && tab.url.startsWith("http")) {
         // Execute script in context of the current tab, to get its URL
         try {
@@ -344,4 +336,4 @@ async function isWindowOpen(windowId: number): Promise<boolean> {
 // chrome.action.setBadgeBackgroundColor({ color: '#037DD6' });
 // });
 
-export { };
+// export { };
