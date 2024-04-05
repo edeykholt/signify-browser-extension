@@ -11,6 +11,7 @@
 @using System.Reactive.Linq
 @using MudBlazor
 @using MudBlazor.Utilities
+@using System.Text.Json
 @inject HttpClient Http
 @inject IJSRuntime js
 @inject Blazor.BrowserExtension.IBrowserExtensionEnvironment BrowserExtensionEnvironment
@@ -80,8 +81,8 @@
         </MudStack>
         <!-- The Profile overlay. Overlays entire page -->
         <MudOverlay DarkBackground LightBackground @bind-Visible="@isProfilePanelOpen" OnClick="ToggleProfilePanel" Style="display: block; width:100vw; min-height:100vh; height:fit-content; overflow-y:auto; color:var(--mud-palette-primary);">
-             <div style="background:var(--mud-palette-background); position:absolute; height: auto; right: 0px; display:block; width:300px; margin-top: var(--bt-appbar-height); border-style: solid; border-top-style:none; border-width: 1px; border-color: #CACACA;">
-                 @{
+            <div style="background:var(--mud-palette-background); position:absolute; height: auto; right: 0px; display:block; width:300px; margin-top: var(--bt-appbar-height); border-style: solid; border-top-style:none; border-width: 1px; border-color: #CACACA;">
+                @{
                     /* // if (WalletService.Wallet is not null)
                     { */
                 }
@@ -158,12 +159,12 @@
                     <MudNavLink Href=@RouteToPrivacy Target="_blank" Icon="@Icons.Material.Filled.StickyNote2" IconColor="Color.Surface">Privacy Policy</MudNavLink>
                     <MudNavLink Href=@RouteToLicenses Icon="@Icons.Material.Filled.StickyNote2" IconColor="Color.Surface">Licenses</MudNavLink>
                     <MudNavLink Href=@RouteToReleaseHistory Icon="@Icons.Material.Filled.Info" IconColor="Color.Surface">Version @version_name</MudNavLink>
-                    </MudNavGroup>
-                </MudNavMenu>
-            </MudDrawer>
-            <MudMainContent Class="bt-main-content" Style="@mainContentStyle">
-                <MudContainer MaxWidth="MaxWidth.Large" Style="height:inherit; min-height:inherit; padding-left:0; padding-right:0;">
-                    @Body
+                </MudNavGroup>
+            </MudNavMenu>
+        </MudDrawer>
+        <MudMainContent Class="bt-main-content" Style="@mainContentStyle">
+            <MudContainer MaxWidth="MaxWidth.Large" Style="height:inherit; min-height:inherit; padding-left:0; padding-right:0;">
+                @Body
             </MudContainer>
         </MudMainContent>
     </MudDrawerContainer>
@@ -205,15 +206,15 @@
     }
 
     /* Known false warning in VS of CSS002 issue.
-                                                                                                                See https://github.com/dotnet/razor/issues/7349 */
+                                                                                                                        See https://github.com/dotnet/razor/issues/7349 */
     /*
-                                                                                                                @@media (min-width: 960px) {
-                                                                                                                .mud-drawer-open-responsive-md-left.mud-drawer-left-clipped-never .mud-appbar {
-                                                                                                                margin-left: 0;
-                                                                                                                width: inherit;
-                                                                                                                }
-                                                                                                                }
-                                                                                                                */
+                                                                                                                        @@media (min-width: 960px) {
+                                                                                                                        .mud-drawer-open-responsive-md-left.mud-drawer-left-clipped-never .mud-appbar {
+                                                                                                                        margin-left: 0;
+                                                                                                                        width: inherit;
+                                                                                                                        }
+                                                                                                                        }
+                                                                                                                        */
 
     .mud-typography {
         overflow-wrap: break-word;
@@ -448,6 +449,58 @@
         }
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            Console.WriteLine("MainLayout: OnAfterRenderAsync firstRender=true");
+            try
+            {
+                // Dynamically load the module loader script. Note that the method name now includes the default export name (if applicable).
+                var moduleLoader = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/moduleLoader.js");
+
+                // Use the module loader to load your specific module.
+                // Adjust the generic type and method parameters based on your TypeScript definitions and return type.
+                var loadResult = await moduleLoader.InvokeAsync<object>("loadModule", "./ui-utilities.js");
+
+                if (loadResult != null && ((JsonElement)loadResult).GetProperty("success").GetBoolean())
+                {
+                    Console.WriteLine("Module loaded successfully.");
+                    // If you need to use the module further, you can do so here.
+                }
+                else
+                {  
+                    Debug.Assert(loadResult is not null);
+                    var msg = ((JsonElement)loadResult).GetProperty("error");
+                    Console.WriteLine($"Failed to load module. {msg}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading module: {ex.Message}");
+            }
+
+            // Additional setup that relies on the dynamic imported modules, jsruntime, or the DOM.
+            preferencesSubscription = PreferencesService.Subscribe(
+                onNext: async (Preferences value) => await HandleNextFromPreferencesService(value),
+                onError: async (Exception error) => await HandleErrorFromPreferencesService(error),
+                onCompleted: async () => await HandleCompletedFromPreferencesService());
+
+            stateSubscription = stateService.Subscribe(
+                onNext: async (IStateService.States value) => await HandleNextFromStateService(value),
+                onError: async (Exception error) => await HandleErrorFromStateService(error),
+                onCompleted: async () => await HandleCompletedFromStateService());
+
+            idleAlarm = new IdleAlarm(TimerService, async () => await OnIdleHandler());
+            await js.InvokeVoidAsync("registerInactivityTimerResetEvents", DotNetObjectReference.Create(this));
+
+        }
+    }
+
+
+
+
     // Compute the Left position for MainContent depending on the type of Drawer and its open state
     // This complexity might be needed because we want to support multiple DrawerVariant's and because of issues such as mentioned here: https://github.com/MudBlazor/MudBlazor/issues/4213
     private void UpdateMainContentStyle()
@@ -539,18 +592,6 @@
     {
         await base.OnInitializedAsync();
         Console.WriteLine($"{nameof(MainLayout)}: OnInitializedAsync");
-        preferencesSubscription = PreferencesService.Subscribe(
-            onNext: async (Preferences value) => await HandleNextFromPreferencesService(value),
-            onError: async (Exception error) => await HandleErrorFromPreferencesService(error),
-            onCompleted: async () => await HandleCompletedFromPreferencesService());
-
-        stateSubscription = stateService.Subscribe(
-            onNext: async (IStateService.States value) => await HandleNextFromStateService(value),
-            onError: async (Exception error) => await HandleErrorFromStateService(error),
-            onCompleted: async () => await HandleCompletedFromStateService());
-
-        idleAlarm = new IdleAlarm(TimerService, async () => await OnIdleHandler());
-        await js.InvokeVoidAsync("registerInactivityTimerResetEvents", DotNetObjectReference.Create(this));
 
         // TODO P3 why not derive this from ExtensionEnvironmentService?
         isInExtension = StorageService.GetAppHostingKind() == IStorageService.AppHostingKind.BlazorWasmExtension;

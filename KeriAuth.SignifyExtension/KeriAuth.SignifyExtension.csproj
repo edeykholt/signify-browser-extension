@@ -96,6 +96,7 @@
 		<None Remove="wwwroot\scripts\IsolatedContentScript.ts" />
 		<None Remove="wwwroot\scripts\CommonInterfaces.ts" />
 		<None Remove="wwwroot\scripts\MainContentScript.ts" />
+		<None Remove="wwwroot\scripts\moduleLoader.ts" />
 		<None Remove="wwwroot\scripts\node_imports.ts" />
 		<None Remove="wwwroot\scripts\registerInactivityEvents.ts" />
 		<None Remove="wwwroot\scripts\ui-utilities.ts" />
