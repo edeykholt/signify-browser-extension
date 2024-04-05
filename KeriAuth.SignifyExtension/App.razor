@@ -15,10 +15,11 @@
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
     </Found>
     <NotFound>
-        <PageTitle>Not found</PageTitle>
+        <PageTitle>Loading application assembly...</PageTitle>
         <LayoutView Layout="@typeof(MainLayout)">
-            <h1>Page not found</h1>
+            <!-- <h1>Page not found</h1>
             <p role="alert">Sorry, there's nothing at this address.</p>
+            -->
         </LayoutView>
     </NotFound>
 </Router>
@@ -45,16 +46,16 @@
 
             // await yy.InvokeVoidAsync("initialize", interopHelpers);
 
-            Console.WriteLine($"{nameof(App)}: SignifyTsInterop imported");
+            // Console.WriteLine($"{nameof(App)}: SignifyTsInterop imported");
 
-            string message = SignifyTsInterop.GetMessageFromJs();
-            Console.WriteLine($"{nameof(App)}: GetMessageFromJs: " + message);
+            // string message = SignifyTsInterop.GetMessageFromJs();
+            // Console.WriteLine($"{nameof(App)}: GetMessageFromJs: " + message);
 
-            string message2 = SignifyTsInterop.GetMessageFromJs2();
-            Console.WriteLine($"{nameof(App)}: GetMessageFromJs 2: " + message);
+            // string message2 = SignifyTsInterop.GetMessageFromJs2();
+            // Console.WriteLine($"{nameof(App)}: GetMessageFromJs 2: " + message);
 
-            var qwer = SignifyTsInterop.GetStaticValue();
-            SignifyTsInterop.SetStaticValue(qwer + 1);
+            // var qwer = SignifyTsInterop.GetStaticValue();
+            // SignifyTsInterop.SetStaticValue(qwer + 1);
 
         }
         catch (System.Runtime.InteropServices.JavaScript.JSException e)
