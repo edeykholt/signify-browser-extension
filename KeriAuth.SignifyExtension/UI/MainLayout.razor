@@ -455,6 +455,8 @@
         if (firstRender)
         {
             Console.WriteLine("MainLayout: OnAfterRenderAsync firstRender=true");
+            // TODO EE! refactor the following to a helper method with parameters.
+            // and able to load a number of modules in a loop.
             try
             {
                 // Dynamically load the module loader script. Note that the method name now includes the default export name (if applicable).
