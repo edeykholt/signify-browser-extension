@@ -23,10 +23,10 @@ const Utils = () => {
     }
 
     const createTab = (urlString: string): void => {
-        console.log("WORKER: ui-utilities creating tab: " + urlString);
+        console.log("UI-UTILITIES: creating tab: " + urlString);
         var createProperties = { url: urlString } as chrome.tabs.CreateProperties;
         if (typeof (chrome.tabs) == 'undefined') {
-            console.error('WORKER: ui-utilities: createTab: chrome.tabs is not available');
+            console.error('UI-UTILITIES: chrome.tabs is not available');
         } else {
             chrome.tabs.create(createProperties);
         }
@@ -35,9 +35,9 @@ const Utils = () => {
     const copy2Clipboard = async (text: string): Promise<void> => {
         // permissions are only relevant when running in the context of an extension (versus development mode when testing in Kestral ASP.NET Core, for example)
         if (chrome.permissions && typeof chrome.permissions.contains === 'function') {
-            // Various browsers support different defaults for permissions. Some implicitly granted permission.
+            // Various browsers support different defaults for permissions. Some implicitly grant permission, or was previously granted
             chrome.permissions.contains({ permissions: ["clipboardWrite"] }, (isClipboardPermitted: boolean) => {
-                console.log('WORKER: copy2Clipboard: isClipboardPermitted: ', isClipboardPermitted);
+                console.log('UI-UTILITIES: copy2Clipboard: isClipboardPermitted: ', isClipboardPermitted);
                 if (!isClipboardPermitted) {
                     // Request permission from the user
                     chrome.permissions.request(
@@ -45,9 +45,9 @@ const Utils = () => {
                             permissions: ["clipboard-write"]
                         }, (isGranted: boolean) => {
                             if (isGranted) {
-                                console.log('WORKER: Clipboard permission granted');
+                                console.log('UI-UTILITIES: Clipboard permission granted');
                             } else {
-                                console.log('WORKER: Clipboard permission denied');
+                                console.log('UI-UTILITIES: Clipboard permission denied');
                                 return;
                             }
                         }
@@ -57,14 +57,13 @@ const Utils = () => {
         }
         navigator.clipboard.writeText(text).then(
             function () {
-                console.log('WORKER: Async: Copying to clipboard was successful!');
+                console.log('UI-UTILITIES: Copied to clipboard');
             }, function (err) {
-                console.error('WORKER: Async: Could not copy text: ', err);
+                console.error('UI-UTILITIES: Could not copy to clipboard: ', err);
             }
         );
     }
 
-    // return all functions
     return {
         bt_scrollToItem,
         closeCurrentTab,

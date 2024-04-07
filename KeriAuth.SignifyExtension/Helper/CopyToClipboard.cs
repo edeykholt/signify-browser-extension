@@ -12,6 +12,7 @@ public class CopyToClipboard
 {
     public static async Task Copy(IJSRuntime jsRuntime, string str)
     {
+        // TODO: In extension should we use copy2Clipboard via module because of permissions check
         Debug.Assert(jsRuntime is not null);
         Debug.Assert(str is not null);
         await jsRuntime.InvokeVoidAsync("copy2Clipboard", str);

@@ -56,7 +56,7 @@ chrome.action.onClicked.addListener((tab: chrome.tabs.Tab) => {
     // 4. This background script injects the ContentScripts into the current page
     // 5. This background script opens the popup
 
-    console.log("WORKER: onClicked tab: ", tab.url);
+    console.log("WORKER: clicked on action button while on tab: ", tab.url);
     if (tab.id !== undefined && tab.url !== undefined && tab.url.startsWith("http")) {
         // Execute script in context of the current tab, to get its URL
         try {
@@ -166,6 +166,11 @@ chrome.runtime.onMessage.addListener((message: IMessage, sender: MessageSender, 
     }
     else {
         let messageOrigin: string | undefined = sender.origin;
+
+        // tmp
+        console.log('WORKER: onMessage: ', message, ' from: ', messageOrigin);
+
+
         //switch (message.name) {
         //    case "getTabUrlResponse":
         //        // Handle message from the script running in context of the page.
