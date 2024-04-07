@@ -449,6 +449,8 @@
         }
     }
 
+    protected IJSObjectReference? utilModule;
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -470,6 +472,9 @@
                 {
                     Console.WriteLine("Module loaded successfully.");
                     // If you need to use the module further, you can do so here.
+
+                    utilModule = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/ui-utilities.js");
+                    // await utilModule.InvokeVoidAsync("utils.copy2Clipboard", "Hello, clipboard!");
                 }
                 else
                 {  
@@ -483,7 +488,7 @@
                 Console.WriteLine($"Error loading module: {ex.Message}");
             }
 
-            // Additional setup that relies on the dynamic imported modules, jsruntime, or the DOM.
+            // Additional setup here that relies on the dynamic imported modules, jsruntime, or the DOM.
             preferencesSubscription = PreferencesService.Subscribe(
                 onNext: async (Preferences value) => await HandleNextFromPreferencesService(value),
                 onError: async (Exception error) => await HandleErrorFromPreferencesService(error),
@@ -496,12 +501,8 @@
 
             idleAlarm = new IdleAlarm(TimerService, async () => await OnIdleHandler());
             await js.InvokeVoidAsync("registerInactivityTimerResetEvents", DotNetObjectReference.Create(this));
-
         }
     }
-
-
-
 
     // Compute the Left position for MainContent depending on the type of Drawer and its open state
     // This complexity might be needed because we want to support multiple DrawerVariant's and because of issues such as mentioned here: https://github.com/MudBlazor/MudBlazor/issues/4213
@@ -701,22 +702,22 @@
         UpdateMainContentStyle();
 
         // updated the profile identicon if needed
-        /*
-        if (string.IsNullOrEmpty((string)activeDidIdentifier))
+    /*
+    if (string.IsNullOrEmpty((string)activeDidIdentifier))
             // IsIdenticonHidden = true;
             ;
-        else
-        {
-            if (isAuthenticated)
+            else
             {
-                ;
-                //IsIdenticonHidden = false;
+        if (isAuthenticated)
+        {
+        ;
+            //IsIdenticonHidden = false;
             }
             else
             {
-                ;
-                //IsIdenticonHidden = true;
-            }
+            ;
+            //IsIdenticonHidden = true;
+    }
         }
         */
         updateActiveDid();
@@ -754,7 +755,12 @@
 
     async Task OpenTabAndClosePopUp()
     {
-        await js.InvokeVoidAsync("newTabAndClosePopup");
+        if (utilModule is null)
+        {
+            Console.WriteLine("MainLayout: OpenTabAndClosePopUp: utilModule is null!");
+            return;
+        }
+        await utilModule.InvokeVoidAsync("utils.newTabAndClosePopup");
         return;
     }
 

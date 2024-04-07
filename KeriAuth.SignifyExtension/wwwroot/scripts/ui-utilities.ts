@@ -19,14 +19,17 @@ const Utils = () => {
         const currentTab: Window = window;
         // const location: Location = currentTab.location;
         createTab("/index.html");
-        currentTab.close();
+        currentTab.close(); // TODO: assure this is called only for a popup window
     }
 
-    // TODO DRY with createTab in service-worker.ts
     const createTab = (urlString: string): void => {
         console.log("WORKER: ui-utilities creating tab: " + urlString);
         var createProperties = { url: urlString } as chrome.tabs.CreateProperties;
-        chrome.tabs.create(createProperties);
+        if (typeof (chrome.tabs) == 'undefined') {
+            console.error('WORKER: ui-utilities: createTab: chrome.tabs is not available');
+        } else {
+            chrome.tabs.create(createProperties);
+        }
     }
 
     const copy2Clipboard = async (text: string): Promise<void> => {
