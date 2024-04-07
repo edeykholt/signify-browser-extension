@@ -61,6 +61,9 @@
                 <MudButton @ref="_createButton" Style="max-width:400px; align-self:center;" Class="mt-5" Variant="Variant.Filled" Color="Color.Primary" OnClick='() => NavManager.NavigateTo(RouteToCreate)' data-testid="createWallet">
                     Get Started
                 </MudButton>
+                <MudButton Style="max-width:400px; align-self:center;" Class="mt-5" Variant="Variant.Filled" Color="Color.Primary" OnClick='async () => await CopyToClipboard.Copy(MainLayout.utilModule!, "temp Start.razor")' data-testid="createWallet222">
+                    Test CopyToClipboard
+                </MudButton>
             }
         </MudStack>
     }

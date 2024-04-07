@@ -10,11 +10,11 @@ namespace KeriAuth.SignifyExtension.Helper;
 
 public class CopyToClipboard
 {
-    public static async Task Copy(IJSRuntime jsRuntime, string str)
+    public static async Task Copy(IJSObjectReference utilsModule, string str)
     {
-        // TODO: In extension should we use copy2Clipboard via module because of permissions check
-        Debug.Assert(jsRuntime is not null);
+        Debug.Assert(utilsModule is not null);
         Debug.Assert(str is not null);
-        await jsRuntime.InvokeVoidAsync("copy2Clipboard", str);
+        // Note copy2Clipboard performs a permission check
+        await utilsModule.InvokeVoidAsync("utils.copy2Clipboard", str);
     }
 }

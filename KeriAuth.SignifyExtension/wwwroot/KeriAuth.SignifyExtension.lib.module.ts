@@ -22,7 +22,7 @@ export async function onRuntimeReady({ }) // { getAssemblyExports, getConfig }
     console.log(`${prefix} onRuntimeReady: importing modules... `);
     try {
         await import("./scripts/registerInactivityEvents.js");
-        // await import("./scripts/ui-utilities.js");
+        await import("./scripts/ui-utilities.js");
     }
     catch (error) {
         console.log(`${prefix} onRuntimeReady: error importing modules: ${error}`);
@@ -38,12 +38,13 @@ export async function afterStarted(blazor: any) {
     console.log(`${prefix} afterStarted`);
     console.log(`${prefix} afterStarted: importing modules... `);
     try {
-        //TODO EE!
+        //TODO EE! import
         //await import("./content/MudBlazor/MudBlazor.min.js");
         //await import("./content/BlazorIndexedDB/dexie.min.js");
         //await import("./content/BlazorIndexedDB/blazorDB.js");
         //await import("./content/JsBind.Net/JsBindNet.js");
         //await import("./dist/bundle.js");
+        await import("./scripts/ui-utilities.js");
     } catch (error) {
         console.log(`${prefix} afterStarted: error importing modules: ${error}`);
     }

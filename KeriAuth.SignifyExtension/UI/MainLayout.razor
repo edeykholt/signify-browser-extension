@@ -206,15 +206,15 @@
     }
 
     /* Known false warning in VS of CSS002 issue.
-                                                                                                                        See https://github.com/dotnet/razor/issues/7349 */
+                                                                                                                                See https://github.com/dotnet/razor/issues/7349 */
     /*
-                                                                                                                        @@media (min-width: 960px) {
-                                                                                                                        .mud-drawer-open-responsive-md-left.mud-drawer-left-clipped-never .mud-appbar {
-                                                                                                                        margin-left: 0;
-                                                                                                                        width: inherit;
-                                                                                                                        }
-                                                                                                                        }
-                                                                                                                        */
+                                                                                                                                @@media (min-width: 960px) {
+                                                                                                                                .mud-drawer-open-responsive-md-left.mud-drawer-left-clipped-never .mud-appbar {
+                                                                                                                                margin-left: 0;
+                                                                                                                                width: inherit;
+                                                                                                                                }
+                                                                                                                                }
+                                                                                                                                */
 
     .mud-typography {
         overflow-wrap: break-word;
@@ -449,7 +449,7 @@
         }
     }
 
-    protected IJSObjectReference? utilModule;
+    static public IJSObjectReference? utilModule;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -457,7 +457,7 @@
         if (firstRender)
         {
             Console.WriteLine("MainLayout: OnAfterRenderAsync firstRender=true");
-            // TODO EE! refactor the following to a helper method with parameters.
+            // TODO EE! import. refactor the following to a helper method with parameters.
             // and able to load a number of modules in a loop.
             try
             {
@@ -466,6 +466,7 @@
 
                 // Use the module loader to load your specific module.
                 // Adjust the generic type and method parameters based on your TypeScript definitions and return type.
+
                 var loadResult = await moduleLoader.InvokeAsync<object>("loadModule", "./ui-utilities.js");
 
                 if (loadResult != null && ((JsonElement)loadResult).GetProperty("success").GetBoolean())
@@ -474,14 +475,14 @@
                     // If you need to use the module further, you can do so here.
 
                     utilModule = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/ui-utilities.js");
-                    // await utilModule.InvokeVoidAsync("utils.copy2Clipboard", "Hello, clipboard!");
                 }
                 else
-                {  
+                {
                     Debug.Assert(loadResult is not null);
                     var msg = ((JsonElement)loadResult).GetProperty("error");
                     Console.WriteLine($"Failed to load module. {msg}");
                 }
+
             }
             catch (Exception ex)
             {
@@ -702,24 +703,24 @@
         UpdateMainContentStyle();
 
         // updated the profile identicon if needed
-    /*
-    if (string.IsNullOrEmpty((string)activeDidIdentifier))
-            // IsIdenticonHidden = true;
-            ;
-            else
-            {
-        if (isAuthenticated)
-        {
-        ;
-            //IsIdenticonHidden = false;
-            }
-            else
+        /*
+        if (string.IsNullOrEmpty((string)activeDidIdentifier))
+                // IsIdenticonHidden = true;
+                ;
+                else
+                {
+            if (isAuthenticated)
             {
             ;
-            //IsIdenticonHidden = true;
-    }
+                //IsIdenticonHidden = false;
+                }
+                else
+                {
+                ;
+                //IsIdenticonHidden = true;
         }
-        */
+            }
+            */
         updateActiveDid();
         StateHasChanged();
     }

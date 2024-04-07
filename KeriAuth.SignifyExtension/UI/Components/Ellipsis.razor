@@ -42,7 +42,7 @@ else
     private async Task CopyToClipboard2()
     {
         Debug.Assert(StringContent is not null);
-        await CopyToClipboard.Copy(js, StringContent);
+        await CopyToClipboard.Copy(MainLayout.utilModule!, StringContent);
     }
 
 }

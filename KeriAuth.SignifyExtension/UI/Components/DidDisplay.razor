@@ -39,12 +39,12 @@
 
     private async Task CopyToClipboard2(string content)
     {
-        await CopyToClipboard.Copy(js, content);
+        await CopyToClipboard.Copy(MainLayout.utilModule!, content);
     }
 
     private async Task Reveal(IEnumerable<string> content)
     {
         var newstring = string.Join(" ", content);
-        await CopyToClipboard.Copy(js, newstring);
+        await CopyToClipboard.Copy(MainLayout.utilModule!, newstring);
     }
 }

@@ -57,15 +57,4 @@ builder.Services.AddSingleton<IPreferencesService, PreferencesService>();
 builder.Services.AddSingleton<ISignifyClientService, SignifyClientService>(); // TODO really need?
 builder.Services.AddSingleton<ISignifyService, SignifyService>();
 
-// set up the SignifyService interop with the SignifyClient
-if (OperatingSystem.IsBrowser())
-{
-    // get the service host that hosts the JSRuntime object
-    // var JSHost = builder.Services.BuildServiceProvider().GetRequiredService<IJSRuntime>();
-
-
-
-
-}
-
 await builder.Build().RunAsync();
