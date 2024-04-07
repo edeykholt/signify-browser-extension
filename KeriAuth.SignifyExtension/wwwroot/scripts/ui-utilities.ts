@@ -42,7 +42,7 @@ const Utils = () => {
                     // Request permission from the user
                     chrome.permissions.request(
                         {
-                            permissions: ["clipboard-write"]
+                            permissions: ["clipboardWrite"]
                         }, (isGranted: boolean) => {
                             if (isGranted) {
                                 console.log('UI-UTILITIES: Clipboard permission granted');
