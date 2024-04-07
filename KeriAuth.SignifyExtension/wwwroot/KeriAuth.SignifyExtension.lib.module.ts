@@ -44,7 +44,7 @@ export async function afterStarted(blazor: any) {
         //await import("./content/BlazorIndexedDB/blazorDB.js");
         //await import("./content/JsBind.Net/JsBindNet.js");
         //await import("./dist/bundle.js");
-        await import("./scripts/ui-utilities.js");
+        // await import("./scripts/ui-utilities.js");
     } catch (error) {
         console.log(`${prefix} afterStarted: error importing modules: ${error}`);
     }
