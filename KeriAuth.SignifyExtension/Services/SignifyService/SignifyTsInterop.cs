@@ -14,14 +14,14 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
         [JSImport("getMessage", "SignifyTsInterop")]
         internal static partial string GetMessageFromJs();
 
-        [JSImport("BlazorInteropSignify.getMessage", "SignifyTsInterop")]
-        internal static partial string GetMessageFromJs2();
+        //[JSImport("BlazorInteropSignify.getMessage", "SignifyTsInterop")]
+        //internal static partial string GetMessageFromJs2();
 
-        [JSImport("ExampleClass.setStaticValue", "SignifyTsInterop")]
-        public static partial void SetStaticValue(int value);
+        //[JSImport("ExampleClass.setStaticValue", "SignifyTsInterop")]
+        //public static partial void SetStaticValue(int value);
 
-        [JSImport("ExampleClass.getStaticValue", "SignifyTsInterop")]
-        public static partial int GetStaticValue();
+        //[JSImport("ExampleClass.getStaticValue", "SignifyTsInterop")]
+        //public static partial int GetStaticValue();
 
         //        [JSExport]
         //        internal static string Task<void> connect(agentUrl: string, passcode: string)

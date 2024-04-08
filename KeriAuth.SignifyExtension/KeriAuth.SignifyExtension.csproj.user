@@ -10,6 +10,11 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Update="wwwroot\scripts\SignifyTsInterop.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
     <TypeScriptCompile Update="wwwroot\scripts\moduleLoader.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

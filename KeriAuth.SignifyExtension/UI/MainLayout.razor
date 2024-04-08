@@ -4,6 +4,7 @@
 @using KeriAuth.SignifyExtension.Helper;
 @using KeriAuth.SignifyExtension.Models
 @using KeriAuth.SignifyExtension.Services
+@using KeriAuth.SignifyExtension.Services.SignifyService
 @using KeriAuth.SignifyExtension.UI.Components
 @using FluentResults
 @using System.Diagnostics;
@@ -22,6 +23,7 @@
 @inject IPreferencesService PreferencesService
 @inject ISnackbar Snackbar
 @inject IAlarmService TimerService
+@inject ISignifyService SignifyService
 
 <MudThemeProvider Theme="MyCustomTheme" @bind-IsDarkMode="@isDarkTheme" />
 <MudDialogProvider />
@@ -471,7 +473,7 @@
 
                 if (loadResult != null && ((JsonElement)loadResult).GetProperty("success").GetBoolean())
                 {
-                    Console.WriteLine("Module loaded successfully.");
+                    Console.WriteLine("MainLayout: Module loaded successfully.");
                     // If you need to use the module further, you can do so here.
 
                     utilModule = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/ui-utilities.js");
@@ -490,6 +492,9 @@
             }
 
             // Additional setup here that relies on the dynamic imported modules, jsruntime, or the DOM.
+
+            await SignifyService.Initialize();
+
             preferencesSubscription = PreferencesService.Subscribe(
                 onNext: async (Preferences value) => await HandleNextFromPreferencesService(value),
                 onError: async (Exception error) => await HandleErrorFromPreferencesService(error),

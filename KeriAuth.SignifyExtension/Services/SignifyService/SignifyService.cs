@@ -14,70 +14,84 @@ using System.Runtime.CompilerServices;
 
 namespace KeriAuth.SignifyExtension.Services.SignifyService
 {
-    public class SignifyService(IJSRuntime jsr) : ISignifyService
+    public class SignifyService(IJSRuntime js) : ISignifyService
     {
-        private readonly IJSRuntime jsr = jsr;
+        private readonly IJSRuntime js = js;
 
         private JSObject? _module8;
         // private JSObject? _module9;
 
+        static public IJSObjectReference? utilModule;
+
         public async Task<Result> Initialize()
         {
-
-            Console.WriteLine("SignifyService Initialize");
+            Console.WriteLine("SignifyService: Initialize");
 
             // consider the first argument as nameof(KeriAuth.SignifyExtension.Services.SignifyService.SignifyTsInterop),
-            // if (OperatingSystem.IsBrowser())
+
+
+            try
             {
-                try
+                Debug.Assert(js is not null);
+
+                var moduleLoader = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/moduleLoader.js");
+                var loadResult = await moduleLoader.InvokeAsync<object>("loadModule", "./ui-utilities.js");
+
+                if (loadResult != null && ((JsonElement)loadResult).GetProperty("success").GetBoolean())
                 {
-                    Debug.Assert(jsr is not null);
-                    // TODO add a canecllation token to the following call
-                    // _module9 = await JSHost.ImportAsync("signify-ts", "signify-ts");
-
-                    // var module99 = await jsr.InvokeAsync<IJSObjectReference>("import", "/dist/bundle.js");
-
-                    var interopHelpers = await jsr.InvokeAsync<IJSObjectReference>("import", "/scripts/interopHelper.js");
-
-                    // Use the helper function to list the module's exports
-                    //var exports = await interopHelpers.InvokeAsync<string[]>("listModuleExports", module99);
-
-                    //foreach (var exportName in exports)
-                    //{
-                    //    Console.WriteLine($"Exported member: {exportName}");
-                    //}
-
-                    var yy = await JSHost.ImportAsync("SignifyTsInterop", "/scripts/SignifyTsInterop.js");
-
-                    _module8 = yy;
-                    Console.WriteLine("SignifyTsInterop imported");
-
-                    string message = SignifyTsInterop.GetMessageFromJs();
-                    Console.WriteLine("GetMessageFromJs: " + message);
-
-                    string message2 = SignifyTsInterop.GetMessageFromJs2();
-                    Console.WriteLine("GetMessageFromJs 2: " + message);
-
-                    var qwer = SignifyTsInterop.GetStaticValue();
-                    SignifyTsInterop.SetStaticValue(qwer + 1);
-
-                    return Result.Ok();
+                    Console.WriteLine("SignifyService: Module loaded successfully.");
+                    // If you need to use the module further, you can do so here.
+                    utilModule = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/ui-utilities.js");
+                    // await js.InvokeVoidAsync("utils.log", "Module loaded successfully.");
                 }
-                catch (System.Runtime.InteropServices.JavaScript.JSException ex)
+                else
                 {
-                    // Handle JavaScript exceptions specifically (e.g., module not found, loading errors)
-                    Console.WriteLine("SignifyTsInterop JSException failed to import");
-                    Console.WriteLine(ex);
-                    return Result.Fail("SignifyTsInterop JSException failed to import");
+                    Debug.Assert(loadResult is not null);
+                    var msg = ((JsonElement)loadResult).GetProperty("error");
+                    Console.WriteLine($"Failed to load module. {msg}");
                 }
-                catch (Exception e)
-                {
-                    Console.WriteLine("SignifyTsInterop failed to import");
-                    Console.WriteLine(e);
-                    return Result.Fail("SignifyTsInterop failed to import");
-                }
+
+                var interopHelpers = await js.InvokeAsync<IJSObjectReference>("import", "/scripts/interopHelper.js");
+
+                // Use the helper function to list the module's exports
+                //var exports = await interopHelpers.InvokeAsync<string[]>("listModuleExports", module99);
+
+                //foreach (var exportName in exports)
+                //{
+                //    Console.WriteLine($"Exported member: {exportName}");
+                //}
+
+                var yy = await JSHost.ImportAsync("SignifyTsInterop", "/scripts/SignifyTsInterop.js");
+
+                _module8 = yy;
+                Console.WriteLine("SignifyService: SignifyTsInterop imported");
+
+                string message = SignifyTsInterop.GetMessageFromJs();
+                Console.WriteLine("SignifyService: GetMessageFromJs: " + message);
+
+                //string message2 = SignifyTsInterop.GetMessageFromJs2();
+                //Console.WriteLine("GetMessageFromJs 2: " + message);
+
+                //var qwer = SignifyTsInterop.GetStaticValue();
+                //SignifyTsInterop.SetStaticValue(qwer + 1);
+
+                return Result.Ok();
+            }
+            catch (System.Runtime.InteropServices.JavaScript.JSException ex)
+            {
+                // Handle JavaScript exceptions specifically (e.g., module not found, loading errors)
+                Console.WriteLine("SignifyService: SignifyTsInterop JSException failed to import");
+                Console.WriteLine(ex);
+                return Result.Fail("SignifyService: SignifyTsInterop JSException failed to import");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("SignifyService: SignifyTsInterop failed to import");
+                Console.WriteLine(e);
+                return Result.Fail("SignifyService: SignifyTsInterop failed to import");
             }
         }
+
 
         public async Task<Result<bool>> connect(string url, string passcode, string? boot_url = null, bool isBootForced = false)
         {
@@ -87,7 +101,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
             // Use the module to create an instance of SignifyClient
             if (_module8 is null)
             {
-                Console.WriteLine("SignifyService.connect: _module8 is null");
+                Console.WriteLine("SignifyService: connect: _module8 is null");
                 return false.ToResult<bool>();
             }
             /*
