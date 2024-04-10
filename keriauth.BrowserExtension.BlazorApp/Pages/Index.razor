@@ -1,4 +1,29 @@
 ﻿@page "/index.html"
 @inherits IndexPage
+@inject IJSRuntime js;
 
 <h1>Hello, from Blazor.</h1>
+
+@code {
+    protected override void OnInitialized() // TODO async void is a code smell
+    {
+        base.OnInitialized();
+        Console.WriteLine("Hello from Blazor");
+
+
+
+
+
+
+
+
+    }
+
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+
+    }
+}
