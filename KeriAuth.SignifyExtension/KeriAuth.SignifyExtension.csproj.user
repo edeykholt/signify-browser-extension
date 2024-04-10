@@ -5,12 +5,15 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>AspNetCore</ActiveDebugProfile>
+    <IsLinterEnabled>True</IsLinterEnabled>
+    <ShouldLintJavaScript>False</ShouldLintJavaScript>
+    <ShouldLintJavaScriptReact>False</ShouldLintJavaScriptReact>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Update="wwwroot\scripts\SignifyTsInterop.ts">
+    <TypeScriptCompile Update="wwwroot\scripts\signifyTsInterop.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>

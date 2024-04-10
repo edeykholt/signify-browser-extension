@@ -29,6 +29,7 @@
     "types": [ "vite/client", "node", "chrome" ]
   },
   "include": [
+    "wwwroot",
     "wwwroot/scripts",
     "scripts/**/*",
     "types/**/*.d.ts",
@@ -36,6 +37,7 @@
     "wwwroot/KeriAuth.SignifyExtension.lib.module.ts"
   ],
   "exclude": [
+    "node_modules",
     "bin",
     "obj",
     "wwwroot/dist/*",

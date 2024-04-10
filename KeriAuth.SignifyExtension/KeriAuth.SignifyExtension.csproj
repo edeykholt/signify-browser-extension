@@ -3,11 +3,13 @@
 		<TypeScriptTarget>ESNext</TypeScriptTarget>
 		<TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
 		<TypeScriptRemoveComments>True</TypeScriptRemoveComments>
+		<TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
 	</PropertyGroup>
 	<PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<TypeScriptTarget>ESNext</TypeScriptTarget>
 		<TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
 		<TypeScriptRemoveComments>True</TypeScriptRemoveComments>
+		<TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
 	</PropertyGroup>
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>

@@ -341,4 +341,4 @@ async function isWindowOpen(windowId: number): Promise<boolean> {
 // chrome.action.setBadgeBackgroundColor({ color: '#037DD6' });
 // });
 
-// export { };
+export { };
