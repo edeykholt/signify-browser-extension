@@ -1,7 +1,7 @@
 ﻿@using System.Runtime.InteropServices.JavaScript;
 <Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)"/>
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
     </Found>
     <NotFound>
         <LayoutView Layout="@typeof(MainLayout)">
@@ -13,43 +13,26 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        // TODO try/catch
-        await JSHost.ImportAsync("signifyTsInterop",
-            "/scripts/signifyTsInterop.js");
-
-        Console.WriteLine("App: imported signifyTsInterop");
-
-
         try
         {
-            // temporary tests
-            // var message1 = await js.InvokeAsync<string>("getMessage");
-            // Console.WriteLine(": test getMessage: " + message1);
-
-            // var x = js.InvokeAsync<Microsoft.JSInterop.IJSObjectReference>("import", "scripts/signifyTsInterop");
-            // var message1 = await x.InvokeAsync<string>("getMessage");
-            // Console.WriteLine(": test getMessage: " + message1);
+            await JSHost.ImportAsync("signifyTsInterop", "/scripts/signifyTsInterop.js");
+            Console.WriteLine("App: imported signifyTsInterop");
 
             // test via C# Interop class
-            Console.WriteLine(": testing GetMessageFromJs... ");
+            Console.WriteLine("App: testing GetMessageFromJs... ");
             string message = keriauth.BrowserExtension.BlazorApp.SignifyTsInterop.GetMessage();
-            Console.WriteLine(": test GetMessageFromJs: " + message);
         }
         catch (Microsoft.JSInterop.JSException e)
         {
-            Console.WriteLine(": Initialize: JSInterop.JSException: " + e.StackTrace);
+            Console.WriteLine("App: Initialize: JSInterop.JSException: " + e.StackTrace);
         }
         catch (System.Runtime.InteropServices.JavaScript.JSException e)
         {
-            Console.WriteLine(": Initialize: JSException: " + e.StackTrace);
+            Console.WriteLine("App: Initialize: JSException: " + e.StackTrace);
         }
         catch (Exception e)
         {
-            Console.WriteLine(": Initialize: Exception: " + e);
+            Console.WriteLine("App: Initialize: Exception: " + e);
         }
-
-
-
-
     }
 }
