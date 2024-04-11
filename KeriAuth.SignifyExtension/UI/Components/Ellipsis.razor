@@ -2,7 +2,7 @@
 @using System.Diagnostics
 @using KeriAuth.SignifyExtension
 @using KeriAuth.SignifyExtension.Helper
-@using static KeriAuth.SignifyExtension.Helper.CopyToClipboard;
+@using static KeriAuth.SignifyExtension.Helper.UIHelper;
 
 @if (IsDid)
 {
@@ -42,7 +42,7 @@ else
     private async Task CopyToClipboard2()
     {
         Debug.Assert(StringContent is not null);
-        await CopyToClipboard.Copy(MainLayout.utilModule!, StringContent);
+        await UIHelper.Copy2Clipboard(StringContent);
     }
 
 }

@@ -1,7 +1,7 @@
 ﻿
 @using KeriAuth.SignifyExtension
 @using KeriAuth.SignifyExtension.Helper
-@using static KeriAuth.SignifyExtension.Helper.CopyToClipboard;
+@using static KeriAuth.SignifyExtension.Helper.UIHelper;
 @inject IJSRuntime js
 
 
@@ -39,12 +39,12 @@
 
     private async Task CopyToClipboard2(string content)
     {
-        await CopyToClipboard.Copy(MainLayout.utilModule!, content);
+        await UIHelper.Copy2Clipboard(content);
     }
 
     private async Task Reveal(IEnumerable<string> content)
     {
         var newstring = string.Join(" ", content);
-        await CopyToClipboard.Copy(MainLayout.utilModule!, newstring);
+        await UIHelper.Copy2Clipboard(newstring);
     }
 }

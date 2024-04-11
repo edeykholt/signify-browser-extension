@@ -102,10 +102,10 @@
 		<None Remove="wwwroot\scripts\node_imports.ts" />
 		<None Remove="wwwroot\scripts\registerInactivityEvents.ts" />
 		<None Remove="wwwroot\scripts\SignifyTsInterop.ts" />
-		<None Remove="wwwroot\scripts\ui-utilities.ts" />
 		<None Remove="wwwroot\scripts\service-worker.ts" />
 		<None Remove="wwwroot\scirpts\ui-utilities.ts" />
 		<None Remove="wwwroot\scripts\IntegratedScript.ts" />
+		<None Remove="wwwroot\scripts\uiHelper.ts" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\.editorconfig" Link=".editorconfig" />
@@ -125,7 +125,7 @@
 		<None Update="wwwroot\manifest.json">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="wwwroot\scripts\ui-utilities.js">
+		<None Update="wwwroot\scripts\uiHelper.js">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
@@ -148,8 +148,8 @@
 		<TypeScriptCompile Update="wwwroot\scripts\service-worker.ts">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</TypeScriptCompile>
-		<TypeScriptCompile Update="wwwroot\scripts\ui-utilities.ts">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		<TypeScriptCompile Update="wwwroot\scripts\uiHelper.ts">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</TypeScriptCompile>
 	</ItemGroup>
 	<!-- Regex utility for help with modifying manifest file -->

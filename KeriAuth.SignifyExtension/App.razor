@@ -42,6 +42,17 @@
             Console.WriteLine("App: testing GetMessageFromJs... ");
             string message = KeriAuth.SignifyExtension.Services.SignifyService.SignifyTsInterop.GetMessageFromJs();
             Console.WriteLine("App: " + message);
+
+            await JSHost.ImportAsync("uiHelper", "/scripts/uiHelper.js");
+            Console.WriteLine("App: imported uiHelper");
+
+
+            // test via C# Interop class
+            Console.WriteLine("App: testing Copy2Clipboard ");
+            await KeriAuth.SignifyExtension.Helper.UIHelper.Copy2Clipboard("Yo Momma");
+            Console.WriteLine("App: copied to clipboard");
+
+            
         }
         catch (Microsoft.JSInterop.JSException e)
         {

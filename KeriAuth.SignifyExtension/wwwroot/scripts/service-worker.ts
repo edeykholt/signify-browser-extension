@@ -10,7 +10,7 @@
 
 import MessageSender = chrome.runtime.MessageSender;
 import { IMessage, IWalletRequest } from './CommonInterfaces.js';
-import { utils } from "./ui-utilities.js";
+import { Utils } from "./uiHelper.js";
 
 // The following handlers trigger in order:
 // runtime.onInstalled, this.activating, this.activated, and then others
@@ -25,12 +25,12 @@ chrome.runtime.onInstalled.addListener(async (installDetails) => {
         case "install":
             // TODO P2 Update Onboarding UI
             urlString = `${location.origin}/index.html`; // ?reason=${installDetails.reason}`;
-            utils.createTab(urlString);
+            Utils.createTab(urlString);
             break;
         case "update":
             // TODO P3 Allow the index page to know whether the version of the cache is not the new manifest's version?
             urlString = `${location.origin}/index.html`; // ?reason=${installDetails.reason}&priorVersion=${encodeURIComponent(installDetails.previousVersion!)}`;
-            utils.createTab(urlString);
+            Utils.createTab(urlString);
             break;
         case "chrome_update":
         case "shared_module_update":

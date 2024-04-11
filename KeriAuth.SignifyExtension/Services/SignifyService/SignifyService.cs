@@ -35,21 +35,21 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
                 Debug.Assert(js is not null);
 
                 var moduleLoader = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/moduleLoader.js");
-                var loadResult = await moduleLoader.InvokeAsync<object>("loadModule", "./ui-utilities.js");
+                //var loadResult = await moduleLoader.InvokeAsync<object>("loadModule", "./ui-utilities.js");
 
-                if (loadResult != null && ((JsonElement)loadResult).GetProperty("success").GetBoolean())
-                {
-                    Console.WriteLine("SignifyService: Module loaded successfully.");
-                    // If you need to use the module further, you can do so here.
-                    utilModule = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/ui-utilities.js");
-                    // await js.InvokeVoidAsync("utils.log", "Module loaded successfully.");
-                }
-                else
-                {
-                    Debug.Assert(loadResult is not null);
-                    var msg = ((JsonElement)loadResult).GetProperty("error");
-                    Console.WriteLine($"Failed to load module. {msg}");
-                }
+                //if (loadResult != null && ((JsonElement)loadResult).GetProperty("success").GetBoolean())
+                //{
+                //    Console.WriteLine("SignifyService: Module loaded successfully.");
+                //    // If you need to use the module further, you can do so here.
+                //    utilModule = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/ui-utilities.js");
+                //    // await js.InvokeVoidAsync("utils.log", "Module loaded successfully.");
+                //}
+                //else
+                //{
+                //    Debug.Assert(loadResult is not null);
+                //    var msg = ((JsonElement)loadResult).GetProperty("error");
+                //    Console.WriteLine($"Failed to load module. {msg}");
+                //}
 
                 var interopHelpers = await js.InvokeAsync<IJSObjectReference>("import", "/scripts/interopHelper.js");
 

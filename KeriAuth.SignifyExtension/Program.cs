@@ -57,4 +57,6 @@ builder.Services.AddSingleton<IPreferencesService, PreferencesService>();
 builder.Services.AddSingleton<ISignifyClientService, SignifyClientService>(); // TODO really need?
 builder.Services.AddSingleton<ISignifyService, SignifyService>();
 
+Console.WriteLine($"{nameof(Program)}: Running...");
+
 await builder.Build().RunAsync();

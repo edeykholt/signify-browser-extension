@@ -459,41 +459,6 @@
         if (firstRender)
         {
             Console.WriteLine("MainLayout: OnAfterRenderAsync firstRender=true");
-            // TODO EE! import. refactor the following to a helper method with parameters.
-            // and able to load a number of modules in a loop.
-            /*
-            try
-            {
-                // Dynamically load the module loader script. Note that the method name now includes the default export name (if applicable).
-                var moduleLoader = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/moduleLoader.js");
-
-                // Use the module loader to load your specific module.
-                // Adjust the generic type and method parameters based on your TypeScript definitions and return type.
-
-                var loadResult = await moduleLoader.InvokeAsync<object>("loadModule", "./ui-utilities.js");
-
-                if (loadResult != null && ((JsonElement)loadResult).GetProperty("success").GetBoolean())
-                {
-                    Console.WriteLine("MainLayout: Module loaded successfully.");
-                    // If you need to use the module further, you can do so here.
-
-                    utilModule = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/ui-utilities.js");
-                }
-                else
-                {
-                    Debug.Assert(loadResult is not null);
-                    var msg = ((JsonElement)loadResult).GetProperty("error");
-                    Console.WriteLine($"Failed to load module. {msg}");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error loading module: {ex.Message}");
-            }
-            */
-
-            // Additional setup here that relies on the dynamic imported modules, jsruntime, or the DOM.
 
             await SignifyService.Initialize();
 
@@ -508,7 +473,7 @@
                 onCompleted: async () => await HandleCompletedFromStateService());
 
             idleAlarm = new IdleAlarm(TimerService, async () => await OnIdleHandler());
-            await js.InvokeVoidAsync("registerInactivityTimerResetEvents", DotNetObjectReference.Create(this));
+            await js.InvokeVoidAsync("window.registerInactivityTimerResetEvents", DotNetObjectReference.Create(this));
         }
     }
 
@@ -710,24 +675,24 @@
         UpdateMainContentStyle();
 
         // updated the profile identicon if needed
-        /*
-        if (string.IsNullOrEmpty((string)activeDidIdentifier))
+                /*
+                if (string.IsNullOrEmpty((string)activeDidIdentifier))
                 // IsIdenticonHidden = true;
-                ;
-                else
-                {
-            if (isAuthenticated)
-            {
             ;
+            else
+            {
+            if (isAuthenticated)
+                {
+                ;
                 //IsIdenticonHidden = false;
                 }
                 else
                 {
                 ;
                 //IsIdenticonHidden = true;
-        }
             }
-            */
+            }
+        */
         updateActiveDid();
         StateHasChanged();
     }
@@ -768,7 +733,7 @@
             Console.WriteLine("MainLayout: OpenTabAndClosePopUp: utilModule is null!");
             return;
         }
-        await utilModule.InvokeVoidAsync("utils.newTabAndClosePopup");
+        await UIHelper.NewTabAndClosePopup();
         return;
     }
 

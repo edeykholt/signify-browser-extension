@@ -1,6 +1,7 @@
 /// <reference types="chrome" />
+// uiUtnils.ts
 
-const Utils = () => {
+const UIHelper = () => {
 
     // Scroll to an element on the page
     const bt_scrollToItem = (elementId: string): void => {
@@ -72,4 +73,4 @@ const Utils = () => {
         copy2Clipboard,
     };
 }
-export const utils = Utils();
+export const Utils = UIHelper();

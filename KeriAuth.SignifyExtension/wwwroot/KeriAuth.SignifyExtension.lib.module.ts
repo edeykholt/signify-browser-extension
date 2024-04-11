@@ -22,7 +22,7 @@ export async function onRuntimeReady({ }) // { getAssemblyExports, getConfig }
     console.log(`${prefix} onRuntimeReady: importing modules... `);
     try {
         await import("./scripts/registerInactivityEvents.js");
-        await import("./scripts/ui-utilities.js");
+        await import("./scripts/uiHelper.js");
     }
     catch (error) {
         console.log(`${prefix} onRuntimeReady: error importing modules: ${error}`);
