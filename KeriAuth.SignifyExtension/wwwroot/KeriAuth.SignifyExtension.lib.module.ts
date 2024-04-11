@@ -38,13 +38,7 @@ export async function afterStarted(blazor: any) {
     console.log(`${prefix} afterStarted`);
     console.log(`${prefix} afterStarted: importing modules... `);
     try {
-        //TODO EE! import
-        //await import("./content/MudBlazor/MudBlazor.min.js");
-        //await import("./content/BlazorIndexedDB/dexie.min.js");
-        //await import("./content/BlazorIndexedDB/blazorDB.js");
-        //await import("./content/JsBind.Net/JsBindNet.js");
-        //await import("./dist/bundle.js");
-        // await import("./scripts/ui-utilities.js");
+        //TODO EE! imports?
     } catch (error) {
         console.log(`${prefix} afterStarted: error importing modules: ${error}`);
     }

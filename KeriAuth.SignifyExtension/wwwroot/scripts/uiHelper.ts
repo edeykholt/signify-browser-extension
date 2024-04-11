@@ -24,10 +24,10 @@ const UIHelper = () => {
     }
 
     const createTab = (urlString: string): void => {
-        console.log("UI-UTILITIES: creating tab: " + urlString);
+        console.log("UIHelper: creating tab: " + urlString);
         var createProperties = { url: urlString } as chrome.tabs.CreateProperties;
         if (typeof (chrome.tabs) == 'undefined') {
-            console.error('UI-UTILITIES: chrome.tabs is not available');
+            console.error('UIHelper: chrome.tabs is not available');
         } else {
             chrome.tabs.create(createProperties);
         }
@@ -38,7 +38,7 @@ const UIHelper = () => {
         if (chrome.permissions && typeof chrome.permissions.contains === 'function') {
             // Various browsers support different defaults for permissions. Some implicitly grant permission, or was previously granted
             chrome.permissions.contains({ permissions: ["clipboardWrite"] }, (isClipboardPermitted: boolean) => {
-                console.log('UI-UTILITIES: copy2Clipboard: isClipboardPermitted: ', isClipboardPermitted);
+                console.log('UIHelper: copy2Clipboard: isClipboardPermitted: ', isClipboardPermitted);
                 if (!isClipboardPermitted) {
                     // Request permission from the user
                     chrome.permissions.request(
@@ -58,9 +58,9 @@ const UIHelper = () => {
         }
         navigator.clipboard.writeText(text).then(
             function () {
-                console.log('UI-UTILITIES: Copied to clipboard');
+                console.log('UIHelper: Copied to clipboard');
             }, function (err) {
-                console.error('UI-UTILITIES: Could not copy to clipboard: ', err);
+                console.error('UIHelper: Could not copy to clipboard: ', err);
             }
         );
     }
