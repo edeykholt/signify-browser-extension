@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 	<PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<TypeScriptTarget>ESNext</TypeScriptTarget>
 		<TypeScriptNoImplicitAny>True</TypeScriptNoImplicitAny>
@@ -39,8 +39,8 @@
 		<ServiceWorker Include="wwwroot\scripts\service-worker.js" PublishedContent="wwwroot\scripts\service-worker.js" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Blazor.BrowserExtension" Version="0.12.1" />
-		<PackageReference Include="Blazor.BrowserExtension.Build" Version="0.12.1" />
+		<PackageReference Include="Blazor.BrowserExtension" Version="1.2.4" />
+		<PackageReference Include="Blazor.BrowserExtension.Build" Version="1.2.4" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
 		<PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
 		<PackageReference Include="BlazorIndexedDB" Version="0.3.1" />
@@ -83,13 +83,13 @@
 		<TypeScriptCompile Remove="wwwroot\dist\**" />
 		<Content Remove="Services\SignifyService\package-lock.json" />
 		<Content Remove="Services\SignifyService\package.json" />
-		<Content Remove="wwwroot\Blazor.BrowserExtension.lib.module.js" />
 		<Content Remove="wwwroot\content\release.html" />
 		<Content Remove="wwwroot\css\site.css" />
 		<Content Remove="wwwroot\images\32_keri_logo.png" />
 		<Content Remove="wwwroot\images\512_keri_logo.png" />
 		<Content Remove="wwwroot\images\keri-auth.svg" />
 		<Content Remove="wwwroot\manifest.webmanifest" />
+		<Content Remove="wwwroot\scripts\app.js" />
 		<Content Remove="wwwroot\scripts\KeriaTest - Copy.js" />
 		<Content Remove="wwwroot\scripts\tmp - Copy.js" />
 		<Content Remove="wwwroot\_locales\en\messages.json" />
@@ -130,6 +130,9 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
+		<TypeScriptCompile Update="wwwroot\KeriAuth - Copy.SignifyExtension.lib.module.ts">
+		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</TypeScriptCompile>
 		<TypeScriptCompile Update="wwwroot\KeriAuth.SignifyExtension.lib.module.ts">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</TypeScriptCompile>
@@ -203,4 +206,13 @@
 	<Target Name="BuildFrontend" BeforeTargets="PreBuildEvent">
 		<Exec Command="npm run build" />
 	</Target>
+	<ItemGroup>
+	  <None Remove="wwwroot\KeriAuth - Copy.SignifyExtension.lib.module.ts" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="wwwroot\KeriAuth - Copy.SignifyExtension.lib.module.js" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="wwwroot\KeriAuth - Copy.SignifyExtension.lib.module.js.map" />
+	</ItemGroup>
 </Project>

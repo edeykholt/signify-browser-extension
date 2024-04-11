@@ -15,8 +15,12 @@ using System.Runtime.InteropServices.JavaScript;
 Console.WriteLine($"{nameof(Program)}: WASM Host starting");
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<KeriAuth.SignifyExtension.App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+
+builder.UseBrowserExtension(browserExtension =>
+{
+    builder.RootComponents.Add<KeriAuth.SignifyExtension.App>("#app");
+    builder.RootComponents.Add<HeadOutlet>("head::after");
+});
 
 builder.Services.AddBrowserExtensionServices();
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });

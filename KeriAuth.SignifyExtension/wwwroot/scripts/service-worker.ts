@@ -2,7 +2,7 @@
 /// <reference types="chrome" />
 
 // TODO P4 Import Polyfill for the side effect of defining a global 'browser' variable
-//import * as _ from "/content/Blazor.BrowserExtension/lib/browser-polyfill.min.js";
+// import * as _ from "/content/Blazor.BrowserExtension/lib/browser-polyfill.min.js";
 
 // TODO P3 Prior to release, cache management needs to be more explicit in order to avoid
 // using cache from prior releases, etc. See advice in
@@ -23,6 +23,15 @@ chrome.runtime.onInstalled.addListener(async (installDetails) => {
     let urlString = "";
     switch (installDetails.reason) {
         case "install":
+            // TODO P2: an alternate coding to the below is something like:
+            //import * as _ from "/content/Blazor.BrowserExtension/lib/browser-polyfill.min.js";
+            // ...
+            //browser.runtime.onInstalled.addListener(() => {
+            //    const indexPageUrl = browser.runtime.getURL("index.html");
+            //    browser.tabs.create({
+            //        url: indexPageUrl
+
+
             // TODO P2 Update Onboarding UI
             urlString = `${location.origin}/index.html`; // ?reason=${installDetails.reason}`;
             Utils.createTab(urlString);
