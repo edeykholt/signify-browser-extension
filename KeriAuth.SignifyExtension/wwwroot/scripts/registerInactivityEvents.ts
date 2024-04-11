@@ -18,4 +18,5 @@ export function registerInactivityTimerResetEvents(dotNetReference: any) {
             });            ;
     };
 }
+// TODO would be better if this is not in window scope
 (window as any).registerInactivityTimerResetEvents = registerInactivityTimerResetEvents;

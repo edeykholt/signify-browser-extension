@@ -1,14 +1,13 @@
 ﻿@page "/index.html"
+@page "/"
 @inherits IndexPage
 @inject IJSRuntime js;
 
-<h1>Hello, from Blazor. Loading App...</h1>
+<h1> </h1>
 
 @code {
-    // TODO clean up these messages for production
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        Console.WriteLine("Hello from Blazor");
     }
 }

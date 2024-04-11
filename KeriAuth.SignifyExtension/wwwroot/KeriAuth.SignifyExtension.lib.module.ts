@@ -6,28 +6,29 @@
  * @param {object} blazorBrowserExtension Blazor browser extension instance
  */
 
-export const prefix = "KeriAuth.SignifyExtension.lib.module.js WASM: ";
+export const prefix = "KeriAuth.SignifyExtension.lib.module: ";
 
 export function onRuntimeConfigLoaded(config: any) {
-    console.log(`${prefix} onRuntimeConfigLoaded`); // ` config: ${JSON.stringify(config, null, 2)}`);
+    console.log(`${prefix}onRuntimeConfigLoaded`);
 }
 
 export function beforeStart(options: any, extensions: any, blazorBrowserExtension: any) {
-    console.log(`${prefix} beforeStart`); // ` options: ${JSON.stringify(options, null, 2)} extensions: ${JSON.stringify(extensions, null, 2)} blazorBrowserExtension: ${JSON.stringify(blazorBrowserExtension, null, 2)}`);
+    console.log(`${prefix}beforeStart`);
+    // See https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/startup?view=aspnetcore-8.0#javascript-initializers
+    // and https://mingyaulee.github.io/Blazor.BrowserExtension/app-js
 }
 
 export async function onRuntimeReady({ }) // { getAssemblyExports, getConfig }
 {
-    console.log(`${prefix} onRuntimeReady`);
-    console.log(`${prefix} onRuntimeReady: importing modules... `);
+    console.log(`${prefix}onRuntimeReady`);
+    console.log(`${prefix}onRuntimeReady: importing JS modules... `);
     try {
-        await import("./scripts/registerInactivityEvents.js");
-        await import("./scripts/uiHelper.js");
+        // await import("./scripts/registerInactivityEvents.js");
+        // await import("./scripts/uiHelper.js");
     }
     catch (error) {
-        console.log(`${prefix} onRuntimeReady: error importing modules: ${error}`);
+        console.log(`${prefix}onRuntimeReady: error importing modules: ${error}`);
     }
-    console.log(`${prefix} onRuntimeReady: imported. `);
 }
 
 /**
@@ -35,12 +36,5 @@ export async function onRuntimeReady({ }) // { getAssemblyExports, getConfig }
  * @param {any} blazor The Blazor instance
  */
 export async function afterStarted(blazor: any) {
-    console.log(`${prefix} afterStarted`);
-    console.log(`${prefix} afterStarted: importing modules... `);
-    try {
-        //TODO EE! imports?
-    } catch (error) {
-        console.log(`${prefix} afterStarted: error importing modules: ${error}`);
-    }
-    console.log(`${prefix} afterStarted: imported. `);
+    console.log(`${prefix}afterStarted`);
 }

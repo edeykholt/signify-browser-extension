@@ -9,30 +9,3 @@
         </LayoutView>
     </NotFound>
 </Router>
-
-@code {
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            await JSHost.ImportAsync("signifyTsInterop", "/scripts/signifyTsInterop.js");
-            Console.WriteLine("App: imported signifyTsInterop");
-
-            // test via C# Interop class
-            Console.WriteLine("App: testing GetMessageFromJs... ");
-            string message = keriauth.BrowserExtension.BlazorApp.SignifyTsInterop.GetMessage();
-        }
-        catch (Microsoft.JSInterop.JSException e)
-        {
-            Console.WriteLine("App: Initialize: JSInterop.JSException: " + e.StackTrace);
-        }
-        catch (System.Runtime.InteropServices.JavaScript.JSException e)
-        {
-            Console.WriteLine("App: Initialize: JSException: " + e.StackTrace);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("App: Initialize: Exception: " + e);
-        }
-    }
-}

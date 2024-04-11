@@ -5,7 +5,7 @@
 @using MudBlazor
 @using System.Runtime.InteropServices.JavaScript;
 @using KeriAuth.SignifyExtension.Services.SignifyService
-@inject Blazor.BrowserExtension.IBrowserExtensionEnvironment BrowserExtensionEnvironment
+<!-- inject Blazor.BrowserExtension.IBrowserExtensionEnvironment BrowserExtensionEnvironment  -->
 @inject IExtensionEnvironmentService ExtensionEnvironmentService
 @inject NavigationManager NavManager
 @inject IJSRuntime js
@@ -17,51 +17,18 @@
     <NotFound>
         <PageTitle>Loading application assembly...</PageTitle>
         <LayoutView Layout="@typeof(MainLayout)">
-            <!-- <h1>Page not found</h1>
+            <h1>Page not found</h1>
             <p role="alert">Sorry, there's nothing at this address.</p>
-            -->
         </LayoutView>
     </NotFound>
 </Router>
 
 @code {
-    // private JSObject? _module9;
-    // private IJSObjectReference? _module;
-
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
         Console.WriteLine($"{nameof(App)}: OnInitializedAsync");
-        Console.WriteLine($"{nameof(App)}: {typeof(App).Assembly.GetName()}");
-        try
-        {
-            // Adding imports of modules here for use via [JSImport] attributes in C# classes
-            await JSHost.ImportAsync("signifyTsInterop", "/scripts/signifyTsInterop.js");
-            Console.WriteLine("App: imported signifyTsInterop");
-            // test via C# Interop class
-            // Console.WriteLine("App: testing GetMessageFromJs... ");
-            // string message = KeriAuth.SignifyExtension.Services.SignifyService.SignifyTsInterop.GetMessageFromJs();
-            // Console.WriteLine("App: " + message);
-
-            await JSHost.ImportAsync("uiHelper", "/scripts/uiHelper.js");
-            Console.WriteLine("App: imported uiHelper");
-            // test via C# Interop class
-            // Console.WriteLine("App: testing Copy2Clipboard ");
-            // await KeriAuth.SignifyExtension.Helper.UIHelper.Copy2Clipboard("Yo Momma");
-            // Console.WriteLine("App: copied to clipboard");
-        }
-        catch (Microsoft.JSInterop.JSException e)
-        {
-            Console.WriteLine("App: Initialize: JSInterop.JSException: " + e.StackTrace);
-        }
-        catch (System.Runtime.InteropServices.JavaScript.JSException e)
-        {
-            Console.WriteLine("App: Initialize: JSException: " + e.StackTrace);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("App: Initialize: Exception: " + e);
-        }
+        // Console.WriteLine($"{nameof(App)}: {typeof(App).Assembly.GetName()}");
 
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
         ExtensionEnvironmentService.Initialize(uri);

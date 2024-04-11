@@ -1,5 +1,4 @@
 ﻿@page "/Start"
-@page "/"
 @using KeriAuth.SignifyExtension.Helper
 @using KeriAuth.SignifyExtension.Models
 @using KeriAuth.SignifyExtension.Services
@@ -18,7 +17,7 @@
 @inject NavigationManager NavManager
 @inject IJSRuntime js
 @inject IPreferencesService PreferencesService
-@inject Blazor.BrowserExtension.IBrowserExtensionEnvironment BrowserExtensionEnvironment
+<!-- inject Blazor.BrowserExtension.IBrowserExtensionEnvironment BrowserExtensionEnvironment  -->
 @inject ISnackbar Snackbar
 @inject IStorageService StorageService
 @inject IStateService StateService
@@ -34,7 +33,7 @@
             @if (_doesWalletExist)
             {
                 <MudText>
-                    <span style="font-weight:bold">KERI Authenticator</span>
+                    <span style="font-weight:bold">KERI Auth</span>
                 </MudText>
                 <MudForm @ref="_form" @bind-IsValid="@_success" @bind-Errors="@_errors">
                     <MudTextField @ref="_pwField"

@@ -41,7 +41,8 @@
     {
       "resources": [
         "framework/*",
-        "content/*"
+        "content/*",
+        "scripts/app.js"
       ],
       "matches": [ "<all_urls>" ]
     }

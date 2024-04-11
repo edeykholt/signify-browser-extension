@@ -40,7 +40,6 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Blazor.BrowserExtension" Version="1.2.4" />
-		<PackageReference Include="Blazor.BrowserExtension.Build" Version="1.2.4" />
 		<PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
 		<PackageReference Include="Blazored.SessionStorage" Version="2.4.0" />
 		<PackageReference Include="BlazorIndexedDB" Version="0.3.1" />
@@ -60,7 +59,7 @@
 		<PackageReference Include="System.Reactive" Version="6.0.0" />
 		<PackageReference Include="WebExtensions.Net" Version="2.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.4" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.4" PrivateAssets="all" />
 		<PackageReference Include="WebExtensions.Net.Extensions.DependencyInjection" Version="2.0.0" />
 	</ItemGroup>
 	<ItemGroup>
@@ -130,9 +129,6 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-		<TypeScriptCompile Update="wwwroot\KeriAuth - Copy.SignifyExtension.lib.module.ts">
-		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</TypeScriptCompile>
 		<TypeScriptCompile Update="wwwroot\KeriAuth.SignifyExtension.lib.module.ts">
 		  <CopyToOutputDirectory>Never</CopyToOutputDirectory>
 		</TypeScriptCompile>
@@ -206,13 +202,4 @@
 	<Target Name="BuildFrontend" BeforeTargets="PreBuildEvent">
 		<Exec Command="npm run build" />
 	</Target>
-	<ItemGroup>
-	  <None Remove="wwwroot\KeriAuth - Copy.SignifyExtension.lib.module.ts" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Remove="wwwroot\KeriAuth - Copy.SignifyExtension.lib.module.js" />
-	</ItemGroup>
-	<ItemGroup>
-	  <None Remove="wwwroot\KeriAuth - Copy.SignifyExtension.lib.module.js.map" />
-	</ItemGroup>
 </Project>
