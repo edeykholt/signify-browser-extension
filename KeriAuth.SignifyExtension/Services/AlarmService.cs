@@ -3,9 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using KeriAuth.SignifyExtension.Services;
+using Microsoft.Extensions.Logging;
 
 public class AlarmService : IAlarmService
 {
+    public readonly ILogger<AlarmService> logger;
+    public AlarmService()
+    {
+        logger = new Logger<AlarmService>(new LoggerFactory()); // TODO: insert via DI
+    }
+
     private class Alarm
     {
         public Timer Timer { get; }
@@ -58,8 +65,9 @@ public class AlarmService : IAlarmService
         if (alarms.TryGetValue(name, out var alarm))
         {
             alarm.Start();
-            Console.WriteLine($"{nameof(AlarmService)}: Alarm {name} started");
-        } else
+            logger.LogInformation($"Alarm {name} started");
+        }
+        else
         {
             throw new ArgumentException($"Alarm with name {name} does not exist");
         }
@@ -70,7 +78,8 @@ public class AlarmService : IAlarmService
         if (alarms.TryGetValue(name, out var alarm))
         {
             alarm.Stop();
-        } else
+        }
+        else
         {
             throw new ArgumentException($"Alarm with name {name} does not exist");
         }
@@ -81,7 +90,8 @@ public class AlarmService : IAlarmService
         if (alarms.TryGetValue(name, out var alarm))
         {
             alarm.Reset(newDuration, debounceInterval);
-        } else
+        }
+        else
         {
             throw new ArgumentException($"Alarm with name {name} does not exist");
         }

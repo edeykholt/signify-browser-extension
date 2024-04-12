@@ -13,6 +13,7 @@
 @inject NavigationManager NavManager
 @inject IJSRuntime js
 @using static KeriAuth.SignifyExtension.Helper.PreviousPage
+@inject ILogger<Identifiers> logger
 
 <!-- For KERI
 KERI Autonomous Identifiers (AIDs)
@@ -112,12 +113,12 @@ Backer Address  (copy)
 
     async void HandleErrorFromPreferencesService(Exception error)
     {
-        await Task.Run(() => Console.WriteLine("Error from PreferencesService: " + error.Message));
+        await Task.Run(() => logger.LogInformation("Error from PreferencesService: " + error.Message));
     }
 
     async void HandleCompletedFromPreferencesService()
     {
-        await Task.Run(() => Console.WriteLine("Completed from PreferencesService"));
+        await Task.Run(() => logger.LogInformation("Completed from PreferencesService"));
     }
 
     IDisposable? preferencesSubscription;
@@ -125,27 +126,18 @@ Backer Address  (copy)
     protected override async Task OnInitializedAsync()
     {
         base.OnInitialized();
-        Console.WriteLine($"{nameof(Identifiers)}: OnInitializedAsync");
+        logger.LogInformation($"OnInitializedAsync");
         preferencesSubscription = PreferencesService.Subscribe(
            onNext: (Preferences value) => HandleNextFromPreferencesService(value),
            onError: (Exception error) => HandleErrorFromPreferencesService(error),
            onCompleted: () => HandleCompletedFromPreferencesService());
-
-
-
-
-
-
-
         
         var prefs = await PreferencesService.GetPreferences();
         InitializeOrOnNextPrefs(prefs);
     }
 
-
     private async Task AddDid()
     {
-        
         isAddingDid = true;
         // Delay to allow UI to draw progress indicator
         await Task.Delay(1000);

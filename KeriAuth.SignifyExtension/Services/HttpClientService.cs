@@ -16,10 +16,12 @@ namespace KeriAuth.SignifyExtension.Services
     public class HttpClientService
     {
         private readonly HttpClient _httpClient;
+        private readonly ILogger<HttpClientService> logger;
 
         public HttpClientService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+            logger = new Logger<HttpClientService>(new LoggerFactory()); // TODO: insert via DI
 
             // Define a timeout policy that times out after 2 seconds.
             var timeoutDuration = TimeSpan.FromSeconds(2);
@@ -33,7 +35,7 @@ namespace KeriAuth.SignifyExtension.Services
                 .Handle<HttpRequestException>()
                 .Or<TaskCanceledException>() // Treat timeout as a reason for retry
                 .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-            // Console.WriteLine($"Request failed with {response.Exception?.Message ?? response.Result.StatusCode.ToString()}. Retry attempt: {retryCount}");
+            // logger.LogInformation($"Request failed with {response.Exception?.Message ?? response.Result.StatusCode.ToString()}. Retry attempt: {retryCount}");
         }
 
         public async Task<Result<TResponse>> SendAsync<TRequest, TResponse>(HttpMethod method, string url, TRequest? content = default)
@@ -54,7 +56,7 @@ namespace KeriAuth.SignifyExtension.Services
                     .RetryAsync(3, onRetry: (exception, retryCount, context) =>
                     {
                         // This is an optional callback you can use to log retry attempts
-                        Console.WriteLine($"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}.");
+                        logger.LogInformation($"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}.");
                     });
 
                 var response = await _retryPolicy.ExecuteAsync(() => _httpClient.SendAsync(request));

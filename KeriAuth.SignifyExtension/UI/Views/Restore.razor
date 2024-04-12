@@ -13,6 +13,7 @@
 @inject IStateService stateService
 @inject IStorageService storageService
 @inject IJSRuntime js
+@inject ILogger<Restore> Logger
 @using static KeriAuth.SignifyExtension.Helper.PreviousPage
 
 <div id="Restore" class="bt-body-page">
@@ -24,22 +25,22 @@
                 <MudTextField T="string"
                               Lines="9"
                               Immediate="true"
-                                            Required @ref="json" InputType="InputType.Text"
-                               Validation="@(new Func<string, string?>(ParseContent))"
-                               Label="Paste backup content here">
-                 </MudTextField>
-             </MudForm>
-         </div>
-     </div>
-     <MudStack Row="true" class="bt-button-tray">
-         <MudIconButton Icon="@Icons.Material.Filled.ArrowBackIosNew" Variant="Variant.Text" OnClick='@( async () => await GoBack(js) )' Class="justify-start" />
-         <MudSpacer />
-         <MudButton Disabled="@(!success)" OnClick="async () => await RestoreWallet()" Color="Color.Primary" Variant="Variant.Filled">Restore</MudButton>
-     </MudStack>
+                              Required @ref="json" InputType="InputType.Text"
+                              Validation="@(new Func<string, string?>(ParseContent))"
+                              Label="Paste backup content here">
+                </MudTextField>
+            </MudForm>
+        </div>
+    </div>
+    <MudStack Row="true" class="bt-button-tray">
+        <MudIconButton Icon="@Icons.Material.Filled.ArrowBackIosNew" Variant="Variant.Text" OnClick='@( async () => await GoBack(js) )' Class="justify-start" />
+        <MudSpacer />
+        <MudButton Disabled="@(!success)" OnClick="async () => await RestoreWallet()" Color="Color.Primary" Variant="Variant.Filled">Restore</MudButton>
+    </MudStack>
 
- </div>
+</div>
 
- @code {
+@code {
     MudForm? form;
     string[] errors = { };
     MudTextField<string>? json;
@@ -89,7 +90,7 @@
             Debug.Assert(json.Value is not null);
             var jsonDocument = JsonDocument.Parse(json.Value);
             var rootElement = jsonDocument.RootElement;
-            Console.WriteLine($"Found {rootElement.ValueKind}");
+            Logger.LogInformation($"Found {rootElement.ValueKind}");
             if (rootElement.ValueKind != JsonValueKind.Object)
             {
                 throw new Exception("Expected object");
@@ -103,7 +104,7 @@
             {
                 var key = keyValuePair.Key;
                 var value = keyValuePair.Value;
-                Console.WriteLine($"Found {key}");
+                Logger.LogInformation($"Found {key}");
 
                 // Any special handling for properties that need to be updated?
 
@@ -112,13 +113,13 @@
                     case "BACKUP":
                         var backup = JsonSerializer.Deserialize<BackupVersion>(value.GetRawText());
                         Debug.Assert(backup is not null);
-                        Console.WriteLine($"Backup details: {backup.VersionName} {backup.Version} {backup.DateTime}");
+                        Logger.LogInformation($"Backup details: {backup.VersionName} {backup.Version} {backup.DateTime}");
                         // remove this so it isn't restored
                         rootElementDictionary.Remove(key);
                         break;
                     case "APPSTATE":
                     case "WALLETLOGIN":
-                        Console.WriteLine($"Found and ignoring {key}");
+                        Logger.LogInformation($"Found and ignoring {key}");
                         rootElementDictionary.Remove(key);
                         break;
                     default:
@@ -139,17 +140,13 @@
                     }
                 };
 
-
-
-
-
             // convert back to a json element
             string jsonString = JsonSerializer.Serialize(rootElementDictionary);
             using JsonDocument jsonDocument2 = JsonDocument.Parse(jsonString);
             await storageService.Clear();
             foreach (var property in jsonDocument2.RootElement.EnumerateObject())
             {
-                Console.WriteLine($"Restoring {property.Name}");
+                Logger.LogInformation($"Restoring {property.Name}");
                 // TODO P2 DRY this up.  Instantiating the classes here is a code smell.
                 var key = property.Name.ToUpperInvariant();
                 var value = property.Value.GetRawText();

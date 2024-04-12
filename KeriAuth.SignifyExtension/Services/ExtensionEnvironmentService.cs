@@ -52,7 +52,7 @@ public class ExtensionEnvironmentService : IExtensionEnvironmentService
             }
         }
 
-        // Console.WriteLine($"ExtensionEnvironmentService: Set ExtensionEnvironment to {ExtensionEnvironment}");
+        // xxConsole.WriteLine($"ExtensionEnvironmentService: Set ExtensionEnvironment to {ExtensionEnvironment}");
         if (ExtensionEnvironment == ExtensionEnvironment.Iframe)
         {
             if (QueryHelpers.ParseQuery(query).TryGetValue("location", out var location))

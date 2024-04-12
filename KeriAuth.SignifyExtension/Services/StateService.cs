@@ -10,13 +10,15 @@ public class StateService : IStateService
     private readonly IStorageService _storageService;
     private readonly IWalletService _walletService;
     private readonly List<IObserver<States>> stateObservers = [];
+    private readonly ILogger<StateService> _logger;
 
-    public StateService(IStorageService storageService, IWalletService walletService)
+    public StateService(IStorageService storageService, IWalletService walletService, ILogger<StateService> logger)
     {
         _storageService = storageService;
         _stateMachine = new(States.Uninitialized);
         ConfigureStateMachine();
         _walletService = walletService;
+        _logger = logger;
     }
 
     private enum Triggers
@@ -97,7 +99,7 @@ public class StateService : IStateService
 
     private async Task OnTransitioned(StateMachine<States, Triggers>.Transition t)
     {
-        // Console.WriteLine($"StateService transitioned from {t.Source} to {t.Destination} via trigger {t.Trigger}");
+        // xxConsole.WriteLine($"StateService transitioned from {t.Source} to {t.Destination} via trigger {t.Trigger}");
         // TODO P3 use JournalService instead, similar to ...
         // await JournalService.Write(new SystemLogEntry(nameof(StateService), SystemLogEntryType.AppStateTransitions));
 
@@ -207,7 +209,7 @@ public class StateService : IStateService
         }
         catch (Exception e)
         {
-            Console.WriteLine("Problem with OnEntry RetrievingFromStorage: " + e.ToString());
+            _logger.LogError("Problem with OnEntry RetrievingFromStorage: " + e.ToString());
         }
         return;
     }

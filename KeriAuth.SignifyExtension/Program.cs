@@ -8,19 +8,27 @@ using KeriAuth.SignifyExtension.Services.SignifyService;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 using MudBlazor.Services;
+using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices.JavaScript;
 
 namespace KeriAuth.SignifyExtension
 {
-    public static class Program
+    public class Program
     {
+        public static readonly ILogger<Program> logger = new Logger<Program>(new LoggerFactory()); // TODO: insert via DI
         public static async Task Main(string[] args)
         {
-            Console.WriteLine($"{nameof(Program)}: Building WASM Host...");
-
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+            builder.Logging.AddConfiguration(
+                builder.Configuration.GetSection("Logging")
+            );
+            // See appsettings.json for Logging settings
+            // builder.Logging.SetMinimumLevel(LogLevel.Debug);
 
             builder.UseBrowserExtension(browserExtension =>
             {
@@ -42,6 +50,9 @@ namespace KeriAuth.SignifyExtension
                 {
                     var jsRuntime = serviceProvider.GetRequiredService<IJSRuntime>();
                     var hostEnvironment = serviceProvider.GetRequiredService<IWebAssemblyHostEnvironment>();
+                    //var iLoggerFactory = serviceProvider.GetRequiredService<ILoggerFactory>();
+                    //Debug.Assert(iLoggerFactory is not null);
+
                     return new StorageService(jsRuntime, hostEnvironment, null, null);
                 });
             }
@@ -58,6 +69,7 @@ namespace KeriAuth.SignifyExtension
                     return new StorageService(jsRuntime, hostEnvironment, localStorage, sessionStorage);
                 });
             }
+            // builder.Services.AddScoped<IStorageService, StorageService>();
             builder.Services.AddSingleton<IExtensionEnvironmentService, ExtensionEnvironmentService>();
             builder.Services.AddSingleton<IWalletService, WalletService>();
             builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
@@ -66,49 +78,67 @@ namespace KeriAuth.SignifyExtension
             builder.Services.AddSingleton<IPreferencesService, PreferencesService>();
             builder.Services.AddSingleton<ISignifyClientService, SignifyClientService>(); // TODO really need?
             builder.Services.AddSingleton<ISignifyService, SignifyService>();
+            // builder.Services.AddSingleton<ILoggerFactory, SignifyService>();
 
-            // Add JSInterop
-            if (OperatingSystem.IsBrowser())
-            {
+            var host = builder.Build();
+
+            //var logger = host.Services.GetRequiredService<ILoggerFactory>()
+            //    .CreateLogger<Program>();
+
+            //// Resolve the services depending on ILoggerFactory
+            //using (var scope = host.Services.CreateScope())
+            //{
+            //    var storageService = scope.ServiceProvider.GetRequiredService<IStorageService>();
+            //    // initialize if needed
+            //    // storageService.Initialize(host.Services.GetRequiredService<IWebExtensionsApi>());
+            //}
+
+            Debug.Assert(OperatingSystem.IsBrowser());
+            
                 try
                 {
-                    Console.WriteLine("Program: Importing JS modules...");
+                    logger.LogInformation("Importing JS modules...");
 
                     // Adding imports of modules here for use via [JSImport] attributes in C# classes
                     await JSHost.ImportAsync("signifyTsInterop", "/scripts/signifyTsInterop.js");
-                    Console.WriteLine("Program: signifyTsInterop");
+                    logger.LogInformation("signifyTsInterop");
                     // test via C# Interop class
-                    // Console.WriteLine("Program: testing GetMessageFromJs... ");
+                    // logger.LogInformation("Program: testing GetMessageFromJs... ");
                     // string message = KeriAuth.SignifyExtension.Services.SignifyService.SignifyTsInterop.GetMessageFromJs();
-                    // Console.WriteLine("Program: " + message);
+                    // logger.LogInformation("Program: " + message);
 
                     await JSHost.ImportAsync("uiHelper", "/scripts/uiHelper.js");
-                    Console.WriteLine("Program: uiHelper");
+                    logger.LogInformation("uiHelper");
                     // test via C# Interop class
-                    // Console.WriteLine("Program: testing Copy2Clipboard ");
+                    // logger.LogInformation("Program: testing Copy2Clipboard ");
                     // await KeriAuth.SignifyExtension.Helper.UIHelper.Copy2Clipboard("Yo Momma");
-                    // Console.WriteLine("Program: copied to clipboard");
+                    // logger.LogInformation("Program: copied to clipboard");
 
                     await JSHost.ImportAsync("registerInactivityEvents", "/scripts/registerInactivityEvents.js");
-                    Console.WriteLine("Program: registerInactivityEvents");
+                    logger.LogInformation("registerInactivityEvents");
                 }
                 catch (Microsoft.JSInterop.JSException e)
                 {
-                    Console.WriteLine("Program: Initialize: JSInterop.JSException: " + e.StackTrace);
+                    logger.LogCritical("Initialize: JSInterop.JSException: " + e.StackTrace);
+                    return;
                 }
                 catch (System.Runtime.InteropServices.JavaScript.JSException e)
                 {
-                    Console.WriteLine("Program: Initialize: JSException: " + e.StackTrace);
+                    logger.LogCritical("Initialize: JSException: " + e.StackTrace);
+                    return;
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Program: Initialize: Exception: " + e);
-                }
+                    logger.LogCritical("Initialize: Exception: " + e);
+                return;
             }
 
-            Console.WriteLine($"{nameof(Program)}: Running WASM Host...");
 
-            await builder.Build().RunAsync();
+            Console.WriteLine($"{nameof(Program)}: Running WASM Host...");
+            // TODO why isn't logger.LogInformation working here?
+            Program.logger.LogInformation("Running WASM Host...");
+
+            await host.RunAsync();
         }
     }
 }

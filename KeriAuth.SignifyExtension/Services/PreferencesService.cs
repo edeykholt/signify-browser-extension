@@ -7,13 +7,15 @@ using static KeriAuth.SignifyExtension.Services.IStateService;
 
 public class PreferencesService : IPreferencesService, IObservable<Preferences>
 {
+    private readonly List<IObserver<Preferences>> preferencesObservers = [];
+    private IStorageService storageService;
+    private readonly ILogger<PreferencesService> _logger;
+
     public PreferencesService(IStorageService storageService)
     {
         this.storageService = storageService;
+        _logger = new Logger<PreferencesService>(new LoggerFactory());
     }
-
-    private readonly List<IObserver<Preferences>> preferencesObservers = [];
-    private IStorageService storageService;
 
     public async Task<Preferences> GetPreferences()
     {
@@ -32,7 +34,7 @@ public class PreferencesService : IPreferencesService, IObservable<Preferences>
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
+            _logger.LogError(ex, "Failed to get preferences");
             return new Preferences();
         }
     }

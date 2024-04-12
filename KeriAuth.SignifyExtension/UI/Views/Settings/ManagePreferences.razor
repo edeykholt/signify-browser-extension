@@ -8,6 +8,7 @@
 @using static KeriAuth.AppConfig;
 @inject IJSRuntime js
 @using static KeriAuth.SignifyExtension.Helper.PreviousPage
+@inject ILogger<ManagePreferences> logger
 
 <div id="Manage Preferences" class="bt-body-page">
     <div class="d-flex gap-3 bt-main">
@@ -130,18 +131,18 @@
 
     void HandleErrorFromPreferencesService(Exception error)
     {
-        Console.WriteLine("Error from PreferencesService: " + error.Message);
+        logger.LogInformation("Error from PreferencesService: " + error.Message);
     }
 
     void HandleCompletedFromPreferencesService()
     {
-        Console.WriteLine("Completed from PreferencesService");
+        logger.LogInformation("Completed from PreferencesService");
     }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Console.WriteLine($"{nameof(ManagePreferences)}: OnInitializedAsync");
+        logger.LogInformation("OnInitializedAsync");
         var prefs = await PreferencesService.GetPreferences();
         HandleNextFromPreferencesService(prefs);
 

@@ -17,8 +17,7 @@ using System;
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
-
-
+using Microsoft.Extensions.Logging;
 
 public partial class StorageService : IStorageService, IObservable<Preferences>
 {
@@ -27,6 +26,7 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
     private readonly IJSRuntime? JsRuntime;  // TODO P2 in Playwright project, does this JsRuntime need to be null?  If not, then why is it nullable?
     private readonly ILocalStorageService? blazoredLocalStorage;
     private readonly ISessionStorageService? blazoredSessionStorage;
+    private readonly ILogger<StorageService> _logger;
 
     private readonly List<IObserver<Preferences>> preferencesObservers = [];
 
@@ -35,6 +35,7 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
         this.JsRuntime = jsRuntime;
         this.blazoredLocalStorage = blazoredLocalStorage;
         this.blazoredSessionStorage = blazoredSessionStorage; // TODO P1 this is an experiment and decrypted wallet should not be stored in browser session storage !!!
+        _logger = new Logger<StorageService>(new LoggerFactory()); // TODO: insert via DI
 
         // a null hostEnvironment might be used for test environment
         if (hostEnvironment is not null && hostEnvironment.BaseAddress.Contains("chrome-extension"))
@@ -83,9 +84,9 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
         }
         catch (Exception e)
         {
-            Console.WriteLine("Error adding eventListener to storage.onChange: " + e.Message);
+            _logger.LogError("Error adding eventListener to storage.onChange: " + e.Message);
         }
-        // Console.WriteLine("Registered handler for storage change event");
+        // logger.LogInformation("Registered handler for storage change event");
         return Task.CompletedTask;
     }
 
@@ -136,7 +137,7 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
     {
         try
         {
-            // Console.WriteLine($"Getting item of type {typeof(T).Name}");
+            // xxConsole.WriteLine($"Getting item of type {typeof(T).Name}");
 
             T? nullValue = default;
             var tName = typeof(T).Name.ToUpperInvariant();
@@ -154,10 +155,10 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
                 JsonDocument jsonDocument;
                 try
                 {
-                    // Console.WriteLine($"Getting item of type {typeof(T).Name} from chrome.storage.local");
+                    // xxConsole.WriteLine($"Getting item of type {typeof(T).Name} from chrome.storage.local");
                     Debug.Assert(JsRuntime is not null);
                     jsonDocument = await JsRuntime.InvokeAsync<JsonDocument>("chrome.storage.local.get", tName);
-                    // Console.WriteLine($"Got {jsonDocument.ToJsonString()}");
+                    // xxConsole.WriteLine($"Got {jsonDocument.ToJsonString()}");
 
                 }
                 catch (Exception ex)
@@ -170,33 +171,33 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
                     return Result.Ok<T?>(nullValue);
                 }
 
-                // Console.WriteLine($"Preparing to parse jsonDocument: {jsonDocument.ToJsonString()}");
+                // xxConsole.WriteLine($"Preparing to parse jsonDocument: {jsonDocument.ToJsonString()}");
                 var parsedJsonNode = JsonNode.Parse(jsonDocument.ToJsonString());
                 if (parsedJsonNode is null)
                 {
                     return Result.Fail($"Unable to parse jsonDocument: {jsonDocument.ToJsonString()}");
                 }
-                // Console.WriteLine($"ParsedJsonNode: {parsedJsonNode.ToJsonString()}");
+                // xxConsole.WriteLine($"ParsedJsonNode: {parsedJsonNode.ToJsonString()}");
                 var rootJsonNode = parsedJsonNode!.Root[tName];
                 if (rootJsonNode is null)
                 {
                     // No content was found
                     return Result.Ok<T?>(nullValue);
                 }
-                // Console.WriteLine($"rootJsonNode: {rootJsonNode.ToJsonString()}");
+                // xxConsole.WriteLine($"rootJsonNode: {rootJsonNode.ToJsonString()}");
 
                 T? deserializedObject;
                 try
                 {
-                    // Console.WriteLine($"prparing deserializedObject...");
+                    // xxConsole.WriteLine($"prparing deserializedObject...");
                     deserializedObject = JsonSerializer.Deserialize<T>(rootJsonNode.ToJsonString(), options);
                     if (deserializedObject is null)
                     {
-                        // Console.WriteLine($"deserializedObject is null");
+                        // xxConsole.WriteLine($"deserializedObject is null");
                     }
                     else
                     {
-                        // Console.WriteLine($"deserializedObject: {deserializedObject}");
+                        // xxConsole.WriteLine($"deserializedObject: {deserializedObject}");
                     }
                 }
                 catch (Exception e)
@@ -210,9 +211,9 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
                     return Result.Fail($"");
                 }
 
-                // Console.WriteLine($"preparing to return deserializedObject: {deserializedObject}");
+                // xxConsole.WriteLine($"preparing to return deserializedObject: {deserializedObject}");
                 T? ret = deserializedObject;
-                // Console.WriteLine($"preparing to return deserializedObject: {ret}");
+                // xxConsole.WriteLine($"preparing to return deserializedObject: {ret}");
                 return Result.Ok(); // ret; // Result.Ok(ret);
             }
             else
@@ -244,7 +245,8 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
         }
         catch (Exception e)
         {
-            Console.WriteLine($"Failed to get item: {e.Message}");
+            _logger.LogError($"Failed to get item: {e.Message}");
+            // xxConsole.WriteLine($"Failed to get item: {e.Message}");
             return Result.Fail($"Failed to get item: {e.Message}");
         }
     }
@@ -298,7 +300,7 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
         }
         catch (Exception e)
         {
-            Console.WriteLine($"Failed to set item: {e.Message}");
+            _logger.LogError($"Failed to set item: {e.Message}");
             return Result.Fail($"Failed to set item: {e.Message}");
         }
     }
@@ -339,12 +341,12 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
             if (newWalletEncrypted is not null)
             {
                 var deserializedObject = JsonSerializer.Deserialize<WalletEncrypted>(newWalletEncrypted.ToJsonString(), options);
-                // Console.WriteLine("new value for walletEncryped:");
-                // Console.WriteLine(deserializedObject);
+                // logger.LogInformation("new value for walletEncryped:");
+                // xxConsole.WriteLine(deserializedObject);
             }
             else
             {
-                // Console.WriteLine("new value for walletEncryped: null");
+                // logger.LogInformation("new value for walletEncryped: null");
             }
         }
         else if (key == nameof(Preferences).ToUpper())
@@ -352,22 +354,22 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
             JsonNode? newJsonNode = null;
             if (value is not null)
             {
-                // Console.WriteLine($"value is: {value.ToString()}");
+                // xxConsole.WriteLine($"value is: {value.ToString()}");
                 newJsonNode = value["newValue"];
             }
-            // Console.WriteLine($"newJsonNode preferences is: {newJsonNode}");
+            // xxConsole.WriteLine($"newJsonNode preferences is: {newJsonNode}");
             Preferences? newPreferences = null;
             if (newJsonNode is not null)
             {
                 newPreferences = JsonSerializer.Deserialize<Preferences>(newJsonNode.ToJsonString(), options);
                 Debug.Assert(newPreferences is not null);
-                // Console.WriteLine($"new value for Preferences IsDarkTheme: {newPreferences.IsDarkTheme}");
+                // xxConsole.WriteLine($"new value for Preferences IsDarkTheme: {newPreferences.IsDarkTheme}");
             }
             else
             {
-                // Console.WriteLine("new value for Preferences: null");
+                // logger.LogInformation("new value for Preferences: null");
             }
-            // Console.WriteLine($"There are {preferencesObservers.Count} preferencesObservers");
+            // xxConsole.WriteLine($"There are {preferencesObservers.Count} preferencesObservers");
 
             if (preferencesObservers is not null && newPreferences is not null)
             {

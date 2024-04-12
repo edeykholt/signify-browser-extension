@@ -23,6 +23,7 @@
 @inject IStateService StateService
 
 @inject IExtensionEnvironmentService ExtensionEnvironmentService
+@inject ILogger<Start> Logger
 @inherits Blazor.BrowserExtension.Pages.BasePage;
 
 <div id="Start" class="bt-body-page" style="height:calc(100vh - var(--bt-appbar-height)); display:flex; align-items:center; justify-content:center;">
@@ -96,7 +97,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine($"{nameof(Start)}: OnInitializedAsync");
+        Logger.LogInformation($"OnInitializedAsync");
         await base.OnInitializedAsync();
         await StorageService.Initialize(WebExtensions);
         await StateService.Initialize();
@@ -106,7 +107,7 @@
         var reason = namedValueCollection["reason"];
         if (reason is not null)
         {
-            Console.WriteLine($"Start: reason == {reason}");
+            Logger.LogInformation($"Start: reason == {reason}");
             switch (reason)
             {
                 case "install":

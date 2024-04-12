@@ -9,6 +9,7 @@
 @inject IExtensionEnvironmentService ExtensionEnvironmentService
 @inject NavigationManager NavManager
 @inject IJSRuntime js
+@inject ILogger<App> Logger
 
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
@@ -27,8 +28,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Console.WriteLine($"{nameof(App)}: OnInitializedAsync");
-        // Console.WriteLine($"{nameof(App)}: {typeof(App).Assembly.GetName()}");
+        Logger.LogInformation($"OnInitializedAsync");
 
         var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
         ExtensionEnvironmentService.Initialize(uri);

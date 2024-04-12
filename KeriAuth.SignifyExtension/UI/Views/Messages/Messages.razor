@@ -2,6 +2,7 @@
 @using KeriAuth.SignifyExtension.Services
 @inject NavigationManager NavManager
 @inject IJSRuntime js
+@inject ILogger<NewInstall> Logger
 @using static KeriAuth.AppConfig;
 @using static KeriAuth.SignifyExtension.Helper.PreviousPage
 
@@ -45,7 +46,7 @@
  @code {
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine($"{nameof(Messages)}: OnInitializedAsync");
+        Logger.LogInformation("OnInitializedAsync");
         _isFetching = true;
         StateHasChanged();
         // Give time for the menu panel to collapse and spinner to start

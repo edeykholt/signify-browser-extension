@@ -19,6 +19,7 @@
 @inject ISignifyClientService _signifyClientService
 @inject ISignifyService _signifyService
 @inject ISnackbar _Snackbar
+@inject ILogger<Create> logger
 @using static KeriAuth.AppConfig;
 @using static KeriAuth.SignifyExtension.Helper.PreviousPage
 @using KeriAuth.SignifyExtension.Services.SignifyClientService.Models
@@ -308,7 +309,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Console.WriteLine($"{nameof(Create)}: OnInitializedAsync");
+        logger.LogInformation($"OnInitializedAsync");
         // _walletExists = false; // TODO EE! await WalletService.CheckIfWalletExists();
         // _isKeriaConfigured = true;  // TODO EE!
         releaseMarkup = new MarkupString(await Http.GetStringAsync(_releaseUrlPath));
@@ -496,11 +497,11 @@
             // TODO move this into service code
             var httpClientService = new HttpClientService(new HttpClient());
             var postResult = await httpClientService.GetJsonAsync<String>($"{urlModel.Url}:{BootPort}/health");
-            Console.WriteLine("BootPort/health live check");
+            logger.LogInformation("BootPort/health live check");
             if (!postResult.IsSuccess)
             {
                 var message = "The KERI Agent BootPort is not reachable at specified URL.";
-                // Console.WriteLine  CREATE: message ... ...  postResult.Reasons.First().Message);
+                // xxConsole.WriteLine  CREATE: message ... ...  postResult.Reasons.First().Message);
                 _ops1LivenessCheck.SetCompletedWithError(message);
                 return;
             }
@@ -515,7 +516,7 @@
             // TODO move this into service code
             var httpClientService2 = new HttpClientService(new HttpClient());
             var postResult2 = await httpClientService2.GetJsonAsync<String>($"{urlModel.Url}:{BootPort}/health");
-            Console.WriteLine("BootPort/health?");
+            logger.LogInformation("BootPort/health?");
             if (!postResult2.IsSuccess || postResult2.Value.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 _ops2HealthCheck.SetCompletedWithError(postResult2.Reasons.First().Message);

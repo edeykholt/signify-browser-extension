@@ -9,6 +9,7 @@
 @inject IExtensionEnvironmentService ExtensionEnvironmentService
 @inject IJSRuntime js
 @inject IStateService stateService
+@inject ILogger<Home> logger
 @using MudBlazor
 
 <div id="Home" class="bt-body-page">
@@ -63,12 +64,10 @@
 </div>
 
 @code {
-
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Console.WriteLine($"{nameof(Home)}: OnInitializedAsync");
-        await Task.Run(() => Console.WriteLine($"{nameof(Home)}: OnInitializedAsync"));
+        logger.LogInformation($"OnInitializedAsync");
     }
 
     private async Task CloseWallet()

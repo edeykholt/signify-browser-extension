@@ -24,6 +24,7 @@
 @inject ISnackbar Snackbar
 @inject IAlarmService TimerService
 @inject ISignifyService SignifyService
+@inject ILogger<MainLayout> Logger
 
 <MudThemeProvider Theme="MyCustomTheme" @bind-IsDarkMode="@isDarkTheme" />
 <MudDialogProvider />
@@ -368,7 +369,7 @@
     private async Task OnIdleHandler()
     {
         // Action to perform on inactivity
-        Console.WriteLine("MainLayout: Timed out OnIdleHandler");
+        Logger.LogInformation("Timed out OnIdleHandler");
         await stateService.TimeOut();
         // note that lock() will be invoked in a reactive method
     }
@@ -387,7 +388,7 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        // Console.WriteLine("MainLayout OnParametersSetAsync");
+        // logger.LogInformation("MainLayout OnParametersSetAsync");
 
         // If not currently authenticated and are now on a page
         // that requires authentication, then redirect to Index
@@ -458,7 +459,7 @@
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            Console.WriteLine("MainLayout: OnAfterRenderAsync firstRender=true");
+            Logger.LogInformation("OnAfterRenderAsync firstRender=true");
 
             await SignifyService.Initialize();
 
@@ -490,7 +491,7 @@
         // One could get the html MudDrawer element by id and/or class, and see if its left value is 0 or something else.
         // See also https://www.syncfusion.com/faq/blazor/javascript-interop/how-do-i-get-an-element-by-id-or-class-in-blazor
 
-        // Console.WriteLine("MainLayout: UpdateMainContentStyle: isMenuDrawerOpen:" + isMenuDrawerOpen + " mudDrawerRef.Variant=" + mudDrawerRef.Variant);
+        // logger.LogInformation("MainLayout: UpdateMainContentStyle: isMenuDrawerOpen:" + isMenuDrawerOpen + " mudDrawerRef.Variant=" + mudDrawerRef.Variant);
 
         mainContentStyle = (isMenuDrawerOpen, mudDrawerRef.Variant) switch
         {
@@ -517,13 +518,13 @@
 
     async Task HandleErrorFromPreferencesService(Exception error)
     {
-        Console.WriteLine("Error from PreferencesService: " + error.Message);
+        Logger.LogError("Error from PreferencesService: " + error.Message);
         await Task.Delay(0); // hack
     }
 
     async Task HandleCompletedFromPreferencesService()
     {
-        Console.WriteLine("Completed from PreferencesService");
+        Logger.LogInformation("Completed from PreferencesService");
         await Task.Delay(0); // hack
     }
 
@@ -554,20 +555,20 @@
 
     async Task HandleErrorFromStateService(Exception error)
     {
-        Console.WriteLine("Error from stateService: " + error.Message);
+        Logger.LogError("Error from stateService: " + error.Message);
         await Task.Delay(0); // hack
     }
 
     async Task HandleCompletedFromStateService()
     {
-        Console.WriteLine("Completed from stateService");
+        Logger.LogInformation("Completed from stateService");
         await Task.Delay(0); // hack
     }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Console.WriteLine($"{nameof(MainLayout)}: OnInitializedAsync");
+        Logger.LogInformation("OnInitializedAsync");
 
         // TODO P3 why not derive this from ExtensionEnvironmentService?
         isInExtension = StorageService.GetAppHostingKind() == IStorageService.AppHostingKind.BlazorWasmExtension;
@@ -717,7 +718,7 @@
         //     }
         //     else
         //     {
-        //         Console.WriteLine("updateActiveDid Failed");
+        //         logger.LogInformation("updateActiveDid Failed");
         //     }
         // }
         activeDidIdenticon = "";
@@ -730,7 +731,7 @@
     {
         if (utilModule is null)
         {
-            Console.WriteLine("MainLayout: OpenTabAndClosePopUp: utilModule is null!");
+            Logger.LogError("OpenTabAndClosePopUp: utilModule is null!");
             return;
         }
         await UIHelper.NewTabAndClosePopup();

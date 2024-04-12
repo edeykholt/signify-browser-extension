@@ -19,8 +19,10 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
 
     public class SignifyClientService : ISignifyClientService
     {
+        public readonly ILogger<SignifyClientService> logger;
         public SignifyClientService()
         {
+            logger = new Logger<SignifyClientService>(new LoggerFactory()); // TODO: insert via DI
         }
 
         public static async Task GetPostExample()
@@ -38,7 +40,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             else
             {
                 // Handle failure
-                Console.WriteLine(getResult.Reasons.First().Message);
+                // xxConsole.WriteLine(getResult.Reasons.First().Message);
             }
 
             // POST request
@@ -50,7 +52,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             else
             {
                 // Handle failure
-                Console.WriteLine(postResult.Reasons.First().Message);
+                // xxConsole.WriteLine(postResult.Reasons.First().Message);
             }
         }
 
@@ -70,7 +72,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             }
             else
             {
-                Console.WriteLine(postResult.Reasons.First().Message);
+                logger.LogInformation($"KERI Agent response for Post boot: {postResult.Reasons.First().Message}");
                 return await Task.FromResult(Result.Fail($"KERI Agent response for Post boot: {postResult.Reasons.First().Message}"));
             }
         }
