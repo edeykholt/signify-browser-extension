@@ -17,7 +17,7 @@ using System.Runtime.InteropServices.JavaScript;
 
 // note Program and Main are implicit and static
 
-// Intentionally using Console.WriteLine here since ILogger isn't yet easy to inject
+// Intentionally using Console.WriteLine herein since ILogger isn't yet easy to inject
 Console.WriteLine("Program: started");
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -67,7 +67,7 @@ else // WASM hosted, e.g. in developer's Kestrel ASPNetCore or IISExpress
         return new StorageService(jsRuntime, hostEnvironment, localStorage, sessionStorage);
     });
 }
-// builder.Services.AddScoped<IStorageService, StorageService>();
+
 builder.Services.AddSingleton<IExtensionEnvironmentService, ExtensionEnvironmentService>();
 builder.Services.AddSingleton<IWalletService, WalletService>();
 builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
@@ -76,33 +76,20 @@ builder.Services.AddSingleton<IAlarmService, AlarmService>();
 builder.Services.AddSingleton<IPreferencesService, PreferencesService>();
 builder.Services.AddSingleton<ISignifyClientService, SignifyClientService>(); // TODO really need?
 builder.Services.AddSingleton<ISignifyService, SignifyService>();
-// builder.Services.AddSingleton<ILoggerFactory, SignifyService>();
 
 var host = builder.Build();
 
-//var logger = host.Services.GetRequiredService<ILoggerFactory>()
-//    .CreateLogger<Program>();
-
-//// Resolve the services depending on ILoggerFactory
-//using (var scope = host.Services.CreateScope())
-//{
-//    var storageService = scope.ServiceProvider.GetRequiredService<IStorageService>();
-//    // initialize if needed
-//    // storageService.Initialize(host.Services.GetRequiredService<IWebExtensionsApi>());
-//}
-
 Debug.Assert(OperatingSystem.IsBrowser());
-
 try
 {
     Console.WriteLine("Program: Importing JS modules...");
     // Adding imports of modules here for use via [JSImport] attributes in C# classes
     List<(string, string)> imports = [
-            ("signifyTsInterop", "/scripts/signifyTsInterop.js"),
-                        ("registerInactivityEvents", "/scripts/registerInactivityEvents.js"),
-                        ("uiHelper", "/scripts/uiHelper.js"),
-                        // ("signify-ts", "signify-ts")
-        ];
+        ("signifyTsInterop", "/scripts/signifyTsInterop.js"),
+        ("registerInactivityEvents", "/scripts/registerInactivityEvents.js"),
+        ("uiHelper", "/scripts/uiHelper.js"),
+        // ("signify-ts", "signify-ts")
+    ];
     foreach (var (moduleName, modulePath) in imports)
     {
         await JSHost.ImportAsync(moduleName, modulePath);
