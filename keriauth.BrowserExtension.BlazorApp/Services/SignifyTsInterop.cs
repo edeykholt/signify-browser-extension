@@ -22,4 +22,5 @@ public partial class SignifyTsInterop
     
     [JSImport("getMessage", "signifyTsInterop")] // "/scripts/SignifyTsInterop.js")]
     internal static partial string GetMessage();
+
 }

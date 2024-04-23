@@ -27,6 +27,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
 
         public async Task<Result> Initialize()
         {
+            Console.WriteLine("SignifyService Initialize...");
             logger.LogInformation("Initialize");
 
             // consider the first argument as nameof(KeriAuth.SignifyExtension.Services.SignifyService.SignifyTsInterop),
@@ -68,8 +69,11 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
                 _module8 = yy;
                 logger.LogInformation("SignifyTsInterop imported");
 
-                string message = SignifyTsInterop.GetMessageFromJs();
+                Console.WriteLine("GetMessageFromJs: ...");
+                string message = await SignifyTsInterop.GetMessageFromJs();
+                Console.WriteLine("GetMessageFromJs: " + message);
                 logger.LogInformation("GetMessageFromJs: " + message);
+                
 
                 //string message2 = SignifyTsInterop.GetMessageFromJs2();
                 //logger.LogInformation("GetMessageFromJs 2: " + message);
@@ -115,7 +119,9 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
             // simple example of using https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0
             if (OperatingSystem.IsBrowser())
             {
-                string message = SignifyTsInterop.GetMessageFromJs();
+                string? message = await SignifyTsInterop.GetMessageFromJs();
+                Debug.Assert(message is not null);
+                Console.WriteLine("GetMessageFromJs: " + message);
                 logger.LogInformation("GetMessageFromJs: " + message);
             }
 

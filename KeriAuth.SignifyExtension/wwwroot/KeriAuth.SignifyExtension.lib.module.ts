@@ -35,6 +35,6 @@ export async function onRuntimeReady({ }) // { getAssemblyExports, getConfig }
  * Called after Blazor is ready to receive calls from JS.
  * @param {any} blazor The Blazor instance
  */
-export async function afterStarted(blazor: any) {
-    console.log(`${prefix}afterStarted`);
-}
+//export async function afterStarted(blazor: any) {
+//    console.log(`${prefix}afterStarted`);
+//}

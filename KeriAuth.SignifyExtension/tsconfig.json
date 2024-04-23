@@ -37,6 +37,7 @@
     "wwwroot/KeriAuth.SignifyExtension.lib.module.ts"
   ],
   "exclude": [
+    "scripts/signifyTsInterop.ts",
     "node_modules",
     "bin",
     "obj",

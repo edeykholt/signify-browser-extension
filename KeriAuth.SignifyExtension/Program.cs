@@ -85,16 +85,17 @@ try
     Console.WriteLine("Program: Importing JS modules...");
     // Adding imports of modules here for use via [JSImport] attributes in C# classes
     List<(string, string)> imports = [
+        // ("signify-ts", "signify-ts"),
         ("signifyTsInterop", "/scripts/signifyTsInterop.js"),
         ("registerInactivityEvents", "/scripts/registerInactivityEvents.js"),
-        ("uiHelper", "/scripts/uiHelper.js"),
-        // ("signify-ts", "signify-ts")
+        ("uiHelper", "/scripts/uiHelper.js")
     ];
     foreach (var (moduleName, modulePath) in imports)
     {
+        Console.WriteLine("Program: importing " + moduleName);
         await JSHost.ImportAsync(moduleName, modulePath);
-        Console.WriteLine("Program: " + moduleName + " imported");
     }
+    Console.WriteLine("Program: Imported.");
 }
 catch (Microsoft.JSInterop.JSException e)
 {
