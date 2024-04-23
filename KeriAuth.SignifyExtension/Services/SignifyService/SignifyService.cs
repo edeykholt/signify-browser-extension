@@ -20,7 +20,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
         private readonly IJSRuntime js = js;
         private Logger<SignifyService> logger = new(new LoggerFactory()); // TODO: insert via DI
 
-        private JSObject? _module8;
+        // private JSObject? _module8;
         // private JSObject? _module9;
 
         static public IJSObjectReference? utilModule;
@@ -64,15 +64,27 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
                 //    Console.WriteLine($"Exported member: {exportName}");
                 //}
 
+                // following line is redundant?
                 var yy = await JSHost.ImportAsync("SignifyTsInterop", "/scripts/SignifyTsInterop.js");
 
-                _module8 = yy;
+                // _module8 = yy;
                 logger.LogInformation("SignifyTsInterop imported");
 
                 Console.WriteLine("GetMessageFromJs: ...");
-                string message = await SignifyTsInterop.GetMessageFromJs();
-                Console.WriteLine("GetMessageFromJs: " + message);
-                logger.LogInformation("GetMessageFromJs: " + message);
+                try
+                {
+                    var message = SignifyTsInterop.GetMessageFromJs();
+                    Debug.Assert(message is not null);
+                    Console.WriteLine("GetMessageFromJs: " + message);
+                    // logger.LogInformation("GetMessageFromJs: " + message);
+                } catch (Exception ex)
+                {
+                    Console.WriteLine("GetMessageFromJs failed: " + ex.ToString());
+                    // logger.LogCritical("SignifyTsInterop GetMessageFromJs failed");
+                    // logger.LogCritical(ex.ToString());
+                    return Result.Fail("SignifyService: SignifyTsInterop GetMessageFromJs failed");
+                }
+                
                 
 
                 //string message2 = SignifyTsInterop.GetMessageFromJs2();
@@ -105,11 +117,11 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
             logger.LogInformation("connect()...");
 
             // Use the module to create an instance of SignifyClient
-            if (_module8 is null)
-            {
-                logger.LogWarning("connect: _module8 is null");
-                return false.ToResult<bool>();
-            }
+            //if (_module8 is null)
+            //{
+            //    logger.LogWarning("connect: _module8 is null");
+            //    return false.ToResult<bool>();
+            //}
             /*
             var signifyClientInstance = await _module8.InvokeAsync<JsonElement>("newSignifyClient", "http://localhost", "123456789012345678901");
             logger.LogInformation("signifyClientInstance: ");
@@ -119,7 +131,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
             // simple example of using https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0
             if (OperatingSystem.IsBrowser())
             {
-                string? message = await SignifyTsInterop.GetMessageFromJs();
+                string? message = SignifyTsInterop.GetMessageFromJs();
                 Debug.Assert(message is not null);
                 Console.WriteLine("GetMessageFromJs: " + message);
                 logger.LogInformation("GetMessageFromJs: " + message);

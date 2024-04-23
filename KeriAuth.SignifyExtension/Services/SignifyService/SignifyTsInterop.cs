@@ -12,7 +12,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
     public partial class SignifyTsInterop
     {
         [JSImport("GetMessage2", "signifyTsInterop")]
-        internal static partial Task<string> GetMessageFromJs();
+        internal static partial string GetMessageFromJs();
 
         // don't forget about promises for other methods
     }

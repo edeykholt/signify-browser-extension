@@ -124,6 +124,9 @@
 		<None Update="wwwroot\KeriAuth.SignifyExtension.lib.module.js">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<Content Update="wwwroot\scripts\signifyTsInterop.js">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 		<Content Update="wwwroot\sounds\beep.mp3">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
