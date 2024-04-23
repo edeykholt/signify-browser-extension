@@ -52,5 +52,5 @@ export const connect = async (agentUrl: string, passcode: string) => {
 };
 
 export const GetMessage2 = () => {
-    return "Hello from SignifyService 2!";
+    return "Hello from SignifyService 2! " + Tier.high;
 }

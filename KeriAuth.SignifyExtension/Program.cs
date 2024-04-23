@@ -85,7 +85,7 @@ try
     Console.WriteLine("Program: Importing JS modules...");
     // Adding imports of modules here for use via [JSImport] attributes in C# classes
     List<(string, string)> imports = [
-        // ("signify-ts", "signify-ts"),
+        // ("signify-ts", "/node_modules/signify-ts"),
         ("signifyTsInterop", "/scripts/signifyTsInterop.js"),
         ("registerInactivityEvents", "/scripts/registerInactivityEvents.js"),
         ("uiHelper", "/scripts/uiHelper.js")
