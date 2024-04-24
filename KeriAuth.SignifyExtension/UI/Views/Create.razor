@@ -17,7 +17,6 @@
 @inject IStateService StateService
 @inject IWalletService _walletService
 @inject ISignifyClientService _signifyClientService
-@inject ISignifyService _signifyService
 @inject ISnackbar _Snackbar
 @inject ILogger<Create> logger
 @using static KeriAuth.AppConfig;
@@ -120,7 +119,6 @@
                         <MudStack Class="mt-5">
                             <OperationDisplayComponent ops="@_ops1LivenessCheck"></OperationDisplayComponent>
                             <OperationDisplayComponent ops="@_ops2HealthCheck"></OperationDisplayComponent>
-                            <OperationDisplayComponent ops="@_ops3CreateSignifyClient"></OperationDisplayComponent>
                             <OperationDisplayComponent ops="@_ops4BootAndConnect"></OperationDisplayComponent>
                             <OperationDisplayComponent ops="@_ops5CreatePersonalAid"></OperationDisplayComponent>
                             <OperationDisplayComponent ops="@_ops6ListAids"></OperationDisplayComponent>
@@ -276,8 +274,7 @@
     };
     private readonly OperationDisplay _ops1LivenessCheck = new OperationDisplay("Checking KERI Agent Liveness", "Live");
     private readonly OperationDisplay _ops2HealthCheck = new OperationDisplay("Checking KERI Agent Health", "Health Checked");
-    private readonly OperationDisplay _ops3CreateSignifyClient = new OperationDisplay("Creating KERI Agent Client", "KERIA Client created");
-    private readonly OperationDisplay _ops4BootAndConnect = new OperationDisplay("Booting (if needed) and Connecting", "KERIA Client connected");
+    private readonly OperationDisplay _ops4BootAndConnect = new OperationDisplay("Connecting or Booting KERIA Agent", "Connected to KERIA Agent");
     private readonly OperationDisplay _ops5CreatePersonalAid = new OperationDisplay("Creating Personal Identifier", "Created Personal Identifier");
     private readonly OperationDisplay _ops6ListAids = new OperationDisplay("Listing Identifiers", "Identifiers Listed");
     private readonly OperationDisplay _ops7ListCredentials = new OperationDisplay("Listing Credentials", "Credentials Listed");
@@ -504,8 +501,6 @@
             _ops1LivenessCheck.SetCompletedWithoutErrors();
             StateHasChanged();
 
-
-
             // check if KERIA is reporting as healthy
             _ops2HealthCheck.SetIsRunning();
             StateHasChanged();
@@ -525,34 +520,18 @@
             }
             StateHasChanged();
 
-
             // Create a new KERIA client
             // See client.ts create_agent.ts and other Integration scrips here: https://github.com/WebOfTrust/signify-integration/tree/main/scripts
-            _ops3CreateSignifyClient.SetIsRunning();
-            StateHasChanged();
-            
-            // var resx = await _signifyService.Initialize();
-            // if (resx.IsFailed)
-            // {
-            //     _ops3CreateSignifyClient.SetCompletedWithError(resx.Reasons.First().Message);
-            //     return;
-            // }
-            var x = await _signifyService.Connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21,'_'), $"{urlModel.Url}:{BootPort}", true);
-            if (x.IsFailed)
-            {
-                _ops3CreateSignifyClient.SetCompletedWithError(x.Reasons.First().Message);
-                return;
-            }
-            _ops3CreateSignifyClient.SetCompletedWithoutErrors();
-
             _ops4BootAndConnect.SetIsRunning();
             StateHasChanged();
-            await Task.Delay(2000);
-            _ops4BootAndConnect.SetCompletedWithoutErrors();
-            if (!_ops4BootAndConnect.CompletedSuccessfully)
+            
+            var x = await _signifyClientService.Connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21,'_'), $"{urlModel.Url}:{BootPort}", true);
+            if (x.IsFailed)
             {
+                _ops4BootAndConnect.SetCompletedWithError(x.Reasons.First().Message);
                 return;
             }
+            _ops4BootAndConnect.SetCompletedWithoutErrors();
 
             // See create_person_aid.py in Integration scrips here: https://github.com/WebOfTrust/signify-integration/tree/main/scripts
             _ops5CreatePersonalAid.SetIsRunning();

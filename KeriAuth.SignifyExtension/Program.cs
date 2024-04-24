@@ -74,8 +74,7 @@ builder.Services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 builder.Services.AddSingleton<IStateService, StateService>();
 builder.Services.AddSingleton<IAlarmService, AlarmService>();
 builder.Services.AddSingleton<IPreferencesService, PreferencesService>();
-builder.Services.AddSingleton<ISignifyClientService, SignifyClientService>(); // TODO really need?
-builder.Services.AddSingleton<ISignifyService, SignifyService>();
+builder.Services.AddSingleton<ISignifyClientService, SignifyClientService>();
 
 var host = builder.Build();
 

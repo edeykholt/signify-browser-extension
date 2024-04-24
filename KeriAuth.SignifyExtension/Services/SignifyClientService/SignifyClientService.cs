@@ -43,6 +43,27 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return postResult.IsSuccess ? Result.Ok() : Result.Fail(postResult.Reasons.First().Message);
         }
 
+        public async Task<Result<bool>> Connect(string agentUrl, string passcode, string? bootUrl, bool isBootForced = false)
+        {
+            Debug.Assert(bootUrl is not null);
+            await Task.Delay(0);
+            Console.WriteLine("SignifyService: connect()...");
+            // Console.WriteLine($"SignifyService: passcode: {passcode}");
+            logger.LogInformation("connect()...");
+
+            // simple example of using https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0
+            if (OperatingSystem.IsBrowser())
+            {
+                var res = await SignifyTsInterop.BootAndConnect(agentUrl, bootUrl, passcode);
+                Debug.Assert(res is not null);
+                // TODO EE! this exposes the passcode bran in the console
+                Console.WriteLine("SignifyService: connect: res: " + res);
+            }
+
+            // TODO fix
+            return true.ToResult<bool>();
+        }
+
         public async Task<Result<ClientState>> BootAndConnect(Url url, String BootPort, string passcode)
         {
             Debug.Assert(url is not null);

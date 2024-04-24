@@ -14,6 +14,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
     public interface ISignifyClientService
     {
         Task<Result> HealthCheck(Url fullUrl);
+        Task<Result<bool>> Connect(string url, string passcode, string? boot_url = null, bool isBootForced = false);
         Task<Result<ClientState>> BootAndConnect(Url url, String BootPort, string passcode);
         Task<Result> BootPort(Url url);
         Task<Result<Models.Identifier>> CreatePersonAid();
