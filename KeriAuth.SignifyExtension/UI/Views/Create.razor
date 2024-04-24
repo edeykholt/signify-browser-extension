@@ -551,7 +551,7 @@
                 _ops3CreateSignifyClient.SetCompletedWithError(resx.Reasons.First().Message);
                 return;
             }
-            var x = await _signifyService.connect(urlModel.Url, "passcode", urlModel.Url, true);
+            var x = await _signifyService.connect(urlModel.Url, "qwerqwerqwerqwerqwerqw", urlModel.Url, true);
             if (x.IsFailed)
             {
                 _ops3CreateSignifyClient.SetCompletedWithError(x.Reasons.First().Message);

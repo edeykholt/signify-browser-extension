@@ -15,7 +15,6 @@ export const PASSCODE_TIMEOUT = 5;
 
 let _client: SignifyClient | null;
 
-
 export const bootAndConnect = async (
     agentUrl: string,
     bootUrl: string,

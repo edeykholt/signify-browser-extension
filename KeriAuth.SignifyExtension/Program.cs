@@ -79,6 +79,7 @@ builder.Services.AddSingleton<ISignifyService, SignifyService>();
 
 var host = builder.Build();
 
+// Import JS modules for use in C# classes
 Debug.Assert(OperatingSystem.IsBrowser());
 try
 {
@@ -113,6 +114,7 @@ catch (Exception e)
     return;
 }
 
-Console.WriteLine("Program: Running WASM Host...");
 
+// Run
+Console.WriteLine("Program: Running WASM Host...");
 await host.RunAsync();

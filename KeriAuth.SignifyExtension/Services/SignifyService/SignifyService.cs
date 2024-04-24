@@ -74,7 +74,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
                 try
                 {
                     var message = SignifyTsInterop.GetMessageFromJs();
-                    Debug.Assert(message is not null);
+                    Debug.Assert(message is not null, "expected GetMesageFromJs to return a string");
                     Console.WriteLine("GetMessageFromJs: " + message);
                     // logger.LogInformation("GetMessageFromJs: " + message);
                 } catch (Exception ex)
@@ -87,11 +87,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
                 
                 
 
-                //string message2 = SignifyTsInterop.GetMessageFromJs2();
-                //logger.LogInformation("GetMessageFromJs 2: " + message);
 
-                //var qwer = SignifyTsInterop.GetStaticValue();
-                //SignifyTsInterop.SetStaticValue(qwer + 1);
 
                 return Result.Ok();
             }
@@ -114,27 +110,15 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
         public async Task<Result<bool>> connect(string url, string passcode, string? boot_url = null, bool isBootForced = false)
         {
             await Task.Delay(0);
+            Console.WriteLine("SignifyService: connect()...");
+            Console.WriteLine($"SignifyService: passcode: {passcode}");
             logger.LogInformation("connect()...");
-
-            // Use the module to create an instance of SignifyClient
-            //if (_module8 is null)
-            //{
-            //    logger.LogWarning("connect: _module8 is null");
-            //    return false.ToResult<bool>();
-            //}
-            /*
-            var signifyClientInstance = await _module8.InvokeAsync<JsonElement>("newSignifyClient", "http://localhost", "123456789012345678901");
-            logger.LogInformation("signifyClientInstance: ");
-            xxConsole.WriteLine(signifyClientInstance);
-            */
 
             // simple example of using https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0
             if (OperatingSystem.IsBrowser())
             {
-                string? message = SignifyTsInterop.GetMessageFromJs();
-                Debug.Assert(message is not null);
-                Console.WriteLine("GetMessageFromJs: " + message);
-                logger.LogInformation("GetMessageFromJs: " + message);
+                var res = "TMP"; // await SignifyTsInterop.BootAndConnect(url, passcode, "low", boot_url);
+                Console.WriteLine("SignifyService: connect: res: " + res);
             }
 
             // TODO fix
