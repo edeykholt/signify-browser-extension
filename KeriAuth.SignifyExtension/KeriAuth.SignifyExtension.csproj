@@ -40,7 +40,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="ESBuild.MSBuild" Version="0.19.5.*" />
-		<ESBuild Include="wwwroot/scripts/signifyTsInterop.ts" Minify="true" />
+		<ESBuild Include="wwwroot/scripts/SignifyTsInterop.ts" Minify="true" />
 		
 	</ItemGroup>
 	<ItemGroup>
@@ -124,7 +124,7 @@
 		<None Update="wwwroot\KeriAuth.SignifyExtension.lib.module.js">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<Content Update="wwwroot\scripts\signifyTsInterop.js">
+		<Content Update="wwwroot\scripts\SignifyTsInterop.js">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Update="wwwroot\sounds\beep.mp3">
