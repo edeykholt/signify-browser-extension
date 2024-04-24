@@ -12,6 +12,7 @@ using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Versioning;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
+using System.Web.Helpers;
 
 namespace KeriAuth.SignifyExtension.Services.SignifyService
 {
@@ -119,6 +120,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
             {
                 var res = await SignifyTsInterop.BootAndConnect(agentUrl, bootUrl, passcode);
                 Debug.Assert(res is not null);
+                // TODO EE! this exposes the passcode bran in the console
                 Console.WriteLine("SignifyService: connect: res: " + res);
             }
 

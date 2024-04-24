@@ -27,7 +27,7 @@ export const bootAndConnect = async (
     agentUrl: string,
     bootUrl: string,
     passcode: string
-) : Promise<SignifyClient> => {
+) : Promise<string> => {
     _client = null;
     await ready();
     console.log(`bootAndConnect: creating client...`);
@@ -50,8 +50,12 @@ export const bootAndConnect = async (
     console.log(`bootAndConnect: connected`);
     console.assert(state?.controller?.state?.i != null, "controller id is null"); // TODO throw exception?
 
-    return _client;
+    return objectToJson(_client);
 };
+
+const objectToJson = (obj: object): string => {
+    return JSON.stringify(obj);
+}
 
 const validateClient = () => {
     if (!_client) {
