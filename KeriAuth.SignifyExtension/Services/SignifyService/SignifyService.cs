@@ -106,18 +106,18 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
             }
         }
 
-
-        public async Task<Result<bool>> connect(string url, string passcode, string? boot_url = null, bool isBootForced = false)
+        public async Task<Result<bool>> connect(string agentUrl, string passcode, string? bootUrl, bool isBootForced = false)
         {
+            Debug.Assert(bootUrl is not null);
             await Task.Delay(0);
             Console.WriteLine("SignifyService: connect()...");
-            Console.WriteLine($"SignifyService: passcode: {passcode}");
+            // Console.WriteLine($"SignifyService: passcode: {passcode}");
             logger.LogInformation("connect()...");
 
             // simple example of using https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0
             if (OperatingSystem.IsBrowser())
             {
-                var res = "TMP"; // await SignifyTsInterop.BootAndConnect(url, passcode, "low", boot_url);
+                var res = await SignifyTsInterop.BootAndConnect(agentUrl, bootUrl, passcode);
                 Console.WriteLine("SignifyService: connect: res: " + res);
             }
 

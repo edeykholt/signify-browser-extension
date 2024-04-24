@@ -14,7 +14,10 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
         [JSImport("GetMessage2", "SignifyTsInterop")]
         internal static partial string GetMessageFromJs();
 
-        //[JSImport("bootAndConnect", "SignifyTsInterop")]
-        //internal static partial Task<string> BootAndConnect(string agentUrl, string passcode, string tier = "low", string? bootUrl = null);
+        [JSImport("bootAndConnect", "SignifyTsInterop")]
+        internal static partial Task<string> BootAndConnect(string agentUrl, string bootUrl, string passcode);
+
+        [JSImport("connect", "SignifyTsInterop")]
+        internal static partial Task<string> Connect(string agentUrl, string passcode);
     }
 }
