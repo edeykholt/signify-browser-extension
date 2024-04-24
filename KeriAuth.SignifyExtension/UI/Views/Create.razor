@@ -494,7 +494,6 @@
             // check if AdminPort is reachable
             _ops1LivenessCheck.SetIsRunning();
             StateHasChanged();
-            // TODO move this into service code
             var postResult = await _signifyClientService.HealthCheck($"{urlModel.Url}:{BootPort}/health");
             if (!postResult.IsSuccess)
             {
@@ -531,23 +530,13 @@
             // See client.ts create_agent.ts and other Integration scrips here: https://github.com/WebOfTrust/signify-integration/tree/main/scripts
             _ops3CreateSignifyClient.SetIsRunning();
             StateHasChanged();
-
-
-            var client1 = new SignifyClient(
-                new Controller(), // TODO!!
-                    $"{urlModel.Url}:{AdminPort}",
-                    "123456789012345678901".PadRight(21,'_'),
-                    1,
-                    Services.SignifyClientService.Models.Tier.Low,
-                    $"{urlModel.Url}:{BootPort}");
-
-            // now assure above is called via signify.ts
-            var resx = await _signifyService.Initialize();
-            if (resx.IsFailed)
-            {
-                _ops3CreateSignifyClient.SetCompletedWithError(resx.Reasons.First().Message);
-                return;
-            }
+            
+            // var resx = await _signifyService.Initialize();
+            // if (resx.IsFailed)
+            // {
+            //     _ops3CreateSignifyClient.SetCompletedWithError(resx.Reasons.First().Message);
+            //     return;
+            // }
             var x = await _signifyService.Connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21,'_'), $"{urlModel.Url}:{BootPort}", true);
             if (x.IsFailed)
             {

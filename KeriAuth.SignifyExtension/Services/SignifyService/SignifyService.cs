@@ -21,38 +21,38 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
         private readonly Logger<SignifyService> logger = new(new LoggerFactory()); // TODO: insert via DI
         // static public IJSObjectReference? utilModule;
 
-        public async Task<Result> Initialize()
-        {
-            Console.WriteLine("SignifyService Initialize...");
-            logger.LogInformation("Initialize");
+        //public async Task<Result> Initialize()
+        //{
+        //    Console.WriteLine("SignifyService Initialize...");
+        //    logger.LogInformation("Initialize");
 
-            // TODO EE! any of this needed?
-            // consider the first argument as nameof(KeriAuth.SignifyExtension.Services.SignifyService.SignifyTsInterop),
-            try
-            {
-                Debug.Assert(js is not null);
+        //    // TODO EE! any of this needed?
+        //    // consider the first argument as nameof(KeriAuth.SignifyExtension.Services.SignifyService.SignifyTsInterop),
+        //    try
+        //    {
+        //        Debug.Assert(js is not null);
 
-                var moduleLoader = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/moduleLoader.js");
-                var interopHelpers = await js.InvokeAsync<IJSObjectReference>("import", "/scripts/interopHelper.js");
-                var yy = await JSHost.ImportAsync("SignifyTsInterop", "/scripts/SignifyTsInterop.js");
-                logger.LogInformation("SignifyTsInterop imported");
+        //        var moduleLoader = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/moduleLoader.js");
+        //        var interopHelpers = await js.InvokeAsync<IJSObjectReference>("import", "/scripts/interopHelper.js");
+        //        var yy = await JSHost.ImportAsync("SignifyTsInterop", "/scripts/SignifyTsInterop.js");
+        //        logger.LogInformation("SignifyTsInterop imported");
 
-                return Result.Ok();
-            }
-            catch (System.Runtime.InteropServices.JavaScript.JSException ex)
-            {
-                // Handle JavaScript exceptions specifically (e.g., module not found, loading errors)
-                logger.LogCritical("SignifyTsInterop JSException failed to import");
-                logger.LogCritical("{ex}", ex.ToString());
-                return Result.Fail("SignifyService: SignifyTsInterop JSException failed to import");
-            }
-            catch (Exception ex)
-            {
-                logger.LogCritical("SignifyTsInterop failed to import");
-                logger.LogCritical("{ex}", ex.ToString());
-                return Result.Fail("SignifyService: SignifyTsInterop failed to import");
-            }
-        }
+        //        return Result.Ok();
+        //    }
+        //    catch (System.Runtime.InteropServices.JavaScript.JSException ex)
+        //    {
+        //        // Handle JavaScript exceptions specifically (e.g., module not found, loading errors)
+        //        logger.LogCritical("SignifyTsInterop JSException failed to import");
+        //        logger.LogCritical("{ex}", ex.ToString());
+        //        return Result.Fail("SignifyService: SignifyTsInterop JSException failed to import");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        logger.LogCritical("SignifyTsInterop failed to import");
+        //        logger.LogCritical("{ex}", ex.ToString());
+        //        return Result.Fail("SignifyService: SignifyTsInterop failed to import");
+        //    }
+        //}
 
         public async Task<Result<bool>> Connect(string agentUrl, string passcode, string? bootUrl, bool isBootForced = false)
         {
@@ -73,36 +73,6 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
 
             // TODO fix
             return true.ToResult<bool>();
-        }
-
-        public Result Disconnect()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Result<object> GetState()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Result<bool> IsConnected()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Result<object> ListIdentifiers()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Result<object> SignHeaders(string aidName, string method, string path, string origin)
-        {
-            throw new NotImplementedException();
-        }
-
-        public SignifyClient SignifyClient(byte[] bran)
-        {
-            throw new NotImplementedException();
         }
     }
 }

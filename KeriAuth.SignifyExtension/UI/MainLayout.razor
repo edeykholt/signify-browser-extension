@@ -460,9 +460,7 @@
         if (firstRender)
         {
             Logger.LogInformation("OnAfterRenderAsync firstRender=true");
-
             Console.WriteLine("MainLayout: OnAfterRenderAsync: firstRender=true");
-            await SignifyService.Initialize();
 
             preferencesSubscription = PreferencesService.Subscribe(
                 onNext: async (Preferences value) => await HandleNextFromPreferencesService(value),
