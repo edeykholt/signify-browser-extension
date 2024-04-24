@@ -118,6 +118,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
             if (OperatingSystem.IsBrowser())
             {
                 var res = await SignifyTsInterop.BootAndConnect(agentUrl, bootUrl, passcode);
+                Debug.Assert(res is not null);
                 Console.WriteLine("SignifyService: connect: res: " + res);
             }
 

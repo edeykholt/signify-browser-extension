@@ -539,7 +539,7 @@
             var client1 = new SignifyClient(
                 new Controller(), // TODO!!
                     $"{urlModel.Url}:{AdminPort}",
-                    "123456789012345678901", // 21 chars
+                    "123456789012345678901".PadRight(21,'_'),
                     1,
                     Services.SignifyClientService.Models.Tier.Low,
                     $"{urlModel.Url}:{BootPort}");
@@ -551,7 +551,7 @@
                 _ops3CreateSignifyClient.SetCompletedWithError(resx.Reasons.First().Message);
                 return;
             }
-            var x = await _signifyService.connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk", $"{urlModel.Url}:{BootPort}", true);
+            var x = await _signifyService.connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21,'_'), $"{urlModel.Url}:{BootPort}", true);
             if (x.IsFailed)
             {
                 _ops3CreateSignifyClient.SetCompletedWithError(x.Reasons.First().Message);
