@@ -27,7 +27,7 @@ export const bootAndConnect = async (
     agentUrl: string,
     bootUrl: string,
     passcode: string
-) => {
+) : Promise<SignifyClient> => {
     _client = null;
     await ready();
     console.log(`bootAndConnect: creating client...`);
@@ -35,18 +35,20 @@ export const bootAndConnect = async (
 
     try {
         await _client.connect();
+        console.info("client connected");
     } catch {
         const res = await _client.boot();
         if (!res.ok) throw new Error();
         await _client.connect();
+        console.info("client booted and connected");
     }
     console.log('client', {
         agent: _client.agent?.pre,
         controller: _client.controller.pre,
     });
     const state = await getState();
-    console.log(`bootAndConnect: connected ${state}`);
-    console.assert(state?.controller?.state?.i != null, "controller id is null");
+    console.log(`bootAndConnect: connected`);
+    console.assert(state?.controller?.state?.i != null, "controller id is null"); // TODO throw exception?
 
     return _client;
 };
