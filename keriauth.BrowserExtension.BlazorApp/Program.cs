@@ -28,10 +28,6 @@ namespace keriauth.BrowserExtension.BlazorApp
                 {
                     await JSHost.ImportAsync("signifyTsInterop", "/scripts/signifyTsInterop.js");
                     Console.WriteLine("Program: imported signifyTsInterop");
-
-                    //// test via C# Interop class
-                    //Console.WriteLine("Program: testing GetMessageFromJs... ");
-                    //string message = keriauth.BrowserExtension.BlazorApp.SignifyTsInterop.GetMessage();
                 }
                 catch (Microsoft.JSInterop.JSException e)
                 {

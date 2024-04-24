@@ -11,16 +11,16 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
 
         public Task<Result> Initialize();
 
-        public Task<Result<bool>> connect(string url, string passcode, string? boot_url = null, bool isBootForced = false);
+        public Task<Result<bool>> Connect(string url, string passcode, string? boot_url = null, bool isBootForced = false);
 
-        public Result<bool> isConnected();
+        public Result<bool> IsConnected();
     
-        public Result disconnect();
+        public Result Disconnect();
 
-        public Result<object> getState(); // TODO add return type
+        public Result<object> GetState(); // TODO add return type
 
-        public Result<object> listIdentifiers(); // TODO add return type
+        public Result<object> ListIdentifiers(); // TODO add return type
     
-        public Result<object> signHeaders(String aidName, String method, String path, String origin);  // TODO add return type
+        public Result<object> SignHeaders(String aidName, String method, String path, String origin);  // TODO add return type
     }
 }

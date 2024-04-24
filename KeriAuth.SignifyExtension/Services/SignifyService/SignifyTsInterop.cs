@@ -11,17 +11,10 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
     [SupportedOSPlatform("browser")]
     public partial class SignifyTsInterop
     {
-        [JSImport("GetMessage2", "SignifyTsInterop")]
-        internal static partial string GetMessageFromJs();
-
         [JSImport("bootAndConnect", "SignifyTsInterop")]
         internal static partial Task<string> BootAndConnect(string agentUrl, string bootUrl, string passcode);
 
         [JSImport("connect", "SignifyTsInterop")]
         internal static partial Task<string> Connect(string agentUrl, string passcode);
-
-        // TODO EE! implement all the above with try-catch, logging, and error handling, and Result return types.
     }
-
-
 }

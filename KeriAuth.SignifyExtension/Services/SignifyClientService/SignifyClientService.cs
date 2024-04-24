@@ -1,79 +1,74 @@
 ﻿using FluentResults;
+
 using KeriAuth.SignifyExtension.Services.SignifyClientService;
 using static KeriAuth.SignifyExtension.Services.SignifyService.SignifyServiceConfig;
-
 using KeriAuth.SignifyExtension.Services;
-
-// using KeriAuth.SignifyExtension.Models;
 using KeriAuth.SignifyExtension.Services.SignifyClientService.Models;
+using static KeriAuth.SignifyExtension.Services.SignifyService.SignifyTsInterop;
+using KeriAuth.SignifyExtension.Models;
 using State = KeriAuth.SignifyExtension.Services.SignifyClientService.Models.State;
-using System.Text.RegularExpressions;
 using Group = KeriAuth.SignifyExtension.Services.SignifyClientService.Models.Group;
+
+
+
+using System.Text.RegularExpressions;
 using WebExtensions.Net.Tabs;
+using Microsoft.Extensions.Logging;
+
+using Microsoft.Win32;
+using System.Reactive;
+using static KeriAuth.SignifyExtension.UI.Views.Create;
+using KeriAuth.SignifyExtension.Services.SignifyService;
+using System.Linq.Expressions;
+using System.Runtime.InteropServices.JavaScript;
+using System.Diagnostics;
+using System.Runtime.Versioning;
+
 
 namespace KeriAuth.SignifyExtension.Services.SignifyClientService
 {
-    // TODO EE!  This is a placeholder example
-    public class MyRequestType { /* Define properties here */ }
-    public class MyResponseType { /* Define properties here */ }
-
-    public class SignifyClientService : ISignifyClientService
+    public class SignifyClientService() : ISignifyClientService
     {
-        public readonly ILogger<SignifyClientService> logger;
-        public SignifyClientService()
-        {
-            logger = new Logger<SignifyClientService>(new LoggerFactory()); // TODO: insert via DI
-        }
-
-        public static async Task GetPostExample()
-        {
-            // TODO EE!  This is a placeholder example
-            // Example GET request and POST request
-
-            var httpClientService = new HttpClientService(new HttpClient());
-            // GET request
-            var getResult = await httpClientService.SendAsync<object, MyResponseType>(HttpMethod.Get, "https://example.com/get");
-            if (getResult.IsSuccess)
-            {
-                // Handle successful response
-            }
-            else
-            {
-                // Handle failure
-                // xxConsole.WriteLine(getResult.Reasons.First().Message);
-            }
-
-            // POST request
-            var postResult = await httpClientService.SendAsync<MyRequestType, MyResponseType>(HttpMethod.Post, "https://example.com/post", new MyRequestType());
-            if (postResult.IsSuccess)
-            {
-                // Handle successful response
-            }
-            else
-            {
-                // Handle failure
-                // xxConsole.WriteLine(postResult.Reasons.First().Message);
-            }
-        }
+        private readonly ILogger<SignifyClientService> logger = new Logger<SignifyClientService>(new LoggerFactory());
 
         public Task<Result<HttpResponseMessage>> ApproveDelegation()
         {
             return Task.FromResult(Result.Fail<HttpResponseMessage>("Not implemented"));
         }
 
-        public async Task<Result<State>> Boot(Url url)
+        public async Task<Result> HealthCheck(Url fullUrl)
         {
-            // See https://github.com/WebOfTrust/signify-integration/blob/main/scripts/create_agent.py
             var httpClientService = new HttpClientService(new HttpClient());
-            var postResult = await httpClientService.SendAsync<MyRequestType, MyResponseType>(HttpMethod.Post, $"{url}:{BootPort}/boot", new MyRequestType());
-            if (postResult.IsSuccess)
+            var postResult = await httpClientService.GetJsonAsync<String>(fullUrl);
+            return postResult.IsSuccess ? Result.Ok() : Result.Fail(postResult.Reasons.First().Message);
+        }
+
+        public async Task<Result<ClientState>> BootAndConnect(Url url, String BootPort, string passcode)
+        {
+            Debug.Assert(url is not null);
+            try
             {
-                return await Task.FromResult(Result.Ok<State>(new State()));
+                string agentUrl = url.ToString()!;
+                var ClientRes = await SignifyTsInterop.BootAndConnect(agentUrl, $"{url}:{BootPort}/boot", "passcode");
+                if (ClientRes is not null)
+                {
+                    // TODO EE!: parse what we need from ClientRes json
+                    return Result.Ok<ClientState>(new ClientState());
+                }
+                else
+                {
+                    return Result.Fail<ClientState>("SignifyClientService: BootAndConnect: ClientRes is null");
+                }
             }
-            else
+            catch (JSException e)
             {
-                logger.LogInformation($"KERI Agent response for Post boot: {postResult.Reasons.First().Message}");
-                return await Task.FromResult(Result.Fail($"KERI Agent response for Post boot: {postResult.Reasons.First().Message}"));
+                logger.LogInformation("SignifyClientService: BootAndConnect: JSException: {e}", e);
+                return Result.Fail<ClientState>("SignifyClientService: BootAndConnect: Exception: " + e);
+            }
+            catch (Exception e)
+            {
+                logger.LogInformation("SignifyClientService: BootAndConnect: Exception: {e}", e);
+                return Result.Fail<ClientState>("SignifyClientService: BootAndConnect: Exception: " + e);
             }
         }
 
@@ -107,12 +102,12 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return Task.FromResult(Result.Fail<IList<Contact>>("Not implemented"));
         }
 
-        public Task<Result<IList<Credential>>> GetCredentials()
+        public static Task<Result<IList<Credential>>> GetCredentials()
         {
             return Task.FromResult(Result.Fail<IList<Credential>>("Not implemented"));
         }
 
-        public Task<Result<IList<Escrow>>> GetEscrows()
+        public Task<Result<IList<Services.SignifyClientService.Models.Escrow>>> GetEscrows()
         {
             return Task.FromResult(Result.Fail<IList<Escrow>>("Not implemented"));
         }
@@ -147,14 +142,14 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return Task.FromResult(Result.Fail<IList<KeyState>>("Not implemented"));
         }
 
-        public Task<Result<IList<Notification>>> GetNotifications()
+        public static Task<Result<IList<Models.Notification>>> GetNotifications()
         {
-            return Task.FromResult(Result.Fail<IList<Notification>>("Not implemented"));
+            return Task.FromResult(Result.Fail<IList<Models.Notification>>("Not implemented"));
         }
 
         public Task<Result<IList<Oobi>>> GetOobis()
         {
-            return Task.FromResult(Result.Fail<IList<Oobi>>("Not implemented"));
+            return Task.FromResult(Result.Fail<IList<Services.SignifyClientService.Models.Oobi>>("Not implemented"));
         }
 
         public Task<Result<IList<Operation>>> GetOperations()
@@ -162,12 +157,12 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return Task.FromResult(Result.Fail<IList<Operation>>("Not implemented"));
         }
 
-        public Task<Result<IList<Registry>>> GetRegistries()
+        public static Task<Result<IList<Models.Registry>>> GetRegistries()
         {
-            return Task.FromResult(Result.Fail<IList<Registry>>("Not implemented"));
+            return Task.FromResult(Result.Fail<IList<Models.Registry>>("Not implemented"));
         }
 
-        public Task<Result<IList<Schema>>> GetSchemas()
+        public Task<Result<IList<Services.SignifyClientService.Models.Schema>>> GetSchemas()
         {
             return Task.FromResult(Result.Fail<IList<Schema>>("Not implemented"));
         }
@@ -192,5 +187,29 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return Task.FromResult(Result.Fail<HttpResponseMessage>("Not implemented"));
         }
 
+        Task<Result> ISignifyClientService.BootPort(Url url)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Result<State>> ISignifyClientService.Boot(Url url)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Result<IList<Models.Credential>>> ISignifyClientService.GetCredentials()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Result<IList<Models.Registry>>> ISignifyClientService.GetRegistries()
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Result<IList<Models.Notification>>> ISignifyClientService.GetNotifications()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

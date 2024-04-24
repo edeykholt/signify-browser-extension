@@ -7,11 +7,15 @@ using System.Reactive;
 using System.Text.RegularExpressions;
 using System.Net.Http.Headers;
 using WebExtensions.Net.Tabs;
+using KeriAuth.SignifyExtension.Models;
 
 namespace KeriAuth.SignifyExtension.Services.SignifyClientService
 {
     public interface ISignifyClientService
     {
+        Task<Result> HealthCheck(Url fullUrl);
+        Task<Result<ClientState>> BootAndConnect(Url url, String BootPort, string passcode);
+        Task<Result> BootPort(Url url);
         Task<Result<Models.Identifier>> CreatePersonAid();
         Task<Result<State>> Boot(Url url);
         Task<Result<State>> GetState();

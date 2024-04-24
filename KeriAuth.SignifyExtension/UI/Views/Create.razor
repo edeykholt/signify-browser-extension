@@ -495,13 +495,10 @@
             _ops1LivenessCheck.SetIsRunning();
             StateHasChanged();
             // TODO move this into service code
-            var httpClientService = new HttpClientService(new HttpClient());
-            var postResult = await httpClientService.GetJsonAsync<String>($"{urlModel.Url}:{BootPort}/health");
-            logger.LogInformation("BootPort/health live check");
+            var postResult = await _signifyClientService.HealthCheck($"{urlModel.Url}:{BootPort}/health");
             if (!postResult.IsSuccess)
             {
                 var message = "The KERI Agent BootPort is not reachable at specified URL.";
-                // xxConsole.WriteLine  CREATE: message ... ...  postResult.Reasons.First().Message);
                 _ops1LivenessCheck.SetCompletedWithError(message);
                 return;
             }
@@ -551,7 +548,7 @@
                 _ops3CreateSignifyClient.SetCompletedWithError(resx.Reasons.First().Message);
                 return;
             }
-            var x = await _signifyService.connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21,'_'), $"{urlModel.Url}:{BootPort}", true);
+            var x = await _signifyService.Connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21,'_'), $"{urlModel.Url}:{BootPort}", true);
             if (x.IsFailed)
             {
                 _ops3CreateSignifyClient.SetCompletedWithError(x.Reasons.First().Message);

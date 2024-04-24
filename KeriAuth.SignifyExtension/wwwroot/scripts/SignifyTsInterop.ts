@@ -30,7 +30,7 @@ export const bootAndConnect = async (
 ) : Promise<string> => {
     _client = null;
     await ready();
-    console.log(`bootAndConnect: creating client...`);
+    console.log(`SignifyTsInterop: bootAndConnect: creating client...`);
     _client = new SignifyClient(agentUrl, passcode.padEnd(21, '_'), Tier.low, bootUrl);
 
     try {
@@ -40,14 +40,14 @@ export const bootAndConnect = async (
         const res = await _client.boot();
         if (!res.ok) throw new Error();
         await _client.connect();
-        console.info("client booted and connected");
+        console.info("SignifyTsInterop: client booted and connected");
     }
     console.log('client', {
         agent: _client.agent?.pre,
         controller: _client.controller.pre,
     });
     const state = await getState();
-    console.log(`bootAndConnect: connected`);
+    console.log(`SignifyTsInterop: bootAndConnect: connected`);
     console.assert(state?.controller?.state?.i != null, "controller id is null"); // TODO throw exception?
 
     return objectToJson(_client);
@@ -59,7 +59,7 @@ const objectToJson = (obj: object): string => {
 
 const validateClient = () => {
     if (!_client) {
-        throw new Error("Client not connected");
+        throw new Error("SignifyTsInterop: Client not connected");
     }
 };
 const getState = async () => {
@@ -81,7 +81,3 @@ export const connect = async (agentUrl: string, passcode: string) => {
         return { error };
     }
 };
-
-export const GetMessage2 = () => {
-    return "Hello from SignifyService 2! " + Tier.high;
-}

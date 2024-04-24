@@ -56,7 +56,7 @@ namespace KeriAuth.SignifyExtension.Services
                     .RetryAsync(3, onRetry: (exception, retryCount, context) =>
                     {
                         // This is an optional callback you can use to log retry attempts
-                        logger.LogInformation($"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}.");
+                        logger.LogInformation("Retry {RetryCount} of {Context.PolicyKey} at {Context.OperationKey}, due to: {Exception}.", retryCount, context.PolicyKey, context.OperationKey, exception);
                     });
 
                 var response = await _retryPolicy.ExecuteAsync(() => _httpClient.SendAsync(request));
@@ -83,19 +83,17 @@ namespace KeriAuth.SignifyExtension.Services
         {
             TimeSpan timeout = TimeSpan.FromSeconds(3);  // TODO. Consider making this configurable and also providing an external cts source. Apply pattern elsewhere.
             HttpResponseMessage httpResponseMessage;
-            using (var cts = new CancellationTokenSource(timeout))
+            using var cts = new CancellationTokenSource(timeout);
+            try
             {
-                try
-                {
-                    var request = new HttpRequestMessage(HttpMethod.Get, url);
-                    httpResponseMessage = await _httpClient.GetAsync(url, cts.Token);
-                    Debug.Assert(httpResponseMessage is not null);
-                    return httpResponseMessage.ToResult();
-                }
-                catch (Exception ex)
-                {
-                    return Result.Fail($"An exception occurred: {ex.Message}");
-                }
+                var request = new HttpRequestMessage(HttpMethod.Get, url);
+                httpResponseMessage = await _httpClient.GetAsync(url, cts.Token);
+                Debug.Assert(httpResponseMessage is not null);
+                return httpResponseMessage.ToResult();
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail($"An exception occurred: {ex.Message}");
             }
         }
     }

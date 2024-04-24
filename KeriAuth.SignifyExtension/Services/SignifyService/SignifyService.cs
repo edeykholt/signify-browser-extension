@@ -12,83 +12,30 @@ using System.Runtime.InteropServices.JavaScript;
 using System.Runtime.Versioning;
 using System.Runtime.CompilerServices;
 using Microsoft.Extensions.Logging;
-using System.Web.Helpers;
 
 namespace KeriAuth.SignifyExtension.Services.SignifyService
 {
     public class SignifyService(IJSRuntime js) : ISignifyService
     {
         private readonly IJSRuntime js = js;
-        private Logger<SignifyService> logger = new(new LoggerFactory()); // TODO: insert via DI
-
-        // private JSObject? _module8;
-        // private JSObject? _module9;
-
-        static public IJSObjectReference? utilModule;
+        private readonly Logger<SignifyService> logger = new(new LoggerFactory()); // TODO: insert via DI
+        // static public IJSObjectReference? utilModule;
 
         public async Task<Result> Initialize()
         {
             Console.WriteLine("SignifyService Initialize...");
             logger.LogInformation("Initialize");
 
+            // TODO EE! any of this needed?
             // consider the first argument as nameof(KeriAuth.SignifyExtension.Services.SignifyService.SignifyTsInterop),
-
-
             try
             {
                 Debug.Assert(js is not null);
 
                 var moduleLoader = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/moduleLoader.js");
-                //var loadResult = await moduleLoader.InvokeAsync<object>("loadModule", "./ui-utilities.js");
-
-                //if (loadResult != null && ((JsonElement)loadResult).GetProperty("success").GetBoolean())
-                //{
-                //    logger.LogInformation("SignifyService: Module loaded successfully.");
-                //    // If you need to use the module further, you can do so here.
-                //    utilModule = await js.InvokeAsync<IJSObjectReference>("import", "./scripts/ui-utilities.js");
-                //    // await js.InvokeVoidAsync("utils.log", "Module loaded successfully.");
-                //}
-                //else
-                //{
-                //    Debug.Assert(loadResult is not null);
-                //    var msg = ((JsonElement)loadResult).GetProperty("error");
-                //    Console.WriteLine($"Failed to load module. {msg}");
-                //}
-
                 var interopHelpers = await js.InvokeAsync<IJSObjectReference>("import", "/scripts/interopHelper.js");
-
-                // Use the helper function to list the module's exports
-                //var exports = await interopHelpers.InvokeAsync<string[]>("listModuleExports", module99);
-
-                //foreach (var exportName in exports)
-                //{
-                //    Console.WriteLine($"Exported member: {exportName}");
-                //}
-
-                // following line is redundant?
                 var yy = await JSHost.ImportAsync("SignifyTsInterop", "/scripts/SignifyTsInterop.js");
-
-                // _module8 = yy;
                 logger.LogInformation("SignifyTsInterop imported");
-
-                Console.WriteLine("GetMessageFromJs: ...");
-                try
-                {
-                    var message = SignifyTsInterop.GetMessageFromJs();
-                    Debug.Assert(message is not null, "expected GetMesageFromJs to return a string");
-                    Console.WriteLine("GetMessageFromJs: " + message);
-                    // logger.LogInformation("GetMessageFromJs: " + message);
-                } catch (Exception ex)
-                {
-                    Console.WriteLine("GetMessageFromJs failed: " + ex.ToString());
-                    // logger.LogCritical("SignifyTsInterop GetMessageFromJs failed");
-                    // logger.LogCritical(ex.ToString());
-                    return Result.Fail("SignifyService: SignifyTsInterop GetMessageFromJs failed");
-                }
-                
-                
-
-
 
                 return Result.Ok();
             }
@@ -96,18 +43,18 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
             {
                 // Handle JavaScript exceptions specifically (e.g., module not found, loading errors)
                 logger.LogCritical("SignifyTsInterop JSException failed to import");
-                logger.LogCritical(ex.ToString());
+                logger.LogCritical("{ex}", ex.ToString());
                 return Result.Fail("SignifyService: SignifyTsInterop JSException failed to import");
             }
             catch (Exception ex)
             {
                 logger.LogCritical("SignifyTsInterop failed to import");
-                logger.LogCritical(ex.ToString());
+                logger.LogCritical("{ex}", ex.ToString());
                 return Result.Fail("SignifyService: SignifyTsInterop failed to import");
             }
         }
 
-        public async Task<Result<bool>> connect(string agentUrl, string passcode, string? bootUrl, bool isBootForced = false)
+        public async Task<Result<bool>> Connect(string agentUrl, string passcode, string? bootUrl, bool isBootForced = false)
         {
             Debug.Assert(bootUrl is not null);
             await Task.Delay(0);
@@ -128,27 +75,27 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
             return true.ToResult<bool>();
         }
 
-        public Result disconnect()
+        public Result Disconnect()
         {
             throw new NotImplementedException();
         }
 
-        public Result<object> getState()
+        public Result<object> GetState()
         {
             throw new NotImplementedException();
         }
 
-        public Result<bool> isConnected()
+        public Result<bool> IsConnected()
         {
             throw new NotImplementedException();
         }
 
-        public Result<object> listIdentifiers()
+        public Result<object> ListIdentifiers()
         {
             throw new NotImplementedException();
         }
 
-        public Result<object> signHeaders(string aidName, string method, string path, string origin)
+        public Result<object> SignHeaders(string aidName, string method, string path, string origin)
         {
             throw new NotImplementedException();
         }
