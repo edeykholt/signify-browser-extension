@@ -23,7 +23,7 @@
 @inject IStateService StateService
 
 @inject IExtensionEnvironmentService ExtensionEnvironmentService
-@inject ILogger<Start> Logger
+@inject ILogger<Start> _logger
 @inherits Blazor.BrowserExtension.Pages.BasePage;
 
 <div id="Start" class="bt-body-page" style="height:calc(100vh - var(--bt-appbar-height)); display:flex; align-items:center; justify-content:center;">
@@ -107,7 +107,7 @@
         var reason = namedValueCollection["reason"];
         if (reason is not null)
         {
-            Logger.LogInformation($"Start: reason == {reason}");
+            _logger.LogInformation($"Start: reason == {reason}");
             switch (reason)
             {
                 case "install":

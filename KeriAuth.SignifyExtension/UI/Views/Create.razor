@@ -22,6 +22,7 @@
 @using static KeriAuth.AppConfig;
 @using static KeriAuth.SignifyExtension.Helper.PreviousPage
 @using KeriAuth.SignifyExtension.Services.SignifyClientService.Models
+@using System.Linq;
 
 <div id="Create" class="bt-body-page">
     @switch (Card)
@@ -39,8 +40,10 @@
                 <MudStack Class="bt-create-card-top-centered">
                     <MudImage Width="190" Fluid="true" Style="margin-right:40px;" Src="/images/lock2.png"></MudImage>
                     <MudText>Create a new, strong password to protect your ??????</MudText>
-                    @{ /* TODO should add back @bind-IsValid="@_isStrongPassword"  */ }
-                    <MudForm @ref="_confirmPasswordForm"  @bind-Errors="@_errors" Style="width:250px; height:80px;">
+                    @{
+                        /* TODO should add back @bind-IsValid="@_isStrongPassword"  */
+                    }
+                    <MudForm @ref="_confirmPasswordForm" @bind-Errors="@_errors" Style="width:250px; height:80px;">
                         <MudTextField T="string" Label="New password" HelperText=" " @ref="_newPasswordField"
                                       Immediate="true"
                                       OnKeyDown="@NewPasswordKeyDown"
@@ -63,7 +66,7 @@
             <MudStack Row="true" class="bt-button-tray">
                 <MudIconButton Icon="@Icons.Material.Filled.ArrowBackIosNew" Variant="Variant.Text" OnClick='@( async () => await GoBack(js) )' Class="justify-start" />
                 <MudSpacer></MudSpacer>
-                <MudButton @ref="_nextButton" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!_isStrongPassword)"  OnClick="async () => await NextPage()" Class="justify-end" data-testid="next">Next</MudButton>
+                <MudButton @ref="_nextButton" Variant="Variant.Filled" Color="Color.Primary" Disabled="@(!_isStrongPassword)" OnClick="async () => await NextPage()" Class="justify-end" data-testid="next">Next</MudButton>
             </MudStack>
             break;
         case CardKind.TermsAndPrivacy2:
@@ -491,7 +494,8 @@
             // check if AdminPort is reachable
             _ops1LivenessCheck.SetIsRunning();
             StateHasChanged();
-            var postResult = await _signifyClientService.HealthCheck($"{urlModel.Url}:{BootPort}/health");
+            UriBuilder healthUriBuilder = new($"{urlModel.Url}:{BootPort}/health");
+            var postResult = await _signifyClientService.HealthCheck(healthUriBuilder.Uri);
             if (!postResult.IsSuccess)
             {
                 var message = "The KERI Agent BootPort is not reachable at specified URL.";
@@ -520,12 +524,12 @@
             }
             StateHasChanged();
 
+
             // Create a new KERIA client
             // See client.ts create_agent.ts and other Integration scrips here: https://github.com/WebOfTrust/signify-integration/tree/main/scripts
             _ops4BootAndConnect.SetIsRunning();
             StateHasChanged();
-            
-            var clientRes = await _signifyClientService.Connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21,'_'), $"{urlModel.Url}:{BootPort}", true);
+            var clientRes = await _signifyClientService.Connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21, '_'), $"{urlModel.Url}:{BootPort}", true);
             if (clientRes.IsFailed)
             {
                 _ops4BootAndConnect.SetCompletedWithError(clientRes.Reasons.First().Message);
@@ -533,24 +537,33 @@
             }
             _ops4BootAndConnect.SetCompletedWithoutErrors();
 
-            // See create_person_aid.py in Integration scrips here: https://github.com/WebOfTrust/signify-integration/tree/main/scripts
+
             _ops5CreatePersonalAid.SetIsRunning();
             StateHasChanged();
-            await Task.Delay(2000);
-            _ops5CreatePersonalAid.SetCompletedWithoutErrors();
-            if (!_ops5CreatePersonalAid.CompletedSuccessfully)
+            var aidRes = await _signifyClientService.CreatePersonAid("Ed_" + DateTime.Now.TimeOfDay.TotalSeconds);
+            if (aidRes.IsFailed)
             {
+                _ops5CreatePersonalAid.SetCompletedWithError(aidRes.Reasons.First().Message);
                 return;
             }
+            logger.LogInformation("Identifier: {aid}", aidRes.Value);
+            _ops5CreatePersonalAid.SetCompletedWithoutErrors();
+
 
             _ops6ListAids.SetIsRunning();
             StateHasChanged();
-            await Task.Delay(2000);
-            _ops6ListAids.SetCompletedWithoutErrors();
-            if (!_ops6ListAids.CompletedSuccessfully)
+            var identifiersRes = await _signifyClientService.GetIdentifiers();
+            if (identifiersRes.IsFailed)
             {
+                _ops6ListAids.SetCompletedWithError(identifiersRes.Reasons.First().Message);
                 return;
             }
+            var identifiers = identifiersRes.Value;
+            logger.LogInformation("Identifiers: {identifiers}", identifiers);
+            // identifiers.ToList().ForEach(i => logger.LogInformation($"Identifiers: {i}"));
+            _ops6ListAids.SetCompletedWithoutErrors();
+            return;
+
 
             _ops7ListCredentials.SetIsRunning();
             StateHasChanged();

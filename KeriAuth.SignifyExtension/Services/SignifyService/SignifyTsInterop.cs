@@ -16,5 +16,11 @@ namespace KeriAuth.SignifyExtension.Services.SignifyService
 
         [JSImport("connect", "SignifyTsInterop")]
         internal static partial Task<string> Connect(string agentUrl, string passcode);
+
+        [JSImport("createAID", "SignifyTsInterop")]
+        internal static partial Task<string> CreateAID(string name);
+
+        [JSImport("getAIDs", "SignifyTsInterop")]
+        internal static partial Task<string> GetAIDs();
     }
 }

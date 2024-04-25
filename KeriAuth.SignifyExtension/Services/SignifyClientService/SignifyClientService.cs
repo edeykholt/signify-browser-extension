@@ -19,6 +19,7 @@ using System.Linq.Expressions;
 using System.Runtime.InteropServices.JavaScript;
 using System.Diagnostics;
 using System.Runtime.Versioning;
+using WebExtensions.Net.Windows;
 
 
 namespace KeriAuth.SignifyExtension.Services.SignifyClientService
@@ -30,10 +31,10 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return Task.FromResult(Result.Fail<HttpResponseMessage>("Not implemented"));
         }
 
-        public async Task<Result> HealthCheck(Url fullUrl)
+        public async Task<Result> HealthCheck(Uri fullUrl)
         {
             var httpClientService = new HttpClientService(new HttpClient());
-            var postResult = await httpClientService.GetJsonAsync<String>(fullUrl);
+            var postResult = await httpClientService.GetJsonAsync<String>(fullUrl.ToString());
             return postResult.IsSuccess ? Result.Ok() : Result.Fail(postResult.Reasons.First().Message);
         }
 
@@ -60,7 +61,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return true.ToResult<bool>();
         }
 
-        public async Task<Result<ClientState>> BootAndConnect(Url url, String BootPort, string passcode)
+        public async Task<Result<ClientState>> BootAndConnect(Uri url, String BootPort, string passcode)
         {
             Debug.Assert(url is not null);
             try
@@ -94,9 +95,27 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return Task.FromResult(Result.Fail<bool>("Not implemented"));
         }
 
-        public Task<Result<Models.Identifier>> CreatePersonAid()
+        public async Task<Result<string>> CreatePersonAid(string aidName)
         {
-            return Task.FromResult(Result.Fail<Models.Identifier>("Not implemented"));
+            try
+            {
+                var res = await CreateAID(aidName);
+                Debug.Assert(res is not null);
+                // TODO verify res and parse what we need
+                logger.LogInformation("CreatePersonAid: res: {res}", res);
+                // return Result.Ok<Models.Identifier>(new Models.Identifier());
+                return Result.Ok<string>(res);
+            }
+            catch (JSException e)
+            {
+                logger.LogWarning("CreatePersonAid: JSException: {e}", e);
+                return Result.Fail<string>("SignifyClientService: CreatePersonAid: Exception: " + e);
+            }
+            catch (Exception e)
+            {
+                logger.LogWarning("CreatePersonAid: Exception: {e}", e);
+                return Result.Fail<string>("SignifyClientService: CreatePersonAid: Exception: " + e);
+            }
         }
 
         public Task<Result<HttpResponseMessage>> DeletePasscode()
@@ -139,9 +158,26 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return Task.FromResult(Result.Fail<IList<Group>>("Not implemented"));
         }
 
-        public Task<Result<IList<Models.Identifier>>> GetIdentifiers()
+        public async Task<Result<string>> GetIdentifiers()
         {
-            return Task.FromResult(Result.Fail<IList<Models.Identifier>>("Not implemented"));
+            try
+            {
+                var res = await GetAIDs();
+                Debug.Assert(res is not null);
+                // TODO verify res and parse what we need
+                logger.LogInformation("GetIdentifiers: {ids}", res);
+                return Result.Ok<string>(res);
+            }
+            catch (JSException e)
+            {
+                logger.LogWarning("GetIdentifiers: JSException: {e}", e);
+                return Result.Fail<string>("SignifyClientService: CreatePersonAid: Exception: " + e);
+            }
+            catch (Exception e)
+            {
+                logger.LogWarning("GetIdentifiers: Exception: {e}", e);
+                return Result.Fail<string>("SignifyClientService: GetIdentifiers: Exception: " + e);
+            }
         }
 
         public Task<Result<IList<Ipex>>> GetIpex()
@@ -202,16 +238,6 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
         public Task<Result<HttpResponseMessage>> SignedFetch(string url, string path, string method, object data, string aidName)
         {
             return Task.FromResult(Result.Fail<HttpResponseMessage>("Not implemented"));
-        }
-
-        Task<Result> ISignifyClientService.BootPort(Url url)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Result<State>> ISignifyClientService.Boot(Url url)
-        {
-            throw new NotImplementedException();
         }
 
         Task<Result<IList<Models.Credential>>> ISignifyClientService.GetCredentials()

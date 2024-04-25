@@ -98,24 +98,24 @@ try
     ];
     foreach (var (moduleName, modulePath) in imports)
     {
-        logger.LogInformation("Importing " + moduleName);
+        logger.LogInformation("Importing {moduleName}", moduleName);
         await JSHost.ImportAsync(moduleName, modulePath);
     }
     logger.LogInformation("Imported.");
 }
 catch (Microsoft.JSInterop.JSException e)
 {
-    logger.LogError("Program: Initialize: JSInterop.JSException: " + e.StackTrace);
+    logger.LogError("Program: Initialize: JSInterop.JSException: {e}", e.StackTrace);
     return;
 }
 catch (System.Runtime.InteropServices.JavaScript.JSException e)
 {
-    logger.LogError("Program: Initialize: JSException: " + e.StackTrace);
+    logger.LogError("Program: Initialize: JSException: {e}", e.StackTrace);
     return;
 }
 catch (Exception e)
 {
-    logger.LogError("Program: Initialize: Exception: " + e);
+    logger.LogError("Program: Initialize: Exception: {e}", e);
     return;
 }
 

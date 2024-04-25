@@ -13,12 +13,12 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
 {
     public interface ISignifyClientService
     {
-        Task<Result> HealthCheck(Url fullUrl);
+        Task<Result> HealthCheck(Uri fullUrl);
         Task<Result<bool>> Connect(string url, string passcode, string? boot_url = null, bool isBootForced = false);
-        Task<Result<ClientState>> BootAndConnect(Url url, String BootPort, string passcode);
-        Task<Result> BootPort(Url url);
-        Task<Result<Models.Identifier>> CreatePersonAid();
-        Task<Result<State>> Boot(Url url);
+        Task<Result<ClientState>> BootAndConnect(Uri url, String BootPort, string passcode);
+        // Task<Result> BootPort(string url);
+        Task<Result<string>> CreatePersonAid(string name);
+        // Task<Result<State>> Boot(string url);
         Task<Result<State>> GetState();
         Task<Result<bool>> Connect();
         Task<Result<HttpResponseMessage>> Fetch(string path, string method, object data, Dictionary<string, string>? extraHeaders = null);
@@ -27,7 +27,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
         Task<Result<HttpResponseMessage>> SaveOldPasscode(string passcode);
         Task<Result<HttpResponseMessage>> DeletePasscode();
         Task<Result<HttpResponseMessage>> Rotate(string nbran, string[] aids);
-        Task<Result<IList<Models.Identifier>>> GetIdentifiers();
+        Task<Result<string>> GetIdentifiers();
         Task<Result<IList<Oobi>>> GetOobis();
         Task<Result<IList<Operation>>> GetOperations();
         Task<Result<IList<KeyEvent>>> GetKeyEvents();

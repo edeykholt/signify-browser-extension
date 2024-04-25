@@ -81,3 +81,19 @@ export const connect = async (agentUrl: string, passcode: string) => {
         return { error };
     }
 };
+
+export const createAID = async (name: string) => {
+    validateClient();
+    let res = await _client?.identifiers().create(name);
+    // TODO: unclear what should be returned and its type
+    // return await res?.op();
+    // return await res?.serder.code;
+    return JSON.stringify(res);
+};
+
+export const getAIDs = async () => {
+    validateClient();
+    let res = await _client?.identifiers(); // .list();
+    // TODO: unclear what should be returned and its type
+    return JSON.stringify(res);
+}     
