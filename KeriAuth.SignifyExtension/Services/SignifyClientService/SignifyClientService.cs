@@ -8,13 +8,9 @@ using static KeriAuth.SignifyExtension.Services.SignifyService.SignifyTsInterop;
 using KeriAuth.SignifyExtension.Models;
 using State = KeriAuth.SignifyExtension.Services.SignifyClientService.Models.State;
 using Group = KeriAuth.SignifyExtension.Services.SignifyClientService.Models.Group;
-
-
-
 using System.Text.RegularExpressions;
 using WebExtensions.Net.Tabs;
 using Microsoft.Extensions.Logging;
-
 using Microsoft.Win32;
 using System.Reactive;
 using static KeriAuth.SignifyExtension.UI.Views.Create;
@@ -27,10 +23,8 @@ using System.Runtime.Versioning;
 
 namespace KeriAuth.SignifyExtension.Services.SignifyClientService
 {
-    public class SignifyClientService() : ISignifyClientService
+    public class SignifyClientService(ILogger<SignifyClientService> logger) : ISignifyClientService
     {
-        private readonly ILogger<SignifyClientService> logger = new Logger<SignifyClientService>(new LoggerFactory());
-
         public Task<Result<HttpResponseMessage>> ApproveDelegation()
         {
             return Task.FromResult(Result.Fail<HttpResponseMessage>("Not implemented"));
@@ -47,19 +41,21 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
         {
             Debug.Assert(bootUrl is not null);
             await Task.Delay(0);
-            Console.WriteLine("SignifyService: connect()...");
-            // Console.WriteLine($"SignifyService: passcode: {passcode}");
-            logger.LogInformation("connect()...");
+            logger.LogInformation("Connect...");
 
             // simple example of using https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0
             if (OperatingSystem.IsBrowser())
             {
                 var res = await SignifyTsInterop.BootAndConnect(agentUrl, bootUrl, passcode);
                 Debug.Assert(res is not null);
+#if DEBUG
                 // TODO EE! this exposes the passcode bran in the console
-                Console.WriteLine("SignifyService: connect: res: " + res);
+                logger.LogWarning("SignifyClientService: connect: res: {res}", res);
+#else
+                res = null;
+                logger.LogInformation("SignifyClientService: connected.");
+#endif
             }
-
             // TODO fix
             return true.ToResult<bool>();
         }

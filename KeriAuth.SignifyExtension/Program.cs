@@ -25,8 +25,11 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.Logging.AddConfiguration(
     builder.Configuration.GetSection("Logging")
 );
-// See appsettings.json for Logging settings
-// builder.Logging.SetMinimumLevel(LogLevel.Debug);
+// See appsettings.json for Logging settings, although level may be overridden below
+builder.Services.AddLogging(configure =>
+{
+    configure.SetMinimumLevel(LogLevel.Information);
+});
 
 builder.UseBrowserExtension(browserExtension =>
 {
@@ -78,11 +81,14 @@ builder.Services.AddSingleton<ISignifyClientService, SignifyClientService>();
 
 var host = builder.Build();
 
+// Get an ILogger instance for logging during startup
+var logger = host.Services.GetRequiredService<ILogger<Program>>();
+
 // Import JS modules for use in C# classes
 Debug.Assert(OperatingSystem.IsBrowser());
 try
 {
-    Console.WriteLine("Program: Importing JS modules...");
+    logger.LogInformation("Importing JS modules...");
     // Adding imports of modules here for use via [JSImport] attributes in C# classes
     List<(string, string)> imports = [
         // ("signify-ts", "/node_modules/signify-ts"),
@@ -92,28 +98,26 @@ try
     ];
     foreach (var (moduleName, modulePath) in imports)
     {
-        Console.WriteLine("Program: importing " + moduleName);
+        logger.LogInformation("Importing " + moduleName);
         await JSHost.ImportAsync(moduleName, modulePath);
     }
-    Console.WriteLine("Program: Imported.");
+    logger.LogInformation("Imported.");
 }
 catch (Microsoft.JSInterop.JSException e)
 {
-    Console.WriteLine("Program: Initialize: JSInterop.JSException: " + e.StackTrace);
+    logger.LogError("Program: Initialize: JSInterop.JSException: " + e.StackTrace);
     return;
 }
 catch (System.Runtime.InteropServices.JavaScript.JSException e)
 {
-    Console.WriteLine("Program: Initialize: JSException: " + e.StackTrace);
+    logger.LogError("Program: Initialize: JSException: " + e.StackTrace);
     return;
 }
 catch (Exception e)
 {
-    Console.WriteLine("Program: Initialize: Exception: " + e);
+    logger.LogError("Program: Initialize: Exception: " + e);
     return;
 }
 
-
-// Run
-Console.WriteLine("Program: Running WASM Host...");
+logger.LogInformation("Running WASM Host...");
 await host.RunAsync();

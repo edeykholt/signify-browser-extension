@@ -23,7 +23,7 @@
 @inject IPreferencesService PreferencesService
 @inject ISnackbar Snackbar
 @inject IAlarmService TimerService
-@inject ILogger<MainLayout> Logger
+@inject ILogger<MainLayout> _logger
 
 <MudThemeProvider Theme="MyCustomTheme" @bind-IsDarkMode="@isDarkTheme" />
 <MudDialogProvider />
@@ -368,7 +368,7 @@
     private async Task OnIdleHandler()
     {
         // Action to perform on inactivity
-        Logger.LogInformation("Timed out OnIdleHandler");
+        _logger.LogInformation("Timed out OnIdleHandler");
         await stateService.TimeOut();
         // note that lock() will be invoked in a reactive method
     }
@@ -387,7 +387,7 @@
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-        // logger.LogInformation("MainLayout OnParametersSetAsync");
+        _logger.LogInformation("MainLayout OnParametersSetAsync");
 
         // If not currently authenticated and are now on a page
         // that requires authentication, then redirect to Index
@@ -458,8 +458,7 @@
         await base.OnAfterRenderAsync(firstRender);
         if (firstRender)
         {
-            Logger.LogInformation("OnAfterRenderAsync firstRender=true");
-            Console.WriteLine("MainLayout: OnAfterRenderAsync: firstRender=true");
+            _logger.LogInformation("OnAfterRenderAsync firstRender=true");
 
             preferencesSubscription = PreferencesService.Subscribe(
                 onNext: async (Preferences value) => await HandleNextFromPreferencesService(value),
@@ -489,7 +488,7 @@
         // One could get the html MudDrawer element by id and/or class, and see if its left value is 0 or something else.
         // See also https://www.syncfusion.com/faq/blazor/javascript-interop/how-do-i-get-an-element-by-id-or-class-in-blazor
 
-        // logger.LogInformation("MainLayout: UpdateMainContentStyle: isMenuDrawerOpen:" + isMenuDrawerOpen + " mudDrawerRef.Variant=" + mudDrawerRef.Variant);
+        // _logger.LogInformation("MainLayout: UpdateMainContentStyle: isMenuDrawerOpen:" + isMenuDrawerOpen + " mudDrawerRef.Variant=" + mudDrawerRef.Variant);
 
         mainContentStyle = (isMenuDrawerOpen, mudDrawerRef.Variant) switch
         {
@@ -516,13 +515,13 @@
 
     async Task HandleErrorFromPreferencesService(Exception error)
     {
-        Logger.LogError("Error from PreferencesService: " + error.Message);
+        _logger.LogError("Error from PreferencesService: " + error.Message);
         await Task.Delay(0); // hack
     }
 
     async Task HandleCompletedFromPreferencesService()
     {
-        Logger.LogInformation("Completed from PreferencesService");
+        _logger.LogInformation("Completed from PreferencesService");
         await Task.Delay(0); // hack
     }
 
@@ -553,20 +552,20 @@
 
     async Task HandleErrorFromStateService(Exception error)
     {
-        Logger.LogError("Error from stateService: " + error.Message);
+        _logger.LogError("Error from stateService: " + error.Message);
         await Task.Delay(0); // hack
     }
 
     async Task HandleCompletedFromStateService()
     {
-        Logger.LogInformation("Completed from stateService");
+        _logger.LogInformation("Completed from stateService");
         await Task.Delay(0); // hack
     }
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        Logger.LogInformation("OnInitializedAsync");
+        _logger.LogInformation("OnInitializedAsync");
 
         // TODO P3 why not derive this from ExtensionEnvironmentService?
         isInExtension = StorageService.GetAppHostingKind() == IStorageService.AppHostingKind.BlazorWasmExtension;
@@ -716,7 +715,7 @@
         //     }
         //     else
         //     {
-        //         logger.LogInformation("updateActiveDid Failed");
+        //         _logger.LogInformation("updateActiveDid Failed");
         //     }
         // }
         activeDidIdenticon = "";
@@ -729,7 +728,7 @@
     {
         if (utilModule is null)
         {
-            Logger.LogError("OpenTabAndClosePopUp: utilModule is null!");
+            _logger.LogError("OpenTabAndClosePopUp: utilModule is null!");
             return;
         }
         await UIHelper.NewTabAndClosePopup();

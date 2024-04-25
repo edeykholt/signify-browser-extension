@@ -35,16 +35,16 @@ export const bootAndConnect = async (
 
     try {
         await _client.connect();
-        console.info("client connected");
+        console.info("SignifyTsInterop: client connected");
     } catch {
         const res = await _client.boot();
         if (!res.ok) throw new Error();
         await _client.connect();
         console.info("SignifyTsInterop: client booted and connected");
     }
-    console.log('client', {
+    console.log('SignifyTsInterop: client', {
         agent: _client.agent?.pre,
-        controller: _client.controller.pre,
+        controller: _client.controller.pre
     });
     const state = await getState();
     console.log(`SignifyTsInterop: bootAndConnect: connected`);
