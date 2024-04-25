@@ -9,6 +9,8 @@ import {
     ready,
     Authenticater,
     randomPasscode,
+    EventResult,
+    Identifier,
 } from "signify-ts";
 
 export const PASSCODE_TIMEOUT = 5;
@@ -27,7 +29,7 @@ export const bootAndConnect = async (
     agentUrl: string,
     bootUrl: string,
     passcode: string
-) : Promise<string> => {
+): Promise<string> => {
     _client = null;
     await ready();
     console.log(`SignifyTsInterop: bootAndConnect: creating client...`);
@@ -82,18 +84,46 @@ export const connect = async (agentUrl: string, passcode: string) => {
     }
 };
 
-export const createAID = async (name: string) => {
-    validateClient();
-    let res = await _client?.identifiers().create(name);
-    // TODO: unclear what should be returned and its type
-    // return await res?.op();
-    // return await res?.serder.code;
-    return JSON.stringify(res);
+// Type guard to verify if an object is a SignifyClient or something close to it
+function isClient(obj: any): obj is SignifyClient {
+    return (
+        typeof obj === "object" &&
+        typeof obj.controller === "object" &&
+        typeof obj.url === "string" &&
+        typeof obj.bran === "string"
+    )
+}
+
+// see also https://github.com/WebOfTrust/signify-ts/blob/fddaff20f808b9ccfed517b3a38bef3276f99261/examples/integration-scripts/utils/test-setup.ts
+export async function createAID(
+    name: string
+): Promise<string>{
+    try {
+        validateClient();
+        // TODO:
+        // assert isClient(_client);
+        const client: SignifyClient = _client!;
+        // TODO: could assure client it is connected here.
+        const res: EventResult = await client.identifiers().create(name);
+        const op2 = await res.op();
+        let id: any = op2.response.i;
+        console.log("SignifyTsInterop: createAID id: " + id);
+        return id;
+        // TODO expand to also return the OOBI.  See test-setup.ts
+    }
+    catch (error) {
+        console.error(error);
+        throw error;
+    }
 };
 
 export const getAIDs = async () => {
     validateClient();
-    let res = await _client?.identifiers(); // .list();
+    const client: SignifyClient = _client!;
+    const managedIdentifiers = await client.identifiers().list();
     // TODO: unclear what should be returned and its type
-    return JSON.stringify(res);
+    console.log("SignifyTsInterop: getAIDs: " + managedIdentifiers);
+    const identifierJson = JSON.stringify(managedIdentifiers);
+    console.log("SignifyTsInterop: getAIDs: " + identifierJson);
+    return identifierJson;
 }     
