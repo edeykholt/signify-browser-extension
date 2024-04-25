@@ -4,16 +4,10 @@ namespace KeriAuth.SignifyExtension.Models
 {
     using System.Text.Json.Serialization;
 
-    public class AppState
+    [method: JsonConstructor]
+    public class AppState(Services.IStateService.States currentState)
     {
-        [JsonConstructor]
-        public AppState(States currentState)
-        {
-            CurrentState = currentState;
-            WriteUtc = DateTime.UtcNow;
-        }
-
-        [JsonPropertyName("cs")] public States CurrentState { get; }
-        [JsonPropertyName("wUTC")] public DateTime WriteUtc { get; }
+        [JsonPropertyName("cs")] public States CurrentState { get; } = currentState;
+        [JsonPropertyName("wUTC")] public DateTime WriteUtc { get; } = DateTime.UtcNow;
     }
 }

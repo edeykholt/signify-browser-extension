@@ -209,7 +209,7 @@ public class StateService : IStateService
         }
         catch (Exception e)
         {
-            _logger.LogError("Problem with OnEntry RetrievingFromStorage: " + e.ToString());
+            _logger.LogError("Problem with OnEntry RetrievingFromStorage: {e}", e);
         }
         return;
     }

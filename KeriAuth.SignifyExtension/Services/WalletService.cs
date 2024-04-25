@@ -14,7 +14,7 @@ public class WalletService(IStorageService storageService) : IWalletService
     // private const string PasswordSeed = "WalletPasswordSeed";
     // private const string QuickLoginPassword = "W8Rm12v2izJJ3d";
     private bool _isStoringWallet;
-    private readonly ILogger<WalletService> logger = new Logger<WalletService>(new LoggerFactory()); // TODO: insert via DI
+    // private readonly ILogger<WalletService> logger = new Logger<WalletService>(new LoggerFactory()); // TODO: insert via DI
 
     private Wallet? _wallet;
 

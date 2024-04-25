@@ -3,39 +3,28 @@ using System.Text.Json.Serialization;
 
 namespace KeriAuth.SignifyExtension.Models
 {
-    public class WalletCleartext
+    [method: JsonConstructor]
+    public class WalletCleartext(Preferences preferencesConfig, KeriaConfiguration KeriaConfigs, List<Identifier> identifiers, List<Credential> credentials, List<Website> websites, List<WebsiteInteractionThread> websiteInteractions)
     {
-        [JsonConstructor]
-        public WalletCleartext(Preferences preferencesConfig, KeriaConfiguration KeriaConfigs, List<Identifier> identifiers, List<Credential> credentials, List<Website> websites, List<WebsiteInteractionThread> websiteInteractions)
-        {
-            Prefs = preferencesConfig;
-            KeriaConfig = KeriaConfigs;
-            Identifiers = identifiers;
-            Credentials = credentials;
-            Websites = websites;
-            WebsiteInteractions = websiteInteractions;
-            TimeCreatedUtc = DateTime.UtcNow;
-        }
-
         [JsonPropertyName("prefs")]
-        public Preferences Prefs { get; }
+        public Preferences Prefs { get; } = preferencesConfig;
 
         [JsonPropertyName("keria")]
-        public KeriaConfiguration KeriaConfig { get; }
+        public KeriaConfiguration KeriaConfig { get; } = KeriaConfigs;
 
         [JsonPropertyName("ids")]
-        public List<Identifier> Identifiers { get; }
+        public List<Identifier> Identifiers { get; } = identifiers;
 
         [JsonPropertyName("creds")]
-        public List<Credential> Credentials { get; }
+        public List<Credential> Credentials { get; } = credentials;
 
         [JsonPropertyName("websites")]
-        public List<Website> Websites { get; }
+        public List<Website> Websites { get; } = websites;
 
         [JsonPropertyName("wis")]
-        public List<WebsiteInteractionThread> WebsiteInteractions { get; }
+        public List<WebsiteInteractionThread> WebsiteInteractions { get; } = websiteInteractions;
 
         [JsonPropertyName("tcUTC")]
-        public DateTime TimeCreatedUtc { get; }
+        public DateTime TimeCreatedUtc { get; } = DateTime.UtcNow;
     }
 }

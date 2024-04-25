@@ -84,7 +84,7 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
         }
         catch (Exception e)
         {
-            _logger.LogError("Error adding eventListener to storage.onChange: " + e.Message);
+            _logger.LogError("Error adding eventListener to storage.onChange: {e}", e);
         }
         // logger.LogInformation("Registered handler for storage change event");
         return Task.CompletedTask;
@@ -245,7 +245,7 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
         }
         catch (Exception e)
         {
-            _logger.LogError($"Failed to get item: {e.Message}");
+            _logger.LogError("Failed to get item: {e}", e.Message);
             // xxConsole.WriteLine($"Failed to get item: {e.Message}");
             return Result.Fail($"Failed to get item: {e.Message}");
         }
@@ -300,7 +300,7 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
         }
         catch (Exception e)
         {
-            _logger.LogError($"Failed to set item: {e.Message}");
+            _logger.LogError("Failed to set item: {e}", e.Message);
             return Result.Fail($"Failed to set item: {e.Message}");
         }
     }
@@ -334,7 +334,7 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
         // TODO P3: an assumption below that there isn't more than one change
         var (key, value) = parsedJsonNode!.Root.AsObject().First();
 
-        if (key == nameof(WalletEncrypted).ToUpper())
+        if (key == nameof(WalletEncrypted).ToUpperInvariant())
         {
             Debug.Assert(value is not null);
             var newWalletEncrypted = value["newValue"];
@@ -349,7 +349,7 @@ public partial class StorageService : IStorageService, IObservable<Preferences>
                 // logger.LogInformation("new value for walletEncryped: null");
             }
         }
-        else if (key == nameof(Preferences).ToUpper())
+        else if (key.Equals(nameof(Preferences), StringComparison.OrdinalIgnoreCase))
         {
             JsonNode? newJsonNode = null;
             if (value is not null)

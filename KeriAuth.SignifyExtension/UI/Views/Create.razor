@@ -525,10 +525,10 @@
             _ops4BootAndConnect.SetIsRunning();
             StateHasChanged();
             
-            var x = await _signifyClientService.Connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21,'_'), $"{urlModel.Url}:{BootPort}", true);
-            if (x.IsFailed)
+            var clientRes = await _signifyClientService.Connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21,'_'), $"{urlModel.Url}:{BootPort}", true);
+            if (clientRes.IsFailed)
             {
-                _ops4BootAndConnect.SetCompletedWithError(x.Reasons.First().Message);
+                _ops4BootAndConnect.SetCompletedWithError(clientRes.Reasons.First().Message);
                 return;
             }
             _ops4BootAndConnect.SetCompletedWithoutErrors();

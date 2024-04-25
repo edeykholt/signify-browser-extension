@@ -13,18 +13,12 @@ public class AlarmService : IAlarmService
         logger = new Logger<AlarmService>(new LoggerFactory()); // TODO: insert via DI
     }
 
-    private class Alarm
+    private class Alarm(TimeSpan duration, Action callback)
     {
-        public Timer Timer { get; }
-        public TimeSpan Duration { get; private set; }
+        public Timer Timer { get; } = new Timer(state => callback.Invoke(), null, Timeout.Infinite, Timeout.Infinite);
+        public TimeSpan Duration { get; private set; } = duration;
         private Timer? _debounceTimer;
         private TimeSpan _debounceDuration;
-
-        public Alarm(TimeSpan duration, Action callback)
-        {
-            Duration = duration;
-            Timer = new Timer(state => callback.Invoke(), null, Timeout.Infinite, Timeout.Infinite);
-        }
 
         public void Start()
         {
@@ -65,7 +59,7 @@ public class AlarmService : IAlarmService
         if (alarms.TryGetValue(name, out var alarm))
         {
             alarm.Start();
-            logger.LogInformation($"Alarm {name} started");
+            logger.LogInformation("Alarm {name} started", name);
         }
         else
         {

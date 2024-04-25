@@ -9,10 +9,7 @@ public class UpperCase : JsonNamingPolicy
 {
     public override string ConvertName(string name)
     {
-        if (name == null)
-        {
-            throw new ArgumentNullException(nameof(name));
-        }
+        ArgumentNullException.ThrowIfNull(name);
         return name.ToUpperInvariant();
     }
 }

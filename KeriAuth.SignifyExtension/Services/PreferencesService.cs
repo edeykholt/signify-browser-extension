@@ -5,17 +5,11 @@ using Stateless;
 using static KeriAuth.SignifyExtension.Services.IStateService;
 
 
-public class PreferencesService : IPreferencesService, IObservable<Preferences>
+public class PreferencesService(IStorageService storageService) : IPreferencesService, IObservable<Preferences>
 {
     private readonly List<IObserver<Preferences>> preferencesObservers = [];
-    private IStorageService storageService;
-    private readonly ILogger<PreferencesService> _logger;
-
-    public PreferencesService(IStorageService storageService)
-    {
-        this.storageService = storageService;
-        _logger = new Logger<PreferencesService>(new LoggerFactory());
-    }
+    private readonly IStorageService storageService = storageService;
+    private readonly ILogger<PreferencesService> _logger = new Logger<PreferencesService>(new LoggerFactory());
 
     public async Task<Preferences> GetPreferences()
     {
@@ -56,16 +50,10 @@ public class PreferencesService : IPreferencesService, IObservable<Preferences>
         return new Unsubscriber(preferencesObservers, preferencesObserver);
     }
 
-    private class Unsubscriber : IDisposable
+    private class Unsubscriber(List<IObserver<Preferences>> observers, IObserver<Preferences> observer) : IDisposable
     {
-        private readonly List<IObserver<Preferences>> _preferencesObservers;
-        private readonly IObserver<Preferences> _preferencesObserver;
-
-        public Unsubscriber(List<IObserver<Preferences>> observers, IObserver<Preferences> observer)
-        {
-            this._preferencesObservers = observers;
-            this._preferencesObserver = observer;
-        }
+        private readonly List<IObserver<Preferences>> _preferencesObservers = observers;
+        private readonly IObserver<Preferences> _preferencesObserver = observer;
 
         public void Dispose()
         {
