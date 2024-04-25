@@ -8,6 +8,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
+    "incremental": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": [ "dom", "dom.iterable", "esnext", "scripthost" ],
