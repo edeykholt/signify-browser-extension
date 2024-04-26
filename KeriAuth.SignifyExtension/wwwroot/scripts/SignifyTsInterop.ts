@@ -106,7 +106,7 @@ export async function createAID(
         // TODO: could assure client it is connected here.
         const res: EventResult = await client.identifiers().create(name);
         const op2 = await res.op();
-        let id: any = op2.response.i;
+        let id: string = op2.response.i;
         console.log("SignifyTsInterop: createAID id: " + id);
         return id;
         // TODO expand to also return the OOBI.  See test-setup.ts
@@ -122,8 +122,7 @@ export const getAIDs = async () => {
     const client: SignifyClient = _client!;
     const managedIdentifiers = await client.identifiers().list();
     // TODO: unclear what should be returned and its type
-    console.log("SignifyTsInterop: getAIDs: " + managedIdentifiers);
-    const identifierJson = JSON.stringify(managedIdentifiers);
-    console.log("SignifyTsInterop: getAIDs: " + identifierJson);
+    let identifierJson: string = JSON.stringify(managedIdentifiers);
+    console.log("SignifyTsInterop: getAIDs: ", managedIdentifiers);
     return identifierJson;
 }     

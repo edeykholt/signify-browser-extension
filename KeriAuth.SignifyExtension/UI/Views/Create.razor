@@ -529,6 +529,7 @@
             // See client.ts create_agent.ts and other Integration scrips here: https://github.com/WebOfTrust/signify-integration/tree/main/scripts
             _ops4BootAndConnect.SetIsRunning();
             StateHasChanged();
+            // TODO EE! take this from the form and store it in the wallet
             var clientRes = await _signifyClientService.Connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21, '_'), $"{urlModel.Url}:{BootPort}", true);
             if (clientRes.IsFailed)
             {
@@ -546,7 +547,7 @@
                 _ops5CreatePersonalAid.SetCompletedWithError(aidRes.Reasons.First().Message);
                 return;
             }
-            logger.LogInformation("Identifier: {aid}", aidRes.Value);
+            // logger.LogInformation("Identifier: {aid}", aidRes.Value);
             _ops5CreatePersonalAid.SetCompletedWithoutErrors();
 
 
@@ -559,7 +560,7 @@
                 return;
             }
             var identifiers = identifiersRes.Value;
-            logger.LogInformation("Identifiers: {identifiers}", identifiers);
+            // logger.LogInformation("Identifiers: {identifiers}", identifiers);
             // identifiers.ToList().ForEach(i => logger.LogInformation($"Identifiers: {i}"));
             _ops6ListAids.SetCompletedWithoutErrors();
             return;

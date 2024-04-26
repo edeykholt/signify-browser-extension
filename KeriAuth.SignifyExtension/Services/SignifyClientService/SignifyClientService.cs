@@ -38,57 +38,86 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return postResult.IsSuccess ? Result.Ok() : Result.Fail(postResult.Reasons.First().Message);
         }
 
-        public async Task<Result<bool>> Connect(string agentUrl, string passcode, string? bootUrl, bool isBootForced = false)
+        public async Task<Result<bool>> Connect(string agentUrl, string passcode, string? bootUrl, bool isBootForced = true)
         {
             Debug.Assert(bootUrl is not null);
             await Task.Delay(0);
-            logger.LogInformation("Connect...");
+            // logger.LogInformation("Connect...");
 
-            // simple example of using https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0
-            if (OperatingSystem.IsBrowser())
-            {
-                var res = await SignifyTsInterop.BootAndConnect(agentUrl, bootUrl, passcode);
-                Debug.Assert(res is not null);
-#if DEBUG
-                // TODO EE! this exposes the passcode bran in the console
-                logger.LogWarning("SignifyClientService: connect: res: {res}", res);
-#else
-                res = null;
-                logger.LogInformation("SignifyClientService: connected.");
-#endif
-            }
-            // TODO fix
-            return true.ToResult<bool>();
-        }
-
-        public async Task<Result<ClientState>> BootAndConnect(Uri url, String BootPort, string passcode)
-        {
-            Debug.Assert(url is not null);
             try
             {
-                string agentUrl = url.ToString()!;
-                var ClientRes = await SignifyTsInterop.BootAndConnect(agentUrl, $"{url}:{BootPort}/boot", "passcode");
-                if (ClientRes is not null)
+                // simple example of using https://learn.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-javascript-from-dotnet?view=aspnetcore-8.0
+                if (OperatingSystem.IsBrowser())
                 {
-                    // TODO EE!: parse what we need from ClientRes json
-                    return Result.Ok<ClientState>(new ClientState());
+                    if (isBootForced)
+                    {
+                        var res = await SignifyTsInterop.BootAndConnect(agentUrl, bootUrl, passcode);
+                        Debug.Assert(res is not null);
+                        // Note that we are not parsing the result here, just logging it. The browser developer console will show the result, but can't display it as a collapse
+                        // logger.LogInformation("SignifyClientService: Connect: {@Details}", res);
+                        // TODO fix
+                        return true.ToResult<bool>();
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                        //var res = await SignifyTsInterop.Connect(agentUrl, bootUrl, passcode);
+                        //Debug.Assert(res is not null);
+                        //// Note that we are not parsing the result here, just logging it. The browser developer console will show the result, but can't display it as a collapse
+                        //logger.LogInformation("SignifyClientService: Connect: {@Details}", res);
+                        //// TODO fix
+                        //return true.ToResult<bool>();
+                    }
                 }
-                else
-                {
-                    return Result.Fail<ClientState>("SignifyClientService: BootAndConnect: ClientRes is null");
-                }
+                else return false.ToResult<bool>();
             }
             catch (JSException e)
             {
-                logger.LogInformation("SignifyClientService: BootAndConnect: JSException: {e}", e);
-                return Result.Fail<ClientState>("SignifyClientService: BootAndConnect: Exception: " + e);
+                logger.LogWarning("SignifyClientService: Connect: JSException: {e}", e);
+                return Result.Fail<bool>("SignifyClientService: Connect: Exception: " + e);
             }
             catch (Exception e)
             {
-                logger.LogInformation("SignifyClientService: BootAndConnect: Exception: {e}", e);
-                return Result.Fail<ClientState>("SignifyClientService: BootAndConnect: Exception: " + e);
+                logger.LogWarning("SignifyClientService: Connect: Exception: {e}", e);
+                return Result.Fail<bool>("SignifyClientService: Connect: Exception: " + e);
             }
         }
+
+        //public async Task<Result<ClientState>> BootAndConnect(Uri url, String BootPort, string passcode)
+        //{
+        //    Debug.Assert(url is not null);
+        //    try
+        //    {
+        //        string agentUrl = url.ToString()!;
+        //        var ClientRes = await SignifyTsInterop.BootAndConnect(agentUrl, $"{url}:{BootPort}/boot", "passcode");
+        //        if (ClientRes is not null)
+        //        {
+        //            var details = new
+        //            {
+        //                BootAndConnectResults = ClientRes,
+        //                Tmp = "tmp"
+        //            };
+        //            Console.WriteLine("SignifyClientService BootAndConnect ClientRes 11: {@details} ", details);
+        //            logger.LogInformation("SignifyClientService BootAndConnect ClientRes: {@Details}", details);
+        //            // TODO EE!: parse what we need from ClientRes json
+        //            return Result.Ok<ClientState>(new ClientState());
+        //        }
+        //        else
+        //        {
+        //            return Result.Fail<ClientState>("SignifyClientService: BootAndConnect: ClientRes is null");
+        //        }
+        //    }
+        //    catch (JSException e)
+        //    {
+        //        logger.LogInformation("SignifyClientService: BootAndConnect: JSException: {e}", e);
+        //        return Result.Fail<ClientState>("SignifyClientService: BootAndConnect: Exception: " + e);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        logger.LogInformation("SignifyClientService: BootAndConnect: Exception: {e}", e);
+        //        return Result.Fail<ClientState>("SignifyClientService: BootAndConnect: Exception: " + e);
+        //    }
+        //}
 
         public Task<Result<bool>> Connect()
         {
@@ -102,7 +131,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
                 var res = await CreateAID(aidName);
                 Debug.Assert(res is not null);
                 // TODO verify res and parse what we need
-                logger.LogInformation("CreatePersonAid: res: {res}", res);
+                // logger.LogInformation("CreatePersonAid: res: {res}", res);
                 // return Result.Ok<Models.Identifier>(new Models.Identifier());
                 return Result.Ok<string>(res);
             }
@@ -164,8 +193,8 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             {
                 var res = await GetAIDs();
                 Debug.Assert(res is not null);
-                // TODO verify res and parse what we need
-                logger.LogInformation("GetIdentifiers: {ids}", res);
+                // TODO EE! verify res and parse what we need and store them
+                // logger.LogInformation("GetIdentifiers: {ids}", res);
                 return Result.Ok<string>(res);
             }
             catch (JSException e)
