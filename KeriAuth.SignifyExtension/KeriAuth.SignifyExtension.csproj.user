@@ -13,9 +13,9 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Update="wwwroot\scripts\signifyTsInterop.ts">
+    <None Update="wwwroot\scripts\signifyTsInterop.ts">
       <SubType>Code</SubType>
-    </TypeScriptCompile>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Update="wwwroot\scripts\moduleLoader.ts">

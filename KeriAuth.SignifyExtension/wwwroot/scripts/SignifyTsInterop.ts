@@ -32,7 +32,7 @@ export const bootAndConnect = async (
 ): Promise<string> => {
     _client = null;
     await ready();
-    console.log(`SignifyTsInterop: bootAndConnect: creating client...`);
+    console.log(`SignifyTsInterop: bootAndConnect: creating client... ...`);
     _client = new SignifyClient(agentUrl, passcode.padEnd(21, '_'), Tier.low, bootUrl);
 
     try {

@@ -511,7 +511,6 @@
             // TODO move this into service code
             var httpClientService2 = new HttpClientService(new HttpClient());
             var postResult2 = await httpClientService2.GetJsonAsync<String>($"{urlModel.Url}:{BootPort}/health");
-            logger.LogInformation("BootPort/health?");
             if (!postResult2.IsSuccess || postResult2.Value.StatusCode != System.Net.HttpStatusCode.OK)
             {
                 _ops2HealthCheck.SetCompletedWithError(postResult2.Reasons.First().Message);

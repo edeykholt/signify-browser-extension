@@ -9,3 +9,4 @@
 /KeriAuth.SignifyExtension/wwwroot/scripts/*.js
 /KeriAuth.SignifyExtension/wwwroot/scripts/*.js.map
 /KeriAuth.SignifyExtension/wwwroot/scripts/*.d.ts
+/KeriAuth.SignifyExtension/scripts/SignifyTsInterop.js
