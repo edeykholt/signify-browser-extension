@@ -38,7 +38,7 @@
     "wwwroot/KeriAuth.SignifyExtension.lib.module.ts"
   ],
   "exclude": [
-    "scripts/SignifyTsInterop.ts",
+    "wwwroot/scripts/SignifyTsInterop.ts",  // should not be built with tsc, but with tsbuild. See package.json.
     "node_modules",
     "bin",
     "obj",

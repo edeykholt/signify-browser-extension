@@ -1,4 +1,4 @@
-﻿// Note the compilation of this file is bundled with its dependencies
+﻿// Note the compilation of this .ts file is bundled with its dependencies.  See entry in package.json for its build.
 
 // See the following for more inspiration:
 // https://github.com/WebOfTrust/signify-browser-extension/blob/main/src/pages/background/services/signify.ts
@@ -32,7 +32,7 @@ export const bootAndConnect = async (
 ): Promise<string> => {
     _client = null;
     await ready();
-    console.log(`SignifyTsInterop: bootAndConnect: creating client... ...`);
+    console.log(`SignifyTsInterop: bootAndConnect: creating client...`);
     _client = new SignifyClient(agentUrl, passcode.padEnd(21, '_'), Tier.low, bootUrl);
 
     try {
