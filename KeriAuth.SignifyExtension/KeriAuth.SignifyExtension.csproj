@@ -104,7 +104,6 @@
 		<None Remove="wwwroot\scripts\moduleLoader.ts" />
 		<None Remove="wwwroot\scripts\node_imports.ts" />
 		<None Remove="wwwroot\scripts\registerInactivityEvents.ts" />
-		<None Remove="wwwroot\scripts\SignifyTsInterop.ts" />
 		<None Remove="wwwroot\scripts\service-worker.ts" />
 		<None Remove="wwwroot\scirpts\ui-utilities.ts" />
 		<None Remove="wwwroot\scripts\IntegratedScript.ts" />
@@ -117,7 +116,7 @@
 		<None Update="wwwroot\KeriAuth.SignifyExtension.lib.module.js">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<Content Update="wwwroot\scripts\SignifyTsInterop.js">
+		<Content Update="wwwroot\scripts\signify_ts_shim.js">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Content>
 		<Content Update="wwwroot\sounds\beep.mp3">

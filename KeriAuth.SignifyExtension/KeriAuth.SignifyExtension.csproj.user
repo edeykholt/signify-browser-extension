@@ -13,7 +13,7 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <None Update="wwwroot\scripts\signifyTsInterop.ts">
+    <None Update="wwwroot\scripts\signify_ts_shim.ts">
       <SubType>Code</SubType>
     </None>
   </ItemGroup>

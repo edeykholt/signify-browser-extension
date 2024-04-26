@@ -1,6 +1,4 @@
-﻿using KeriAuth.SignifyExtension.Services.SignifyClientService;
-using KeriAuth.SignifyExtension.Services.SignifyClientService.Models;
-using Notification = KeriAuth.SignifyExtension.Services.SignifyClientService.Models.Notification;
+﻿using Notification = KeriAuth.SignifyExtension.Services.SignifyService.Models.Notification;
 using FluentResults;
 // using KeriAuth.SignifyExtension.Models;
 using System.Reactive;
@@ -8,8 +6,9 @@ using System.Text.RegularExpressions;
 using System.Net.Http.Headers;
 using WebExtensions.Net.Tabs;
 using KeriAuth.SignifyExtension.Models;
+using KeriAuth.SignifyExtension.Services.SignifyService.Models;
 
-namespace KeriAuth.SignifyExtension.Services.SignifyClientService
+namespace KeriAuth.SignifyExtension.Services.SignifyService
 {
     public interface ISignifyClientService
     {
@@ -32,7 +31,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
         Task<Result<IList<Operation>>> GetOperations();
         Task<Result<IList<KeyEvent>>> GetKeyEvents();
         Task<Result<IList<KeyState>>> GetKeyStates();
-        Task<Result<IList<KeriAuth.SignifyExtension.Services.SignifyClientService.Models.Credential>>> GetCredentials();
+        Task<Result<IList<Credential>>> GetCredentials();
         Task<Result<IList<Ipex>>> GetIpex();
         Task<Result<IList<Registry>>> GetRegistries();
         Task<Result<IList<Schema>>> GetSchemas();

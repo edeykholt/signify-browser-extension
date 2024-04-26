@@ -3,7 +3,6 @@ using Blazored.LocalStorage;
 using Blazored.SessionStorage;
 using KeriAuth.SignifyExtension;
 using KeriAuth.SignifyExtension.Services;
-using KeriAuth.SignifyExtension.Services.SignifyClientService;
 using KeriAuth.SignifyExtension.Services.SignifyService;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -92,7 +91,7 @@ try
     // Adding imports of modules here for use via [JSImport] attributes in C# classes
     List<(string, string)> imports = [
         // ("signify-ts", "/node_modules/signify-ts"),
-        ("SignifyTsInterop", "/scripts/SignifyTsInterop.js"),
+        ("signify_ts_shim", "/scripts/signify_ts_shim.js"),
         ("registerInactivityEvents", "/scripts/registerInactivityEvents.js"),
         ("uiHelper", "/scripts/uiHelper.js")
     ];

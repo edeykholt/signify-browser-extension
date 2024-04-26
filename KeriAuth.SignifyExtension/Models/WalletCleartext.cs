@@ -1,4 +1,4 @@
-﻿using KeriAuth.SignifyExtension.Services.SignifyClientService.Models;
+﻿using KeriAuth.SignifyExtension.Services.SignifyService.Models;
 using System.Text.Json.Serialization;
 
 namespace KeriAuth.SignifyExtension.Models

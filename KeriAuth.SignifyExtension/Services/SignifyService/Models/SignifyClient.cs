@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using KeriAuth.SignifyExtension.Services.SignifyService;
 
-namespace KeriAuth.SignifyExtension.Services.SignifyClientService.Models
+namespace KeriAuth.SignifyExtension.Services.SignifyService.Models
 {
     public record SignifyClient(
         Controller Controller,

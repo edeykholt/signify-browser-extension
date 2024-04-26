@@ -1,4 +1,5 @@
 ﻿// Note the compilation of this .ts file is bundled with its dependencies.  See entry in package.json for its build.
+// This Javascript-C# interop layer is paired with Signify_ts_shim.cs
 
 // See the following for more inspiration:
 // https://github.com/WebOfTrust/signify-browser-extension/blob/main/src/pages/background/services/signify.ts
@@ -32,24 +33,24 @@ export const bootAndConnect = async (
 ): Promise<string> => {
     _client = null;
     await ready();
-    console.log(`SignifyTsInterop: bootAndConnect: creating client...`);
+    console.log(`signify_ts_shim: bootAndConnect: creating client...`);
     _client = new SignifyClient(agentUrl, passcode.padEnd(21, '_'), Tier.low, bootUrl);
 
     try {
         await _client.connect();
-        console.info("SignifyTsInterop: client connected");
+        console.info("signify_ts_shim: client connected");
     } catch {
         const res = await _client.boot();
         if (!res.ok) throw new Error();
         await _client.connect();
-        console.info("SignifyTsInterop: client booted and connected");
+        console.info("signify_ts_shim: client booted and connected");
     }
-    console.log('SignifyTsInterop: client', {
+    console.log('signify_ts_shim: client', {
         agent: _client.agent?.pre,
         controller: _client.controller.pre
     });
     const state = await getState();
-    console.log(`SignifyTsInterop: bootAndConnect: connected`);
+    console.log(`signify_ts_shim: bootAndConnect: connected`);
     console.assert(state?.controller?.state?.i != null, "controller id is null"); // TODO throw exception?
 
     return objectToJson(_client);
@@ -61,7 +62,7 @@ const objectToJson = (obj: object): string => {
 
 const validateClient = () => {
     if (!_client) {
-        throw new Error("SignifyTsInterop: Client not connected");
+        throw new Error("signify_ts_shim: Client not connected");
     }
 };
 const getState = async () => {
@@ -107,7 +108,7 @@ export async function createAID(
         const res: EventResult = await client.identifiers().create(name);
         const op2 = await res.op();
         let id: string = op2.response.i;
-        console.log("SignifyTsInterop: createAID id: " + id);
+        console.log("signify_ts_shim: createAID id: " + id);
         return id;
         // TODO expand to also return the OOBI.  See test-setup.ts
     }
@@ -123,6 +124,6 @@ export const getAIDs = async () => {
     const managedIdentifiers = await client.identifiers().list();
     // TODO: unclear what should be returned and its type
     let identifierJson: string = JSON.stringify(managedIdentifiers);
-    console.log("SignifyTsInterop: getAIDs: ", managedIdentifiers);
+    console.log("signify_ts_shim: getAIDs: ", managedIdentifiers);
     return identifierJson;
 }     

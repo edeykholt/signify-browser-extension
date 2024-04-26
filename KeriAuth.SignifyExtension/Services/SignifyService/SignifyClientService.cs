@@ -1,28 +1,24 @@
 ﻿using FluentResults;
-
-using KeriAuth.SignifyExtension.Services.SignifyClientService;
 using static KeriAuth.SignifyExtension.Services.SignifyService.SignifyServiceConfig;
-using KeriAuth.SignifyExtension.Services;
-using KeriAuth.SignifyExtension.Services.SignifyClientService.Models;
-using static KeriAuth.SignifyExtension.Services.SignifyService.SignifyTsInterop;
+using static KeriAuth.SignifyExtension.Services.SignifyService.Signify_ts_shim;
 using KeriAuth.SignifyExtension.Models;
-using State = KeriAuth.SignifyExtension.Services.SignifyClientService.Models.State;
-using Group = KeriAuth.SignifyExtension.Services.SignifyClientService.Models.Group;
+using State = KeriAuth.SignifyExtension.Services.SignifyService.Models.State;
+using Group = KeriAuth.SignifyExtension.Services.SignifyService.Models.Group;
 using System.Text.RegularExpressions;
 using WebExtensions.Net.Tabs;
 using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using System.Reactive;
 using static KeriAuth.SignifyExtension.UI.Views.Create;
-using KeriAuth.SignifyExtension.Services.SignifyService;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices.JavaScript;
 using System.Diagnostics;
 using System.Runtime.Versioning;
 using WebExtensions.Net.Windows;
+using KeriAuth.SignifyExtension.Services.SignifyService.Models;
 
 
-namespace KeriAuth.SignifyExtension.Services.SignifyClientService
+namespace KeriAuth.SignifyExtension.Services.SignifyService
 {
     public class SignifyClientService(ILogger<SignifyClientService> logger) : ISignifyClientService
     {
@@ -34,7 +30,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
         public async Task<Result> HealthCheck(Uri fullUrl)
         {
             var httpClientService = new HttpClientService(new HttpClient());
-            var postResult = await httpClientService.GetJsonAsync<String>(fullUrl.ToString());
+            var postResult = await httpClientService.GetJsonAsync<string>(fullUrl.ToString());
             return postResult.IsSuccess ? Result.Ok() : Result.Fail(postResult.Reasons.First().Message);
         }
 
@@ -51,17 +47,17 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
                 {
                     if (isBootForced)
                     {
-                        var res = await SignifyTsInterop.BootAndConnect(agentUrl, bootUrl, passcode);
+                        var res = await BootAndConnect(agentUrl, bootUrl, passcode);
                         Debug.Assert(res is not null);
                         // Note that we are not parsing the result here, just logging it. The browser developer console will show the result, but can't display it as a collapse
                         // logger.LogInformation("SignifyClientService: Connect: {@Details}", res);
                         // TODO fix
-                        return true.ToResult<bool>();
+                        return true.ToResult();
                     }
                     else
                     {
                         throw new NotImplementedException();
-                        //var res = await SignifyTsInterop.Connect(agentUrl, bootUrl, passcode);
+                        //var res = await Signify_ts_shim.Connect(agentUrl, bootUrl, passcode);
                         //Debug.Assert(res is not null);
                         //// Note that we are not parsing the result here, just logging it. The browser developer console will show the result, but can't display it as a collapse
                         //logger.LogInformation("SignifyClientService: Connect: {@Details}", res);
@@ -69,7 +65,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
                         //return true.ToResult<bool>();
                     }
                 }
-                else return false.ToResult<bool>();
+                else return false.ToResult();
             }
             catch (JSException e)
             {
@@ -89,7 +85,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
         //    try
         //    {
         //        string agentUrl = url.ToString()!;
-        //        var ClientRes = await SignifyTsInterop.BootAndConnect(agentUrl, $"{url}:{BootPort}/boot", "passcode");
+        //        var ClientRes = await Signify_ts_shim.BootAndConnect(agentUrl, $"{url}:{BootPort}/boot", "passcode");
         //        if (ClientRes is not null)
         //        {
         //            var details = new
@@ -133,7 +129,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
                 // TODO verify res and parse what we need
                 // logger.LogInformation("CreatePersonAid: res: {res}", res);
                 // return Result.Ok<Models.Identifier>(new Models.Identifier());
-                return Result.Ok<string>(res);
+                return Result.Ok(res);
             }
             catch (JSException e)
             {
@@ -172,7 +168,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return Task.FromResult(Result.Fail<IList<Credential>>("Not implemented"));
         }
 
-        public Task<Result<IList<Services.SignifyClientService.Models.Escrow>>> GetEscrows()
+        public Task<Result<IList<Escrow>>> GetEscrows()
         {
             return Task.FromResult(Result.Fail<IList<Escrow>>("Not implemented"));
         }
@@ -195,7 +191,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
                 Debug.Assert(res is not null);
                 // TODO EE! verify res and parse what we need and store them
                 // logger.LogInformation("GetIdentifiers: {ids}", res);
-                return Result.Ok<string>(res);
+                return Result.Ok(res);
             }
             catch (JSException e)
             {
@@ -231,7 +227,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
 
         public Task<Result<IList<Oobi>>> GetOobis()
         {
-            return Task.FromResult(Result.Fail<IList<Services.SignifyClientService.Models.Oobi>>("Not implemented"));
+            return Task.FromResult(Result.Fail<IList<Oobi>>("Not implemented"));
         }
 
         public Task<Result<IList<Operation>>> GetOperations()
@@ -244,7 +240,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return Task.FromResult(Result.Fail<IList<Models.Registry>>("Not implemented"));
         }
 
-        public Task<Result<IList<Services.SignifyClientService.Models.Schema>>> GetSchemas()
+        public Task<Result<IList<Schema>>> GetSchemas()
         {
             return Task.FromResult(Result.Fail<IList<Schema>>("Not implemented"));
         }
@@ -269,7 +265,7 @@ namespace KeriAuth.SignifyExtension.Services.SignifyClientService
             return Task.FromResult(Result.Fail<HttpResponseMessage>("Not implemented"));
         }
 
-        Task<Result<IList<Models.Credential>>> ISignifyClientService.GetCredentials()
+        Task<Result<IList<Credential>>> ISignifyClientService.GetCredentials()
         {
             throw new NotImplementedException();
         }

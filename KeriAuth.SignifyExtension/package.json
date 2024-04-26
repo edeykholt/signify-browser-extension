@@ -4,7 +4,7 @@
   "description": "KERI Auth Browser Extension",
   "main": "index.js",
   "scripts": {
-    "build": "del /f wwwroot\\scripts\\SignifyTsInterop.js && esbuild wwwroot/scripts/SignifyTsInterop.ts --bundle --minify --format=esm --outfile=wwwroot/scripts/SignifyTsInterop.js"
+    "build": "del /f wwwroot\\scripts\\signify_ts_shim.js && esbuild wwwroot/scripts/signify_ts_shim.ts --bundle --minify --format=esm --outfile=wwwroot/scripts/signify_ts_shim.js"
   },
   "keywords": [],
   "author": "",

@@ -1,4 +1,4 @@
-﻿namespace KeriAuth.SignifyExtension.Services.SignifyClientService
+﻿namespace KeriAuth.SignifyExtension.Services.SignifyService
 {
     // See keeping.ts in signify-ts
     public class ExternalModule

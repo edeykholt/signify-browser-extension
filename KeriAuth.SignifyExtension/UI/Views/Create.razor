@@ -1,16 +1,19 @@
 ﻿@page "/Create"
-@using KeriAuth.SignifyExtension
-@using KeriAuth.SignifyExtension.UI.Components
-@using KeriAuth.SignifyExtension.Helper
-@using KeriAuth.SignifyExtension.Models
-@using KeriAuth.SignifyExtension.Services
-@using KeriAuth.SignifyExtension.Services.SignifyClientService
-@using KeriAuth.SignifyExtension.Services.SignifyService
 @using System.Diagnostics;
 @using static System.Net.WebRequestMethods;
 @using static KeriAuth.SignifyExtension.Helper.UIHelper;
 @using static KeriAuth.SignifyExtension.Services.SignifyService.SignifyServiceConfig
 @using System.ComponentModel.DataAnnotations
+@using System.Linq;
+@using KeriAuth.SignifyExtension
+@using KeriAuth.SignifyExtension.UI.Components
+@using KeriAuth.SignifyExtension.Helper
+@using KeriAuth.SignifyExtension.Models
+@using KeriAuth.SignifyExtension.Services
+@using KeriAuth.SignifyExtension.Services.SignifyService
+@using KeriAuth.SignifyExtension.Services.SignifyService.Models
+@using static KeriAuth.AppConfig;
+@using static KeriAuth.SignifyExtension.Helper.PreviousPage
 @inject HttpClient Http
 @inject NavigationManager NavManager
 @inject IJSRuntime js
@@ -19,10 +22,6 @@
 @inject ISignifyClientService _signifyClientService
 @inject ISnackbar _Snackbar
 @inject ILogger<Create> logger
-@using static KeriAuth.AppConfig;
-@using static KeriAuth.SignifyExtension.Helper.PreviousPage
-@using KeriAuth.SignifyExtension.Services.SignifyClientService.Models
-@using System.Linq;
 
 <div id="Create" class="bt-body-page">
     @switch (Card)
