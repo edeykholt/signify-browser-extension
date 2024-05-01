@@ -1,4 +1,4 @@
-# keri-browser-extension README
+# signify-blazor-wasm README
 <p style="color:red">DRAFT!!</>
 
 ## Description
@@ -51,3 +51,6 @@ Mention of contributors, sponsors, or libraries used in the project.
 ## Contact Information
 Contact information for the project maintainer(s):
 - Email, GitHub profiles, or social media links.
+
+## Community
+Join the project's community on Discord:  
