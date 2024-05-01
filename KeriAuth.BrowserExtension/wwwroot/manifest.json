@@ -2,8 +2,9 @@
   "action": {
     "default_title": "KERI Auth",
     "default_icon": {
-      "128": "images/128_keri_logo.png",
-      "512": "images/512_keri_logo.png"
+      "16": "images/16_keri_logo.png",
+      "48": "images/48_keri_logo.png",
+      "128": "images/128_keri_logo.png"
     }
   },
   "author": "https://keriauth.com",

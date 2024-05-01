@@ -88,9 +88,8 @@
 		<Content Remove="wwwroot\appsettings.json" />
 		<Content Remove="wwwroot\content\release.html" />
 		<Content Remove="wwwroot\css\site.css" />
-		<Content Remove="wwwroot\images\32_keri_logo.png" />
-		<Content Remove="wwwroot\images\512_keri_logo.png" />
 		<Content Remove="wwwroot\images\keri-auth.svg" />
+		<Content Remove="wwwroot\images\LogoHorizontal.svg" />
 		<Content Remove="wwwroot\manifest.webmanifest" />
 		<Content Remove="wwwroot\scripts\app.js" />
 		<Content Remove="wwwroot\scripts\KeriaTest - Copy.js" />
