@@ -1,7 +1,7 @@
 # KERI Auth Browser Extension
 <span style="color:red">DRAFT</span>
 
-The primary goal of this extension is to provide a highly secure way to "sign in" to certain websites. The browser extension under development will enable a user to interact with conforming websites, to authenticate with the user’s KERI identifier and to authorize with an ACDC credential they’ve been issued. 
+The primary goal of this extension is to provide a highly secure way to authentically "sign in" to certain websites. The browser extension under development will enable a user to interact with conforming websites, to *authenticate* with the user’s KERI identifier and to *authorize* with an ACDC credential they’ve been issued. 
 
 It removes a class of problems website owners have from managing username-and-passwords or relying on federated identity providers that leak or correlate user usage patterns. 
 
@@ -32,6 +32,7 @@ The browser extension, implemented for Chromium browsers, uses the [signify-ts](
 - [Acknowledgments](#acknowledgments)
 - [Contact Information](#contact-information)
 - [Community](#community)
+- [References](#references)
 
 ## Architecture
 <!-- insert diagram -->
@@ -135,3 +136,13 @@ Contact information for the project maintainer(s):
 
 ## Community
 Join the project's community on Discord:  
+
+## References
+### Articles
+[Sign and Verify with Signify & Keria](https://medium.com/finema/keri-tutorial-sign-and-verify-with-signify-keria-833dabfd356b)
+[Introduction to KERI](https://medium.com/finema/the-hitchhikers-guide-to-keri-part-1-51371f655bba)
+[Introduction to ACDC](https://medium.com/finema/the-hitchhikers-guide-to-acdc-part-1-4b3b3b3b3b3b)]
+### Repositories
+[signify-browser-extension](https://github.com/WebOfTrust/signify-browser-extension)
+[cardano-foundation cf-identity-wallet](https://github.com/cardano-foundation/cf-identity-wallet)
+[cardano-foundation cf-poc-tunnel](https://github.com/cardano-foundation/cf-poc-tunnel)
