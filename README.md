@@ -3,12 +3,12 @@
 
 The primary goal of this extension is to provide a highly secure way to authentically "sign in" to certain websites. The browser extension under development will enable a user to interact with conforming websites, to *authenticate* with the user’s KERI identifier and to *authorize* with an ACDC credential they’ve been issued. 
 
-It removes a class of problems website owners have from managing username-and-passwords or relying on federated identity providers that leak or correlate user usage patterns. 
+This removes a class of problems website owners have from managing usernames and passwords or relying on federated identity providers that risk leaking or correlating user usage patterns. 
 
 Its passwordless design enables the user to create and manage their own stable identifiers (KERI AIDs),
 signing keys, and credentials. It utilizes credentials issued by the website owners and/or other issuers they trust.
 
-The browser extension, implemented for Chromium browsers, uses the [signify-ts](https://github.com/weboftrust/signify-ts) component to connect with an instance of [KERIA](https://github.com/weboftrust/keria), a KERI cloud agent, which safely manages the user’s AIDs, associated keys, and credentials. The user can choose a KERIA instance they host themselves or by a third party.
+The browser extension, implemented for Chromium browsers, uses the [signify-ts](https://github.com/weboftrust/signify-ts) component to connect with an instance of [KERIA](https://github.com/weboftrust/keria), a KERI cloud agent, which safely manages the user’s AIDs, associated keys, and credentials. The user can choose a KERIA instance they host themselves or provided by a third party.
 
 ## Contents
 - [Architecture](#architecture) 
@@ -35,7 +35,8 @@ The browser extension, implemented for Chromium browsers, uses the [signify-ts](
 - [References](#references)
 
 ## Architecture
-<!-- insert diagram -->
+![KERI Auth Architecture](media/KERIAuthArchitecture.png)
+<img src="media/KERIAuthArchitecture.png" >
 <!-- The browser extension is composed of the following components: -->
 
 ### Service-worker
@@ -45,8 +46,8 @@ The browser extension, implemented for Chromium browsers, uses the [signify-ts](
 * Communicates with KERIA.
 
 ### Browser Extension Action Icon/Button
-* Button and context menu appears after install in the upper-right corner of the browser.
-* Icon and/or its overlay text may change depending on state or awaiting notifications.
+* Action button and context menu appears after install in the upper-right corner of the browser.
+* Action Icon or its overlay text may change depending on state or awaiting notifications.
 * Used to indicate the user’s intent and permission to interact with the current browser page.
 
 ### Content Script
@@ -55,7 +56,9 @@ The browser extension, implemented for Chromium browsers, uses the [signify-ts](
 * Handles messages to/from the service-worker.
 
 ### Integrated Web Page
-* Provided by the website owner, leveraging interfaces on the Content Script.
+* Provided by a website owner, leveraging interfaces on the Content Script.
+* Interacts with extension via content script to get user's choice of AID and Credential.
+* Responsible for validating and determining acceptance of presented AID and Credential.
 
 ### Blazor WASM Components
 
@@ -64,23 +67,22 @@ The browser extension, implemented for Chromium browsers, uses the [signify-ts](
 * Includes services and views.
 
 #### Views
-* May appear as a popup (typically) or in a full tab
+* May appear as a popup (typically) or in a full tab.
 
 #### Services
-* Interacts with service-worker (and indirectly the webpages).
+* Interact with service-worker (and indirectly the webpages).
 * Communicates with KERIA agent.
 * Persists configuration via chrome.storage.local.
 
 ## Security considerations
 The following rules are enforced by design to ensure the security of the extension:
-* The extension only sends signed headers to the website if the user has previously created a signing association with that website.
-* The extension only sends signed headers to the website if the website is the active tab on the browser.
-* The passcode is temporarily cached in the extension and is deleted after a few minutes.
-* Messages from content script are allowed only if the content script belongs to the active tab.
-* Direct messages from the website to the background script are only allowed for the active tab and if a signing association exists with the auto-authenticate flag enabled.
-* Declare minimum required and optional permissions in the extension’s manifest.
-* Never runs external or inline scripts (`eval()`).
-* All sensitive data never reaches the content script or website.
+* Only sends signed headers to the website if the user has previously created a signing association with that website.
+* Only sends signed headers to the website if the website is the active tab on the browser.
+* Caches the passcode only temporarily and clears from cache after a few minutes.
+* Only accepts content script messages from the active tab website, during authentication or after a signing association exists with the auto-authenticate flag enabled.
+* Declare minimum required and optional permissions in its manifest.
+* Never runs dynamic or inline scripts.
+* Assures all sensitive data never reaches the content script or website.
 
 ## Run for development:
 * TBD
@@ -89,32 +91,31 @@ The following rules are enforced by design to ensure the security of the extensi
 The goals for KERI Auth Brower Extension will evolve and will likely include interoperability with other KERI-related extensions and website JavaScript APIs.
 
 
-
 <hr/>
 
 
 
 ## Installation
-Step-by-step instructions for installing the extension:
-- From a public repository (like Chrome Web Store or Firefox Add-ons).
+**TBD** Step-by-step instructions for installing the extension:
+- From a public repository (like Chrome Web Store).
 - From the source code via `load unpacked` in developer mode.
 
 ## Usage
-Detailed instructions on how to use the extension, including:
+**TBD** add detailed instructions on how to use the extension, including:
 - Key features and how to access them.
 - Screenshots or GIFs to illustrate functionality.
 - Typical workflows and use cases.
 
 ## Configuration
-Information on customizing the extension, if applicable:
+**TBD** Information on customizing the extension, if applicable:
 - Configurable options.
 - Instructions for changing settings.
 
-## Development Setup
-Instructions for setting up a development environment:
+## Development Setup and Build
+**TBD** Instructions for setting up a development environment:
 - Prerequisites (Node.js, npm, browser development tools, etc.).
 - Cloning the repository and building the extension.
-- Running tests, if applicable.
+- Running tests.
 
 ## Contributing
 Guidelines for contributing to the project:
@@ -135,7 +136,7 @@ Contact information for the project maintainer(s):
 - Email, GitHub profiles, or social media links.
 
 ## Community
-Join the project's community on Discord:  
+Join the project's community on Discord: 
 
 ## References
 ### Articles
