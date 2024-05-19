@@ -35,8 +35,7 @@ The browser extension, implemented for Chromium browsers, uses the [signify-ts](
 - [References](#references)
 
 ## Architecture
-![KERI Auth Architecture](media/KERIAuthArchitecture.png)
-<img src="media/KERIAuthArchitecture.png" >
+![KERI Auth Architecture](KERIAuthArchitecture.jpg)
 <!-- The browser extension is composed of the following components: -->
 
 ### Service-worker
