@@ -1,14 +1,13 @@
 # KERI Auth Browser Extension
-<span style="color:red">DRAFT</span>
 
+## Summary
 The primary goal of this extension is to provide a highly secure way to authentically "sign in" to certain websites. The browser extension under development will enable a user to interact with conforming websites, to *authenticate* with the user’s KERI identifier and to *authorize* with an ACDC credential they’ve been issued. 
 
-This removes a class of problems website owners have from managing usernames and passwords or relying on federated identity providers that risk leaking or correlating user usage patterns. 
+This extension removes a class of problems website owners have with managing usernames and passwords or relying on federated identity providers that risk leaking or correlating user usage patterns. 
 
-Its passwordless design enables the user to create and manage their own stable identifiers (KERI AIDs),
-signing keys, and credentials. It utilizes credentials issued by the website owners and/or other issuers they trust.
+Its passwordless design enables the user to create and manage their own stable identifiers (KERI AIDs), signing keys, and credentials. It utilizes credentials issued by the website owners and/or other issuers they trust.
 
-The browser extension, implemented for Chromium browsers, uses the [signify-ts](https://github.com/weboftrust/signify-ts) component to connect with an instance of [KERIA](https://github.com/weboftrust/keria), a KERI cloud agent, which safely manages the user’s AIDs, associated keys, and credentials. The user can choose a KERIA instance they host themselves or provided by a third party.
+The browser extension, implemented for Chromium browsers, uses the [signify-ts](https://github.com/weboftrust/signify-ts) component to connect with an instance of [KERIA](https://github.com/weboftrust/keria), a KERI cloud agent, which safely manages the user’s AIDs, associated keys, credentials, and other services. The user can choose whether they host a KERIA instance themselves or use one provided by a third party.
 
 ## Contents
 - [Architecture](#architecture) 
@@ -36,21 +35,26 @@ The browser extension, implemented for Chromium browsers, uses the [signify-ts](
 
 ## Architecture
 ![KERI Auth Architecture](KERIAuthArchitecture.jpg)
+Figure: KERI Auth Browser Extension Architecture ([source](https://docs.google.com/drawings/d/1xICKkvaJkS4IrOGcj_3GidkKHu1VcIrzGCN_vJSvAv4))
 <!-- The browser extension is composed of the following components: -->
+
+### Manifest.json
+* Describes the extension and its permissions.
+
+### Browser Extension Action Icon/Button
+* Action button and its context menu appear after install in the upper-right corner of the browser.
+* Action Icon or its overlay text may change depending on state or awaiting notifications.
+* Used to indicate the user’s intent and permission to interact with the current browser page.
 
 ### Service-worker
 * Runs background tasks.
 * Sends and handles messages to/from the integrated webpage via injected content script.
+* Sends and handles messages to/from the WASM components.
 * Persists configuration via chrome.storage.local.
-* Communicates with KERIA.
+* Communicates with KERIA agent via signify-ts library.
 
-### Browser Extension Action Icon/Button
-* Action button and context menu appears after install in the upper-right corner of the browser.
-* Action Icon or its overlay text may change depending on state or awaiting notifications.
-* Used to indicate the user’s intent and permission to interact with the current browser page.
-
-### Content Script
-* With the user’s permission, this script is injected into the active web page.
+### Content Script Context
+* With the user’s permission this script is injected into the active web page after the user initiates the action.
 * Handles messages to/from the website via a JavaScript API that the web page also implements.
 * Handles messages to/from the service-worker.
 
@@ -61,17 +65,17 @@ The browser extension, implemented for Chromium browsers, uses the [signify-ts](
 
 ### Blazor WASM Components
 
-#### Single Page App
-* Program and page that runs when any non-trivial extension UI is visible.
+#### Single Page App (index.html)
+* Program and page that run in browser WASM when any non-trivial extension UI is visible.
 * Includes services and views.
 
-#### Views
+#### Views (via App.razor)
 * May appear as a popup (typically) or in a full tab.
 
 #### Services
-* Interact with service-worker (and indirectly the webpages).
-* Communicates with KERIA agent.
-* Persists configuration via chrome.storage.local.
+* Interact with service-worker (and indirectly the webpages) via messages.
+* Communicates with KERIA agent via signify-ts library.
+* Persists configuration and notifications via chrome.storage.local.
 
 ## Security considerations
 The following rules are enforced by design to ensure the security of the extension:
@@ -83,18 +87,21 @@ The following rules are enforced by design to ensure the security of the extensi
 * Never runs dynamic or inline scripts.
 * Assures all sensitive data never reaches the content script or website.
 
-## Run for development:
-* TBD
-
 # Roadmap
-The goals for KERI Auth Brower Extension will evolve and will likely include interoperability with other KERI-related extensions and website JavaScript APIs.
-
-
+The goals for KERI Auth Brower Extension will evolve and may include interoperability with other KERI-related extensions and website JavaScript APIs. The high-level backlog and roadmap will be shown on https://keriauth.com, and details in GitHub Issues
 <hr/>
 
+## Install Prerequisites
+* Run or get access to a KERIA instance.
+* **TBD**
 
+## Development Setup and Build
+**TBD** Instructions for setting up a development environment:
+- Prerequisites (Node.js, npm, browser development tools, etc.).
+- Cloning the repository and building the extension.
+- Running tests.
 
-## Installation
+## Extension Installation
 **TBD** Step-by-step instructions for installing the extension:
 - From a public repository (like Chrome Web Store).
 - From the source code via `load unpacked` in developer mode.
@@ -110,32 +117,28 @@ The goals for KERI Auth Brower Extension will evolve and will likely include int
 - Configurable options.
 - Instructions for changing settings.
 
-## Development Setup and Build
-**TBD** Instructions for setting up a development environment:
-- Prerequisites (Node.js, npm, browser development tools, etc.).
-- Cloning the repository and building the extension.
-- Running tests.
-
+<!-- 
 ## Contributing
 Guidelines for contributing to the project:
 - How to submit issues and pull requests.
 - Coding standards and best practices.
 - Code of conduct and community guidelines.
-
-## License
-Details of the project's license (e.g., MIT, GPL):
-- Include a short explanation of what it means.
-- Link to the full license text.
+-->
 
 ## Acknowledgments
-Mention of contributors, sponsors, or libraries used in the project.
+We especially appreciate the contributors of following libraries we use:
+* [signify-ts](https://github.com/webOfTrust/signify-ts/) by WebOfTrust
+* [Blazor.BrowserExtension](https://github.com/mingyaulee/Blazor.BrowserExtension) by mingyaulee
+<!-- TODO See acknowledgements file for other 3rd parties utilized -->
 
+<!--
 ## Contact Information
 Contact information for the project maintainer(s):
 - Email, GitHub profiles, or social media links.
+-->
 
 ## Community
-Join the project's community on Discord: 
+Join the project's community on [Discord](https://discord.gg/Va79ag9RCw).
 
 ## References
 ### Articles
@@ -143,6 +146,7 @@ Join the project's community on Discord:
 [Introduction to KERI](https://medium.com/finema/the-hitchhikers-guide-to-keri-part-1-51371f655bba)
 [Introduction to ACDC](https://medium.com/finema/the-hitchhikers-guide-to-acdc-part-1-4b3b3b3b3b3b)]
 ### Repositories
+[signify-ts](https://github.com/WebOfTrust/signify-ts)
 [signify-browser-extension](https://github.com/WebOfTrust/signify-browser-extension)
 [cardano-foundation cf-identity-wallet](https://github.com/cardano-foundation/cf-identity-wallet)
 [cardano-foundation cf-poc-tunnel](https://github.com/cardano-foundation/cf-poc-tunnel)
