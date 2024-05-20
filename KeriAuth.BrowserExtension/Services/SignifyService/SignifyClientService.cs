@@ -37,6 +37,10 @@ namespace KeriAuth.BrowserExtension.Services.SignifyService
         public async Task<Result<bool>> Connect(string agentUrl, string passcode, string? bootUrl, bool isBootForced = true)
         {
             Debug.Assert(bootUrl is not null);
+            if(passcode.Length != 21)
+            {
+                return Result.Fail<bool>("Passcode must be 21 characters long");
+            }
             await Task.Delay(0);
             // logger.LogInformation("Connect...");
 

@@ -113,6 +113,7 @@
                                       Immediate="true"
                                       OnBlur="@HandleOnBlur" />
                         <MudTextField Label="Enter passcode"
+                                      InputType="InputType.Password"
                                       @bind-Value="@passcodeModel.Passcode"
                                       For="@(() => passcodeModel.Passcode)"
                                       Immediate="true"
@@ -452,7 +453,7 @@
     public class PasscodeModel
     {
         [Required]
-        // [StringLength(6, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(21, ErrorMessage = "The passcode must be exacly 21 characters long.", MinimumLength = 21)]
         [DataType(DataType.Password)]
         [Display(Name = "Enter your passcode")]
         public string Passcode { get; set; } = "";
@@ -528,7 +529,7 @@
             _ops4BootAndConnect.SetIsRunning();
             StateHasChanged();
             // TODO EE! take this from the form and store it in the wallet
-            var clientRes = await _signifyClientService.Connect($"{urlModel.Url}:{AdminPort}", "0123456789abcdefghijk".PadRight(21, '_'), $"{urlModel.Url}:{BootPort}", true);
+            var clientRes = await _signifyClientService.Connect($"{urlModel.Url}:{AdminPort}", passcodeModel.Passcode, $"{urlModel.Url}:{BootPort}", true);
             if (clientRes.IsFailed)
             {
                 _ops4BootAndConnect.SetCompletedWithError(clientRes.Reasons.First().Message);
