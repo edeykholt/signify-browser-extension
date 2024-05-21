@@ -77,7 +77,7 @@ Figure: KERI Auth Browser Extension Architecture ([source](https://docs.google.c
 * Communicates with KERIA agent via signify-ts library.
 * Persists configuration and notifications via chrome.storage.local.
 
-## Security considerations
+### Design security considerations
 The following rules are enforced by design to ensure the security of the extension:
 * Only sends signed headers to the website if the user has previously created a signing association with that website.
 * Only sends signed headers to the website if the website is the active tab on the browser.
@@ -92,7 +92,7 @@ The goals for KERI Auth Brower Extension will evolve and may include interoperab
 <hr/>
 
 ## Install Prerequisites
-* Run or get access to a KERIA instance.
+* Run or get access to a KERIA instance. See [KERIA README](https://github.com/WebOfTrust/keria/blob/main/README.md). Run test suites
 * **TBD**
 
 ## Development Setup and Build
@@ -127,8 +127,8 @@ Guidelines for contributing to the project:
 
 ## Acknowledgments
 We especially appreciate the contributors of following libraries we use:
-* [signify-ts](https://github.com/webOfTrust/signify-ts/) by WebOfTrust
-* [Blazor.BrowserExtension](https://github.com/mingyaulee/Blazor.BrowserExtension) by mingyaulee
+* [WebOfTrust/signify-ts](https://github.com/webOfTrust/signify-ts/) by WebOfTrust
+* [mingyaulee/Blazor.BrowserExtension](https://github.com/mingyaulee/Blazor.BrowserExtension) by mingyaulee
 <!-- TODO See acknowledgements file for other 3rd parties utilized -->
 
 <!--
@@ -144,9 +144,9 @@ Join the project's community on [Discord](https://discord.gg/Va79ag9RCw).
 ### Articles
 [Sign and Verify with Signify & Keria](https://medium.com/finema/keri-tutorial-sign-and-verify-with-signify-keria-833dabfd356b)
 [Introduction to KERI](https://medium.com/finema/the-hitchhikers-guide-to-keri-part-1-51371f655bba)
-[Introduction to ACDC](https://medium.com/finema/the-hitchhikers-guide-to-acdc-part-1-4b3b3b3b3b3b)]
+[Introduction to ACDC](https://medium.com/finema/the-hitchhikers-guide-to-acdc-part-1-4b3b3b3b3b3b)
 ### Repositories
-[signify-ts](https://github.com/WebOfTrust/signify-ts)
-[signify-browser-extension](https://github.com/WebOfTrust/signify-browser-extension)
-[cardano-foundation cf-identity-wallet](https://github.com/cardano-foundation/cf-identity-wallet)
-[cardano-foundation cf-poc-tunnel](https://github.com/cardano-foundation/cf-poc-tunnel)
+[WebOfTrust/signify-ts](https://github.com/WebOfTrust/signify-ts)
+[WebOfTrust/signify-browser-extension](https://github.com/WebOfTrust/signify-browser-extension)
+[cardano-foundation/cf-identity-wallet](https://github.com/cardano-foundation/cf-identity-wallet)
+[cardano-foundation/cf-poc-tunnel](https://github.com/cardano-foundation/cf-poc-tunnel)
